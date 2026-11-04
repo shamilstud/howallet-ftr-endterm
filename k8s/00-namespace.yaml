@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: university
+---
+# Synthetic credentials only. This folder is published publicly, so NONE of
+# these are real: the password and JWT secret are lab placeholders generated
+# for the endterm (JWT_SECRET is >= 32 chars, which the API requires).
+apiVersion: v1
+kind: Secret
+metadata:
+  name: university-secrets
+  namespace: university
+type: Opaque
+stringData:
+  DB_USER: university
+  DB_PASSWORD: synthetic-endterm-db-pass-255193
+  DB_NAME: university
+  JWT_SECRET: synthetic-endterm-jwt-secret-255193-do-not-use-in-prod

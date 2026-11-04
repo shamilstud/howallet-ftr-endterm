@@ -1,0 +1,24 @@
+# Schema migration Job. Image ftr-migrate:endterm bakes in the repo's
+# migrations (latest 000132). Built by the other agent, or by our fallback
+# Dockerfile.migrate if it is not present yet.
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: university-migrate
+  namespace: university
+spec:
+  backoffLimit: 10
+  template:
+    metadata:
+      labels: { app: migrate }
+    spec:
+      restartPolicy: OnFailure
+      containers:
+        - name: migrate
+          image: ftr-migrate:endterm
+          imagePullPolicy: Never
+          envFrom: [{ secretRef: { name: university-secrets } }]
+          command: ["sh", "-c", "migrate -path /migrations -database \"postgres://$DB_USER:$DB_PASSWORD@postgres:5432/$DB_NAME?sslmode=disable\" up"]
+          resources:
+            requests: { cpu: 50m, memory: 64Mi }
+            limits:   { cpu: 500m, memory: 128Mi }

@@ -1,0 +1,25 @@
+$ go test -count=1 -v -run Metrics ./internal/middleware/ ./internal/router/
+=== RUN   TestMetrics_RouteLabel_IsThePatternNotThePath
+--- PASS: TestMetrics_RouteLabel_IsThePatternNotThePath (0.00s)
+=== RUN   TestMetrics_StatusLabel_IsTheCodeTheHandlerWrote
+--- PASS: TestMetrics_StatusLabel_IsTheCodeTheHandlerWrote (0.00s)
+=== RUN   TestMetrics_NoRouteMatched_LabelsUnmatched
+--- PASS: TestMetrics_NoRouteMatched_LabelsUnmatched (0.00s)
+=== RUN   TestMetrics_InFlight_CountsWhileServingAndReturnsToZero
+--- PASS: TestMetrics_InFlight_CountsWhileServingAndReturnsToZero (0.00s)
+=== RUN   TestMetrics_EventStream_CountedButNotTimed
+--- PASS: TestMetrics_EventStream_CountedButNotTimed (0.00s)
+=== RUN   TestMetrics_ScrapeEndpoint_ServesExpositionAndIsNotCounted
+--- PASS: TestMetrics_ScrapeEndpoint_ServesExpositionAndIsNotCounted (0.00s)
+=== RUN   TestMetrics_ScrapeEndpoint_WithToken_RefusesWithoutIt
+--- PASS: TestMetrics_ScrapeEndpoint_WithToken_RefusesWithoutIt (0.00s)
+PASS
+ok  	github.com/howallet/howallet/internal/middleware	1.947s
+=== RUN   TestRouter_MetricsDisabled_NoScrapeEndpoint
+--- PASS: TestRouter_MetricsDisabled_NoScrapeEndpoint (0.10s)
+=== RUN   TestRouter_MetricsEnabled_CountsRealRoutesByPattern
+--- PASS: TestRouter_MetricsEnabled_CountsRealRoutesByPattern (0.00s)
+=== RUN   TestRouter_MetricsEndpoint_OutsideTheRateLimit
+--- PASS: TestRouter_MetricsEndpoint_OutsideTheRateLimit (0.21s)
+PASS
+ok  	github.com/howallet/howallet/internal/router	3.092s

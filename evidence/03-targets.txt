@@ -1,0 +1,18 @@
+$ curl -s 'http://127.0.0.1:30090/api/v1/targets?state=active' | python -c 'import sys,json; [print(t["labels"]["job"], t["labels"]["instance"], t["health"], t["lastScrape"]) for t in json.load(sys.stdin)["data"]["activeTargets"]]'
+api 10.244.0.22:8080 up 2026-11-04T11:22:11.912727594Z
+api 10.244.0.23:8080 up 2026-11-04T11:22:13.619534921Z
+api-baseline 10.244.0.16:8080 up 2026-11-04T11:22:12.991888563Z
+prometheus localhost:9090 up 2026-11-04T11:22:12.763641184Z
+$ curl -s --get http://127.0.0.1:30090/api/v1/query --data-urlencode 'query=up' | python -c 'import sys,json; [print(r["metric"]["job"], r["metric"]["instance"], "up =", r["value"][1]) for r in json.load(sys.stdin)["data"]["result"]]'
+prometheus localhost:9090 up = 1
+api-baseline 10.244.0.16:8080 up = 1
+api 10.244.0.23:8080 up = 1
+api 10.244.0.22:8080 up = 1
+$ curl -s http://127.0.0.1:30090/api/v1/rules | python -c 'import sys,json; [print(r["name"], r["labels"], r["state"], r["health"]) for g in json.load(sys.stdin)["data"]["groups"] for r in g["rules"]]'
+ApiHighErrorRate {'severity': 'critical'} inactive ok
+ApiHighLatencyP95 {'severity': 'warning'} inactive ok
+ApiReplicaDown {'severity': 'critical'} inactive ok
+$ curl -s http://127.0.0.1:30300/api/dashboards/uid/howallet-endterm | python -c 'import sys,json; d=json.load(sys.stdin)["dashboard"]; print(d["uid"], "|", d["title"], "| refresh", d["refresh"], "|", len(d["panels"]), "panels")'
+howallet-endterm | hoWallet API — Endterm | refresh 5s | 7 panels
+$ curl -s --get http://127.0.0.1:30300/api/datasources/proxy/uid/prometheus/api/v1/query --data-urlencode 'query=sum by (status) (rate(http_requests_total{job="api"}[1m]))'   # Grafana -> Prometheus data path
+{"status":"success","data":{"resultType":"vector","result":[{"metric":{"status":"200"},"value":[1793791335.616,"1.1405658828699188"]}]}}

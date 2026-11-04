@@ -1,0 +1,19 @@
+# Local cluster for the FTR Endterm project.
+# The old ftr-a3 cluster is gone; this cluster is named ftr-endterm.
+# NodePorts are published on the host so the gateway (30080), Prometheus
+# (30090), Grafana (30300) and the baseline API (30081) are reachable from
+# Windows at 127.0.0.1 without port-forward (which would pin to one pod).
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+name: ftr-endterm
+nodes:
+  - role: control-plane
+    extraPortMappings:
+      - containerPort: 30080   # gateway (single entry point / API gateway)
+        hostPort: 30080
+      - containerPort: 30081   # baseline API (direct NodePort, "midterm" config)
+        hostPort: 30081
+      - containerPort: 30090   # Prometheus
+        hostPort: 30090
+      - containerPort: 30300   # Grafana
+        hostPort: 30300

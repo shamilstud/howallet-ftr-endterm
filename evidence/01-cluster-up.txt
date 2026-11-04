@@ -1,0 +1,21 @@
+$ kind get clusters
+ftr-endterm
+$ kubectl get nodes -o wide
+NAME                        STATUS   ROLES           AGE   VERSION   INTERNAL-IP   EXTERNAL-IP   OS-IMAGE                         KERNEL-VERSION                     CONTAINER-RUNTIME
+ftr-endterm-control-plane   Ready    control-plane   11m   v1.33.1   172.18.0.2    <none>        Debian GNU/Linux 12 (bookworm)   6.6.87.2-microsoft-standard-WSL2   containerd://2.1.1
+$ kubectl -n university get deploy,statefulset,job -o wide
+NAME                           READY   UP-TO-DATE   AVAILABLE   AGE     CONTAINERS   IMAGES                    SELECTOR
+deployment.apps/api            2/2     2            2           5m23s   api          howallet-api:endterm      app=api
+deployment.apps/api-baseline   1/1     1            1           5m20s   api          howallet-api:endterm      app=api-baseline
+deployment.apps/gateway        2/2     2            2           5m22s   nginx        nginx:1.27-alpine         app=gateway
+deployment.apps/grafana        1/1     1            1           5m21s   grafana      grafana/grafana:11.2.0    app=grafana
+deployment.apps/prometheus     1/1     1            1           5m22s   prometheus   prom/prometheus:v2.54.1   app=prometheus
+
+NAME                        READY   AGE     CONTAINERS   IMAGES
+statefulset.apps/postgres   1/1     6m22s   postgres     postgres:16-alpine
+
+NAME                           STATUS     COMPLETIONS   DURATION   AGE     CONTAINERS   IMAGES                SELECTOR
+job.batch/university-migrate   Complete   1/1           9s         5m32s   migrate      ftr-migrate:endterm   batch.kubernetes.io/controller-uid=7f68b91c-aa00-4985-9715-f46975068c49
+$ kubectl -n university get deploy api api-baseline -o jsonpath='{range .items[*]}{.metadata.name}{"  image="}{.spec.template.spec.containers[0].image}{"\n"}{end}'
+api  image=howallet-api:endterm
+api-baseline  image=howallet-api:endterm

@@ -1,0 +1,44 @@
+{
+  "experiment": "E8 graceful degradation",
+  "cases": [
+    {
+      "case": "KZT expense on KZT account (same currency)",
+      "status": 201,
+      "expected": 201,
+      "pass": true,
+      "body": "{\"id\":\"cb3e297b-1ce4-4d1e-b433-87ac8a3828fb\",\"household_id\":\"f6a66eb6-d824-43f9-ad5c-7768f768c410\",\"type\":\"expense\",\"description\":\"e8\",\"amount\":\"1500\",\"currency\":\"KZT\",\"amount_base\":\"1500\",\"rate\":\"1\","
+    },
+    {
+      "case": "USD expense, no stored USD rate",
+      "status": 422,
+      "expected": 422,
+      "pass": true,
+      "body": "{\"code\":\"no_rate\",\"error\":\"no exchange rate is available for this date yet\"}\n"
+    },
+    {
+      "case": "EUR expense, no stored EUR rate",
+      "status": 422,
+      "expected": 422,
+      "pass": true,
+      "body": "{\"code\":\"no_rate\",\"error\":\"no exchange rate is available for this date yet\"}\n"
+    },
+    {
+      "case": "KZT expense again (service still fine)",
+      "status": 201,
+      "expected": 201,
+      "pass": true,
+      "body": "{\"id\":\"6069bad9-cfa8-4a43-916e-1526297f507d\",\"household_id\":\"f6a66eb6-d824-43f9-ad5c-7768f768c410\",\"type\":\"expense\",\"description\":\"e8\",\"amount\":\"700\",\"currency\":\"KZT\",\"amount_base\":\"700\",\"rate\":\"1\",\"a"
+    }
+  ],
+  "txn_before_after": [
+    "3",
+    "5"
+  ],
+  "foreign_rows_written": 0,
+  "rates_archive_rows": 0,
+  "job_log": [
+    "{\"time\":\"2026-11-04T12:22:01.610571409Z\",\"level\":\"ERROR\",\"msg\":\"background job failed\",\"job\":\"exchange_rates\",\"error\":\"fetch rates: Get \\\"http://rates-unreachable.invalid:9/v2/rates?base=USD&from=2021-11-04&to=2022-11-04&quotes=AED,CNY,EUR,GBP,KGS,KZT,RUB,TRY,UZS,AFN,ALL,AMD,ANG,AOA,ARS,AUD,AWG,AZN,BAM,BBD,BDT,BHD,BIF,BMD,BND,BOB,BRL,BSD,BTN,BWP,BYN,BZD,CAD,CDF,CHF,CLP,COP,CRC,CUP,CVE,CZK,DJF,DKK,DOP,DZD,EGP,ERN,ETB,FJD,FKP,GEL,GGP,GHS,GIP,GMD,GNF,GTQ,GYD,HKD,HNL,HTG,HUF,IDR,ILS,IMP,INR,IQD,IRR,ISK,JEP,JMD,JOD,JPY,KES,KHR,KMF,KRW,KWD,KYD,LAK,LBP,LKR,LRD,LSL,LYD,MAD,MDL,MGA,MKD,MMK,MNT,MOP,MRU,MUR,MVR,MWK,MXN,MYR,MZN,NAD,NGN,NIO,NOK,NPR,NZD,OMR,PAB,PEN,PGK,PHP,PKR,PLN,PYG,QAR,RON,RSD,RWF,SAR,SBD,SCR,SDG,SEK,SGD,SHP,SLE,SOS,SRD,SSP,STN,SVC,SYP,SZL,THB,TJS,TMT,TND,TOP,TTD,TWD,TZS,UAH,UGX,UYU,VES,VND,VUV,WST,XAF,XCD,XCG,XOF,XPF,YER,ZAR,ZMW,ZWG\\\": dial tcp: lookup rates-unreachable.invalid on 10.96.0.10:53: no such host\",\"duration_ms\":674}",
+    "{\"time\":\"2026-11-04T12:22:03.173636794Z\",\"level\":\"ERROR\",\"msg\":\"background job failed\",\"job\":\"exchange_rates\",\"error\":\"fetch rates: Get \\\"http://rates-unreachable.invalid:9/v2/rates?base=USD&from=2021-11-04&to=2022-11-04&quotes=AED,CNY,EUR,GBP,KGS,KZT,RUB,TRY,UZS,AFN,ALL,AMD,ANG,AOA,ARS,AUD,AWG,AZN,BAM,BBD,BDT,BHD,BIF,BMD,BND,BOB,BRL,BSD,BTN,BWP,BYN,BZD,CAD,CDF,CHF,CLP,COP,CRC,CUP,CVE,CZK,DJF,DKK,DOP,DZD,EGP,ERN,ETB,FJD,FKP,GEL,GGP,GHS,GIP,GMD,GNF,GTQ,GYD,HKD,HNL,HTG,HUF,IDR,ILS,IMP,INR,IQD,IRR,ISK,JEP,JMD,JOD,JPY,KES,KHR,KMF,KRW,KWD,KYD,LAK,LBP,LKR,LRD,LSL,LYD,MAD,MDL,MGA,MKD,MMK,MNT,MOP,MRU,MUR,MVR,MWK,MXN,MYR,MZN,NAD,NGN,NIO,NOK,NPR,NZD,OMR,PAB,PEN,PGK,PHP,PKR,PLN,PYG,QAR,RON,RSD,RWF,SAR,SBD,SCR,SDG,SEK,SGD,SHP,SLE,SOS,SRD,SSP,STN,SVC,SYP,SZL,THB,TJS,TMT,TND,TOP,TTD,TWD,TZS,UAH,UGX,UYU,VES,VND,VUV,WST,XAF,XCD,XCG,XOF,XPF,YER,ZAR,ZMW,ZWG\\\": dial tcp: lookup rates-unreachable.invalid on 10.96.0.10:53: no such host\",\"duration_ms\":1502}"
+  ],
+  "pass": true
+}

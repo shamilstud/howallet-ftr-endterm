@@ -1,0 +1,284 @@
+$ python scripts/exps.py e3 endterm 1
+[16:53:48.284] known state e3-endterm-rep1: all workloads ready, no alerts (waited 0.0s for alerts to clear)
+
+=== e3-endterm-rep1 ===
+pods before:
+NAME                            READY   STATUS      RESTARTS   AGE     IP            NODE                        NOMINATED NODE   READINESS GATES
+api-56b6dc48d5-vlc5l            1/1     Running     0          16m     10.244.0.29   ftr-endterm-control-plane   <none>           <none>
+api-56b6dc48d5-x92fh            1/1     Running     0          16m     10.244.0.28   ftr-endterm-control-plane   <none>           <none>
+api-baseline-69bbd8cf45-zzwq5   1/1     Running     0          9m3s    10.244.0.36   ftr-endterm-control-plane   <none>           <none>
+gateway-5f4ffd5966-cvth8        1/1     Running     0          32m     10.244.0.24   ftr-endterm-control-plane   <none>           <none>
+gateway-5f4ffd5966-x6nwz        1/1     Running     0          32m     10.244.0.25   ftr-endterm-control-plane   <none>           <none>
+grafana-978bd745f-7ct2r         1/1     Running     0          36m     10.244.0.13   ftr-endterm-control-plane   <none>           <none>
+postgres-0                      1/1     Running     0          6m32s   10.244.0.38   ftr-endterm-control-plane   <none>           <none>
+prometheus-6885ddbd9b-77c8q     1/1     Running     0          36m     10.244.0.12   ftr-endterm-control-plane   <none>           <none>
+university-migrate-2xjg6        0/1     Completed   0          37m     10.244.0.7    ftr-endterm-control-plane   <none>           <none>
+--- warm 5 req/s (30s): {"requests": 149, "success": 149, "failed": 0, "excluded": 0, "error_rate_pct": 0.0, "availability_pct": 100.0, "lat_avg_ms": 12.0, "lat_p95_ms": 28.6, "lat_max_ms": 33.0, "codes": {"200": 149}, "offered_rps": 5, "achieved_success_rps": 4.97, "prom_process_cpu_cores_max": {"10.244.0.28:8080": 0.008, "10.244.0.29:8080": 0.008}, "prom_db_pool_acquired_max": {"10.244.0.28:8080": 0.0, "10.244.0.29:8080": 0.0}, "prom_in_flight_max": {"10.244.0.28:8080": 0.0, "10.244.0.29:8080": 0.0}}
+      api-56b6dc48d5-vlc5l             cpu=    8.2m  mem=  20.9MiB
+      api-56b6dc48d5-x92fh             cpu=    7.9m  mem=  24.2MiB
+      api-baseline-69bbd8cf45-zzwq5    cpu=    2.5m  mem=  28.5MiB
+      gateway-5f4ffd5966-cvth8         cpu=    1.2m  mem=  13.5MiB
+      gateway-5f4ffd5966-x6nwz         cpu=    1.3m  mem=  13.4MiB
+      grafana-978bd745f-7ct2r          cpu=    2.4m  mem=  55.2MiB
+      postgres-0                       cpu=   12.8m  mem= 224.0MiB
+      prometheus-6885ddbd9b-77c8q      cpu=   12.0m  mem=  60.0MiB
+--- step 30 req/s (60s): {"requests": 1800, "success": 1800, "failed": 0, "excluded": 0, "error_rate_pct": 0.0, "availability_pct": 100.0, "lat_avg_ms": 10.6, "lat_p95_ms": 26.2, "lat_max_ms": 108.9, "codes": {"200": 1800}, "offered_rps": 30, "achieved_success_rps": 30.0, "prom_process_cpu_cores_max": {"10.244.0.28:8080": 0.036, "10.244.0.29:8080": 0.035}, "prom_db_pool_acquired_max": {"10.244.0.28:8080": 0.0, "10.244.0.29:8080": 0.0}, "prom_in_flight_max": {"10.244.0.28:8080": 0.0, "10.244.0.29:8080": 0.0}}
+      api-56b6dc48d5-vlc5l             cpu=   33.6m  mem=  21.1MiB
+      api-56b6dc48d5-x92fh             cpu=   27.9m  mem=  24.7MiB
+      api-baseline-69bbd8cf45-zzwq5    cpu=    2.0m  mem=  29.9MiB
+      gateway-5f4ffd5966-cvth8         cpu=   10.7m  mem=  13.5MiB
+      gateway-5f4ffd5966-x6nwz         cpu=    9.8m  mem=  13.6MiB
+      grafana-978bd745f-7ct2r          cpu=    2.1m  mem=  55.2MiB
+      postgres-0                       cpu=   61.3m  mem= 226.6MiB
+      prometheus-6885ddbd9b-77c8q      cpu=   11.4m  mem=  60.1MiB
+--- cool 5 req/s (30s): {"requests": 150, "success": 150, "failed": 0, "excluded": 0, "error_rate_pct": 0.0, "availability_pct": 100.0, "lat_avg_ms": 10.4, "lat_p95_ms": 22.9, "lat_max_ms": 30.5, "codes": {"200": 150}, "offered_rps": 5, "achieved_success_rps": 5.0, "prom_process_cpu_cores_max": {"10.244.0.28:8080": 0.008, "10.244.0.29:8080": 0.008}, "prom_db_pool_acquired_max": {"10.244.0.28:8080": 0.0, "10.244.0.29:8080": 0.0}, "prom_in_flight_max": {"10.244.0.28:8080": 0.0, "10.244.0.29:8080": 0.0}}
+      api-56b6dc48d5-vlc5l             cpu=    5.8m  mem=  21.1MiB
+      api-56b6dc48d5-x92fh             cpu=   19.9m  mem=  24.9MiB
+      api-baseline-69bbd8cf45-zzwq5    cpu=    2.1m  mem=  30.3MiB
+      gateway-5f4ffd5966-cvth8         cpu=    4.3m  mem=  13.5MiB
+      gateway-5f4ffd5966-x6nwz         cpu=    5.6m  mem=  13.6MiB
+      grafana-978bd745f-7ct2r          cpu=    1.4m  mem=  55.2MiB
+      postgres-0                       cpu=   18.1m  mem= 226.4MiB
+      prometheus-6885ddbd9b-77c8q      cpu=   13.6m  mem=  60.9MiB
+timeline (5 s buckets):
+  t=  -3.0s ok=  9 fail=  0 codes=200          max_lat=   11.1ms
+  t=  +2.0s ok= 25 fail=  0 codes=200          max_lat=   32.3ms
+  t=  +7.0s ok= 25 fail=  0 codes=200          max_lat=   26.1ms
+  t= +12.0s ok= 25 fail=  0 codes=200          max_lat=   30.2ms
+  t= +17.0s ok= 25 fail=  0 codes=200          max_lat=   29.4ms
+  t= +22.0s ok= 25 fail=  0 codes=200          max_lat=   33.0ms
+  t= +27.0s ok= 75 fail=  0 codes=200          max_lat=   33.3ms
+  t= +32.0s ok=150 fail=  0 codes=200          max_lat=   33.4ms
+  t= +37.0s ok=150 fail=  0 codes=200          max_lat=   32.2ms
+  t= +42.0s ok=150 fail=  0 codes=200          max_lat=   31.6ms
+  t= +47.0s ok=150 fail=  0 codes=200          max_lat=   31.6ms
+  t= +52.0s ok=150 fail=  0 codes=200          max_lat=   33.5ms
+  t= +57.0s ok=150 fail=  0 codes=200          max_lat=  108.9ms
+  t= +62.0s ok=150 fail=  0 codes=200          max_lat=   36.1ms
+  t= +67.0s ok=150 fail=  0 codes=200          max_lat=   31.9ms
+  t= +72.0s ok=150 fail=  0 codes=200          max_lat=   38.2ms
+  t= +77.0s ok=150 fail=  0 codes=200          max_lat=   38.9ms
+  t= +82.0s ok=150 fail=  0 codes=200          max_lat=   32.0ms
+  t= +87.0s ok=100 fail=  0 codes=200          max_lat=   33.8ms
+  t= +92.0s ok= 25 fail=  0 codes=200          max_lat=   30.5ms
+  t= +97.0s ok= 25 fail=  0 codes=200          max_lat=   27.9ms
+  t=+102.0s ok= 25 fail=  0 codes=200          max_lat=   30.0ms
+  t=+107.0s ok= 25 fail=  0 codes=200          max_lat=   23.6ms
+  t=+112.0s ok= 25 fail=  0 codes=200          max_lat=   29.1ms
+  t=+117.0s ok= 18 fail=  0 codes=200          max_lat=   28.7ms
+alerts: {}
+[16:55:49.326] saved evidence\results\e3-endterm-rep1.json
+$ python scripts/exps.py e3 baseline 1
+[16:55:50.721] known state e3-baseline-rep1: all workloads ready, no alerts (waited 0.0s for alerts to clear)
+
+=== e3-baseline-rep1 ===
+pods before:
+NAME                            READY   STATUS      RESTARTS   AGE     IP            NODE                        NOMINATED NODE   READINESS GATES
+api-56b6dc48d5-vlc5l            1/1     Running     0          18m     10.244.0.29   ftr-endterm-control-plane   <none>           <none>
+api-56b6dc48d5-x92fh            1/1     Running     0          18m     10.244.0.28   ftr-endterm-control-plane   <none>           <none>
+api-baseline-69bbd8cf45-zzwq5   1/1     Running     0          11m     10.244.0.36   ftr-endterm-control-plane   <none>           <none>
+gateway-5f4ffd5966-cvth8        1/1     Running     0          34m     10.244.0.24   ftr-endterm-control-plane   <none>           <none>
+gateway-5f4ffd5966-x6nwz        1/1     Running     0          34m     10.244.0.25   ftr-endterm-control-plane   <none>           <none>
+grafana-978bd745f-7ct2r         1/1     Running     0          39m     10.244.0.13   ftr-endterm-control-plane   <none>           <none>
+postgres-0                      1/1     Running     0          8m34s   10.244.0.38   ftr-endterm-control-plane   <none>           <none>
+prometheus-6885ddbd9b-77c8q     1/1     Running     0          39m     10.244.0.12   ftr-endterm-control-plane   <none>           <none>
+university-migrate-2xjg6        0/1     Completed   0          39m     10.244.0.7    ftr-endterm-control-plane   <none>           <none>
+--- warm 5 req/s (30s): {"requests": 149, "success": 149, "failed": 0, "excluded": 0, "error_rate_pct": 0.0, "availability_pct": 100.0, "lat_avg_ms": 9.9, "lat_p95_ms": 26.0, "lat_max_ms": 30.5, "codes": {"200": 149}, "offered_rps": 5, "achieved_success_rps": 4.97, "prom_process_cpu_cores_max": {"10.244.0.36:8080": 0.014}, "prom_db_pool_acquired_max": {"10.244.0.36:8080": 0.0}, "prom_in_flight_max": {"10.244.0.36:8080": 0.0}}
+      api-56b6dc48d5-vlc5l             cpu=    5.0m  mem=  21.2MiB
+      api-56b6dc48d5-x92fh             cpu=    3.2m  mem=  24.9MiB
+      api-baseline-69bbd8cf45-zzwq5    cpu=   12.5m  mem=  30.4MiB
+      gateway-5f4ffd5966-cvth8         cpu=    0.1m  mem=  13.5MiB
+      gateway-5f4ffd5966-x6nwz         cpu=    1.0m  mem=  13.4MiB
+      grafana-978bd745f-7ct2r          cpu=    1.1m  mem=  50.1MiB
+      postgres-0                       cpu=   13.5m  mem= 226.9MiB
+      prometheus-6885ddbd9b-77c8q      cpu=   10.9m  mem=  62.7MiB
+--- step 30 req/s (60s): {"requests": 1800, "success": 1479, "failed": 14, "excluded": 307, "error_rate_pct": 0.78, "availability_pct": 99.06, "lat_avg_ms": 111.8, "lat_p95_ms": 995.1, "lat_max_ms": 2864.7, "codes": {"200": 1479, "429": 307, "conn_error": 14}, "offered_rps": 30, "achieved_success_rps": 24.65, "prom_process_cpu_cores_max": {"10.244.0.36:8080": 0.071}, "prom_db_pool_acquired_max": {"10.244.0.36:8080": 31.0}, "prom_in_flight_max": {"10.244.0.36:8080": 31.0}}
+      api-56b6dc48d5-vlc5l             cpu=    2.2m  mem=  21.7MiB
+      api-56b6dc48d5-x92fh             cpu=    2.1m  mem=  26.4MiB
+      api-baseline-69bbd8cf45-zzwq5    cpu=   50.6m  mem=  31.6MiB
+      gateway-5f4ffd5966-cvth8         cpu=    0.2m  mem=  13.5MiB
+      gateway-5f4ffd5966-x6nwz         cpu=    0.2m  mem=  13.4MiB
+      grafana-978bd745f-7ct2r          cpu=    1.9m  mem=  50.1MiB
+      postgres-0                       cpu=   64.7m  mem= 243.8MiB
+      prometheus-6885ddbd9b-77c8q      cpu=   10.2m  mem=  60.0MiB
+--- cool 5 req/s (30s): {"requests": 150, "success": 150, "failed": 0, "excluded": 0, "error_rate_pct": 0.0, "availability_pct": 100.0, "lat_avg_ms": 11.3, "lat_p95_ms": 28.9, "lat_max_ms": 157.2, "codes": {"200": 150}, "offered_rps": 5, "achieved_success_rps": 5.0, "prom_process_cpu_cores_max": {"10.244.0.36:8080": 0.014}, "prom_db_pool_acquired_max": {"10.244.0.36:8080": 0.0}, "prom_in_flight_max": {"10.244.0.36:8080": 0.0}}
+      api-56b6dc48d5-vlc5l             cpu=    2.5m  mem=  22.2MiB
+      api-56b6dc48d5-x92fh             cpu=    2.6m  mem=  26.4MiB
+      api-baseline-69bbd8cf45-zzwq5    cpu=   38.4m  mem=  32.0MiB
+      gateway-5f4ffd5966-cvth8         cpu=    0.2m  mem=  13.5MiB
+      gateway-5f4ffd5966-x6nwz         cpu=    0.1m  mem=  13.4MiB
+      grafana-978bd745f-7ct2r          cpu=    2.2m  mem=  50.1MiB
+      postgres-0                       cpu=   18.2m  mem= 240.7MiB
+      prometheus-6885ddbd9b-77c8q      cpu=   12.2m  mem=  60.6MiB
+timeline (5 s buckets):
+  t=  -3.0s ok=  9 fail=  0 codes=200          max_lat=   10.2ms
+  t=  +2.0s ok= 25 fail=  0 codes=200          max_lat=   30.5ms
+  t=  +7.0s ok= 25 fail=  0 codes=200          max_lat=   27.0ms
+  t= +12.0s ok= 25 fail=  0 codes=200          max_lat=   20.4ms
+  t= +17.0s ok= 25 fail=  0 codes=200          max_lat=   28.6ms
+  t= +22.0s ok= 25 fail=  0 codes=200          max_lat=   29.8ms
+  t= +27.0s ok= 75 fail=  0 codes=200          max_lat=   31.9ms
+  t= +32.0s ok=150 fail=  0 codes=200          max_lat=   30.7ms
+  t= +37.0s ok=150 fail=  0 codes=200          max_lat=   31.9ms
+  t= +42.0s ok=150 fail=  0 codes=200          max_lat=   30.5ms
+  t= +47.0s ok=150 fail=  0 codes=200          max_lat=   29.1ms
+  t= +52.0s ok=150 fail=  0 codes=200          max_lat=   33.7ms
+  t= +57.0s ok=150 fail=  0 codes=200          max_lat=   31.1ms
+  t= +62.0s ok=106 fail= 44 codes=200,429      max_lat=   30.8ms
+  t= +67.0s ok= 57 fail= 93 codes=200,429,ERR  max_lat= 2862.6ms
+  t= +72.0s ok= 99 fail= 51 codes=200,429      max_lat= 2864.7ms
+  t= +77.0s ok= 99 fail= 51 codes=200,429,ERR  max_lat= 2287.3ms
+  t= +82.0s ok= 98 fail= 52 codes=200,429      max_lat=   31.8ms
+  t= +87.0s ok= 70 fail= 30 codes=200,429      max_lat=   52.1ms
+  t= +92.0s ok= 25 fail=  0 codes=200          max_lat=   29.0ms
+  t= +97.0s ok= 25 fail=  0 codes=200          max_lat=   30.8ms
+  t=+102.0s ok= 25 fail=  0 codes=200          max_lat=   28.8ms
+  t=+107.0s ok= 25 fail=  0 codes=200          max_lat=   28.9ms
+  t=+112.0s ok= 25 fail=  0 codes=200          max_lat=  157.2ms
+  t=+117.0s ok= 18 fail=  0 codes=200          max_lat=   18.5ms
+alerts: {}
+sample 429 body: {"code":"rate_limited","error":"too many requests, try again in a minute"}
+
+[16:57:51.833] saved evidence\results\e3-baseline-rep1.json
+$ python scripts/exps.py e3 endterm 2
+[16:58:02.056] known state e3-endterm-rep2: all workloads ready, no alerts (waited 0.0s for alerts to clear)
+
+=== e3-endterm-rep2 ===
+pods before:
+NAME                            READY   STATUS      RESTARTS   AGE   IP            NODE                        NOMINATED NODE   READINESS GATES
+api-56b6dc48d5-vlc5l            1/1     Running     0          20m   10.244.0.29   ftr-endterm-control-plane   <none>           <none>
+api-56b6dc48d5-x92fh            1/1     Running     0          20m   10.244.0.28   ftr-endterm-control-plane   <none>           <none>
+api-baseline-69bbd8cf45-zzwq5   1/1     Running     0          13m   10.244.0.36   ftr-endterm-control-plane   <none>           <none>
+gateway-5f4ffd5966-cvth8        1/1     Running     0          36m   10.244.0.24   ftr-endterm-control-plane   <none>           <none>
+gateway-5f4ffd5966-x6nwz        1/1     Running     0          36m   10.244.0.25   ftr-endterm-control-plane   <none>           <none>
+grafana-978bd745f-7ct2r         1/1     Running     0          41m   10.244.0.13   ftr-endterm-control-plane   <none>           <none>
+postgres-0                      1/1     Running     0          10m   10.244.0.38   ftr-endterm-control-plane   <none>           <none>
+prometheus-6885ddbd9b-77c8q     1/1     Running     0          41m   10.244.0.12   ftr-endterm-control-plane   <none>           <none>
+university-migrate-2xjg6        0/1     Completed   0          41m   10.244.0.7    ftr-endterm-control-plane   <none>           <none>
+--- warm 5 req/s (30s): {"requests": 149, "success": 149, "failed": 0, "excluded": 0, "error_rate_pct": 0.0, "availability_pct": 100.0, "lat_avg_ms": 10.4, "lat_p95_ms": 23.7, "lat_max_ms": 31.3, "codes": {"200": 149}, "offered_rps": 5, "achieved_success_rps": 4.97, "prom_process_cpu_cores_max": {"10.244.0.28:8080": 0.008, "10.244.0.29:8080": 0.008}, "prom_db_pool_acquired_max": {"10.244.0.28:8080": 0.0, "10.244.0.29:8080": 0.0}, "prom_in_flight_max": {"10.244.0.28:8080": 0.0, "10.244.0.29:8080": 0.0}}
+      api-56b6dc48d5-vlc5l             cpu=    6.9m  mem=  22.6MiB
+      api-56b6dc48d5-x92fh             cpu=    7.0m  mem=  27.3MiB
+      api-baseline-69bbd8cf45-zzwq5    cpu=    1.7m  mem=  31.7MiB
+      gateway-5f4ffd5966-cvth8         cpu=    1.6m  mem=  13.7MiB
+      gateway-5f4ffd5966-x6nwz         cpu=    1.2m  mem=  13.6MiB
+      grafana-978bd745f-7ct2r          cpu=    1.0m  mem=  49.2MiB
+      postgres-0                       cpu=   18.6m  mem= 203.7MiB
+      prometheus-6885ddbd9b-77c8q      cpu=    9.9m  mem=  58.4MiB
+--- step 30 req/s (60s): {"requests": 1800, "success": 1800, "failed": 0, "excluded": 0, "error_rate_pct": 0.0, "availability_pct": 100.0, "lat_avg_ms": 11.1, "lat_p95_ms": 27.9, "lat_max_ms": 109.5, "codes": {"200": 1800}, "offered_rps": 30, "achieved_success_rps": 30.0, "prom_process_cpu_cores_max": {"10.244.0.28:8080": 0.035, "10.244.0.29:8080": 0.036}, "prom_db_pool_acquired_max": {"10.244.0.28:8080": 1.0, "10.244.0.29:8080": 0.0}, "prom_in_flight_max": {"10.244.0.28:8080": 1.0, "10.244.0.29:8080": 0.0}}
+      api-56b6dc48d5-vlc5l             cpu=   31.7m  mem=  22.4MiB
+      api-56b6dc48d5-x92fh             cpu=   32.7m  mem=  24.7MiB
+      api-baseline-69bbd8cf45-zzwq5    cpu=    2.5m  mem=  33.1MiB
+      gateway-5f4ffd5966-cvth8         cpu=   10.5m  mem=  13.8MiB
+      gateway-5f4ffd5966-x6nwz         cpu=   11.7m  mem=  13.4MiB
+      grafana-978bd745f-7ct2r          cpu=    2.6m  mem=  49.2MiB
+      postgres-0                       cpu=   43.4m  mem= 194.5MiB
+      prometheus-6885ddbd9b-77c8q      cpu=   11.9m  mem=  59.9MiB
+--- cool 5 req/s (30s): {"requests": 150, "success": 150, "failed": 0, "excluded": 0, "error_rate_pct": 0.0, "availability_pct": 100.0, "lat_avg_ms": 10.9, "lat_p95_ms": 22.1, "lat_max_ms": 52.6, "codes": {"200": 150}, "offered_rps": 5, "achieved_success_rps": 5.0, "prom_process_cpu_cores_max": {"10.244.0.28:8080": 0.008, "10.244.0.29:8080": 0.008}, "prom_db_pool_acquired_max": {"10.244.0.28:8080": 0.0, "10.244.0.29:8080": 0.0}, "prom_in_flight_max": {"10.244.0.28:8080": 0.0, "10.244.0.29:8080": 0.0}}
+      api-56b6dc48d5-vlc5l             cpu=   14.2m  mem=  22.4MiB
+      api-56b6dc48d5-x92fh             cpu=   11.0m  mem=  24.7MiB
+      api-baseline-69bbd8cf45-zzwq5    cpu=    2.3m  mem=  33.3MiB
+      gateway-5f4ffd5966-cvth8         cpu=    3.5m  mem=  13.7MiB
+      gateway-5f4ffd5966-x6nwz         cpu=    2.4m  mem=  13.4MiB
+      grafana-978bd745f-7ct2r          cpu=    3.1m  mem=  49.2MiB
+      postgres-0                       cpu=   39.6m  mem= 196.9MiB
+      prometheus-6885ddbd9b-77c8q      cpu=   12.7m  mem=  59.6MiB
+timeline (5 s buckets):
+  t=  -3.0s ok=  9 fail=  0 codes=200          max_lat=   15.8ms
+  t=  +2.0s ok= 25 fail=  0 codes=200          max_lat=   20.5ms
+  t=  +7.0s ok= 25 fail=  0 codes=200          max_lat=   17.2ms
+  t= +12.0s ok= 25 fail=  0 codes=200          max_lat=   31.0ms
+  t= +17.0s ok= 25 fail=  0 codes=200          max_lat=   31.3ms
+  t= +22.0s ok= 25 fail=  0 codes=200          max_lat=   25.2ms
+  t= +27.0s ok= 75 fail=  0 codes=200          max_lat=   34.5ms
+  t= +32.0s ok=150 fail=  0 codes=200          max_lat=   54.1ms
+  t= +37.0s ok=150 fail=  0 codes=200          max_lat=   76.8ms
+  t= +42.0s ok=150 fail=  0 codes=200          max_lat=  109.5ms
+  t= +47.0s ok=150 fail=  0 codes=200          max_lat=   31.8ms
+  t= +52.0s ok=150 fail=  0 codes=200          max_lat=   31.3ms
+  t= +57.0s ok=150 fail=  0 codes=200          max_lat=   30.4ms
+  t= +62.0s ok=150 fail=  0 codes=200          max_lat=   30.5ms
+  t= +67.0s ok=150 fail=  0 codes=200          max_lat=   45.8ms
+  t= +72.0s ok=150 fail=  0 codes=200          max_lat=   32.6ms
+  t= +77.0s ok=150 fail=  0 codes=200          max_lat=   41.7ms
+  t= +82.0s ok=150 fail=  0 codes=200          max_lat=   73.9ms
+  t= +87.0s ok=100 fail=  0 codes=200          max_lat=   31.2ms
+  t= +92.0s ok= 25 fail=  0 codes=200          max_lat=   19.9ms
+  t= +97.0s ok= 25 fail=  0 codes=200          max_lat=   21.8ms
+  t=+102.0s ok= 25 fail=  0 codes=200          max_lat=   52.6ms
+  t=+107.0s ok= 25 fail=  0 codes=200          max_lat=   33.5ms
+  t=+112.0s ok= 25 fail=  0 codes=200          max_lat=   17.7ms
+  t=+117.0s ok= 18 fail=  0 codes=200          max_lat=   12.7ms
+alerts: {}
+[17:00:03.189] saved evidence\results\e3-endterm-rep2.json
+$ python scripts/exps.py e3 baseline 2
+[17:00:04.512] known state e3-baseline-rep2: all workloads ready, no alerts (waited 0.0s for alerts to clear)
+
+=== e3-baseline-rep2 ===
+pods before:
+NAME                            READY   STATUS      RESTARTS   AGE   IP            NODE                        NOMINATED NODE   READINESS GATES
+api-56b6dc48d5-vlc5l            1/1     Running     0          22m   10.244.0.29   ftr-endterm-control-plane   <none>           <none>
+api-56b6dc48d5-x92fh            1/1     Running     0          22m   10.244.0.28   ftr-endterm-control-plane   <none>           <none>
+api-baseline-69bbd8cf45-zzwq5   1/1     Running     0          15m   10.244.0.36   ftr-endterm-control-plane   <none>           <none>
+gateway-5f4ffd5966-cvth8        1/1     Running     0          38m   10.244.0.24   ftr-endterm-control-plane   <none>           <none>
+gateway-5f4ffd5966-x6nwz        1/1     Running     0          38m   10.244.0.25   ftr-endterm-control-plane   <none>           <none>
+grafana-978bd745f-7ct2r         1/1     Running     0          43m   10.244.0.13   ftr-endterm-control-plane   <none>           <none>
+postgres-0                      1/1     Running     0          12m   10.244.0.38   ftr-endterm-control-plane   <none>           <none>
+prometheus-6885ddbd9b-77c8q     1/1     Running     0          43m   10.244.0.12   ftr-endterm-control-plane   <none>           <none>
+university-migrate-2xjg6        0/1     Completed   0          43m   10.244.0.7    ftr-endterm-control-plane   <none>           <none>
+--- warm 5 req/s (30s): {"requests": 149, "success": 149, "failed": 0, "excluded": 0, "error_rate_pct": 0.0, "availability_pct": 100.0, "lat_avg_ms": 10.1, "lat_p95_ms": 25.0, "lat_max_ms": 31.1, "codes": {"200": 149}, "offered_rps": 5, "achieved_success_rps": 4.97, "prom_process_cpu_cores_max": {"10.244.0.36:8080": 0.014}, "prom_db_pool_acquired_max": {"10.244.0.36:8080": 0.0}, "prom_in_flight_max": {"10.244.0.36:8080": 0.0}}
+      api-56b6dc48d5-vlc5l             cpu=    3.2m  mem=  22.4MiB
+      api-56b6dc48d5-x92fh             cpu=    2.6m  mem=  24.7MiB
+      api-baseline-69bbd8cf45-zzwq5    cpu=   10.2m  mem=  33.8MiB
+      gateway-5f4ffd5966-cvth8         cpu=    0.8m  mem=  13.5MiB
+      gateway-5f4ffd5966-x6nwz         cpu=    0.5m  mem=  13.4MiB
+      grafana-978bd745f-7ct2r          cpu=    1.3m  mem=  49.2MiB
+      postgres-0                       cpu=   11.4m  mem= 196.8MiB
+      prometheus-6885ddbd9b-77c8q      cpu=   12.9m  mem=  60.1MiB
+--- step 30 req/s (60s): {"requests": 1800, "success": 1552, "failed": 0, "excluded": 248, "error_rate_pct": 0.0, "availability_pct": 100.0, "lat_avg_ms": 10.0, "lat_p95_ms": 26.5, "lat_max_ms": 89.7, "codes": {"200": 1552, "429": 248}, "offered_rps": 30, "achieved_success_rps": 25.87, "prom_process_cpu_cores_max": {"10.244.0.36:8080": 0.072}, "prom_db_pool_acquired_max": {"10.244.0.36:8080": 1.0}, "prom_in_flight_max": {"10.244.0.36:8080": 1.0}}
+      api-56b6dc48d5-vlc5l             cpu=    2.4m  mem=  23.1MiB
+      api-56b6dc48d5-x92fh             cpu=    2.1m  mem=  25.0MiB
+      api-baseline-69bbd8cf45-zzwq5    cpu=   64.3m  mem=  34.7MiB
+      gateway-5f4ffd5966-cvth8         cpu=    0.2m  mem=  13.5MiB
+      gateway-5f4ffd5966-x6nwz         cpu=    0.2m  mem=  13.4MiB
+      grafana-978bd745f-7ct2r          cpu=    1.6m  mem=  49.2MiB
+      postgres-0                       cpu=   54.5m  mem= 198.2MiB
+      prometheus-6885ddbd9b-77c8q      cpu=   11.2m  mem=  60.4MiB
+--- cool 5 req/s (30s): {"requests": 150, "success": 149, "failed": 0, "excluded": 1, "error_rate_pct": 0.0, "availability_pct": 100.0, "lat_avg_ms": 12.5, "lat_p95_ms": 29.1, "lat_max_ms": 61.9, "codes": {"429": 1, "200": 149}, "offered_rps": 5, "achieved_success_rps": 4.97, "prom_process_cpu_cores_max": {"10.244.0.36:8080": 0.015}, "prom_db_pool_acquired_max": {"10.244.0.36:8080": 1.0}, "prom_in_flight_max": {"10.244.0.36:8080": 1.0}}
+      api-56b6dc48d5-vlc5l             cpu=    1.5m  mem=  23.2MiB
+      api-56b6dc48d5-x92fh             cpu=    1.8m  mem=  25.8MiB
+      api-baseline-69bbd8cf45-zzwq5    cpu=   18.6m  mem=  34.8MiB
+      gateway-5f4ffd5966-cvth8         cpu=    0.1m  mem=  13.5MiB
+      gateway-5f4ffd5966-x6nwz         cpu=    0.2m  mem=  13.4MiB
+      grafana-978bd745f-7ct2r          cpu=    3.3m  mem=  49.2MiB
+      postgres-0                       cpu=   24.2m  mem= 198.7MiB
+      prometheus-6885ddbd9b-77c8q      cpu=   11.2m  mem=  60.2MiB
+timeline (5 s buckets):
+  t=  -3.0s ok=  9 fail=  0 codes=200          max_lat=   28.7ms
+  t=  +2.0s ok= 25 fail=  0 codes=200          max_lat=   25.0ms
+  t=  +7.0s ok= 25 fail=  0 codes=200          max_lat=   30.7ms
+  t= +12.0s ok= 25 fail=  0 codes=200          max_lat=   31.1ms
+  t= +17.0s ok= 25 fail=  0 codes=200          max_lat=   18.8ms
+  t= +22.0s ok= 25 fail=  0 codes=200          max_lat=   26.5ms
+  t= +27.0s ok= 75 fail=  0 codes=200          max_lat=   27.8ms
+  t= +32.0s ok=150 fail=  0 codes=200          max_lat=   29.2ms
+  t= +37.0s ok=150 fail=  0 codes=200          max_lat=   89.7ms
+  t= +42.0s ok=150 fail=  0 codes=200          max_lat=   30.6ms
+  t= +47.0s ok=150 fail=  0 codes=200          max_lat=   30.3ms
+  t= +52.0s ok=150 fail=  0 codes=200          max_lat=   31.1ms
+  t= +57.0s ok=150 fail=  0 codes=200          max_lat=   30.3ms
+  t= +62.0s ok=150 fail=  0 codes=200          max_lat=   48.4ms
+  t= +67.0s ok=150 fail=  0 codes=200          max_lat=   30.3ms
+  t= +72.0s ok= 90 fail= 60 codes=200,429      max_lat=   31.3ms
+  t= +77.0s ok= 77 fail= 73 codes=200,429      max_lat=   30.6ms
+  t= +82.0s ok= 77 fail= 73 codes=200,429      max_lat=   30.5ms
+  t= +87.0s ok= 57 fail= 43 codes=200,429      max_lat=   31.3ms
+  t= +92.0s ok= 25 fail=  0 codes=200          max_lat=   26.3ms
+  t= +97.0s ok= 25 fail=  0 codes=200          max_lat=   52.1ms
+  t=+102.0s ok= 25 fail=  0 codes=200          max_lat=   33.1ms
+  t=+107.0s ok= 25 fail=  0 codes=200          max_lat=   24.8ms
+  t=+112.0s ok= 25 fail=  0 codes=200          max_lat=   31.0ms
+  t=+117.0s ok= 19 fail=  0 codes=200          max_lat=  231.7ms
+alerts: {}
+sample 429 body: {"code":"rate_limited","error":"too many requests, try again in a minute"}
+
+[17:02:05.552] saved evidence\results\e3-baseline-rep2.json

@@ -1,0 +1,374 @@
+{
+  "experiment": "E6 input/limit acceptance",
+  "cases": [
+    {
+      "rid": "e6-01",
+      "case": "malformed JSON POST /api/accounts",
+      "status": 400,
+      "expected": 400,
+      "pass": true,
+      "retry_after": null,
+      "content_type": "application/json",
+      "body": "{\"error\":\"invalid request body\"}\n"
+    },
+    {
+      "rid": "e6-02",
+      "case": "malformed JSON POST /api/transactions",
+      "status": 400,
+      "expected": 400,
+      "pass": true,
+      "retry_after": null,
+      "content_type": "application/json",
+      "body": "{\"error\":\"invalid request body\"}\n"
+    },
+    {
+      "rid": "e6-03",
+      "case": "negative amount",
+      "status": 400,
+      "expected": 400,
+      "pass": true,
+      "retry_after": null,
+      "content_type": "application/json",
+      "body": "{\"error\":\"amount must be positive\"}\n"
+    },
+    {
+      "rid": "e6-04",
+      "case": "invalid UUID in path",
+      "status": 400,
+      "expected": 400,
+      "pass": true,
+      "retry_after": null,
+      "content_type": "application/json",
+      "body": "{\"error\":\"invalid account id\"}\n"
+    },
+    {
+      "rid": "e6-05",
+      "case": "3 MB body via gateway",
+      "status": 413,
+      "expected": 413,
+      "pass": true,
+      "retry_after": null,
+      "content_type": "application/json",
+      "body": "{\"error\":\"payload_too_large\",\"message\":\"request body exceeds 2 MB\",\"request_id\":\"e6-05\"}"
+    },
+    {
+      "rid": "e6-06",
+      "case": "1.5 MB body via gateway (API's own 1 MB decode limit)",
+      "status": 400,
+      "expected": 400,
+      "pass": true,
+      "retry_after": null,
+      "content_type": "application/json",
+      "body": "{\"error\":\"invalid request body\"}\n"
+    },
+    {
+      "rid": "e6-07",
+      "case": "wrong password #1",
+      "status": 401,
+      "expected": "<function e6.<locals>.<lambda> at 0x0000023DFEE5D580>",
+      "pass": true,
+      "retry_after": null,
+      "content_type": "application/json",
+      "body": "{\"error\":\"invalid email or password\"}\n"
+    },
+    {
+      "rid": "e6-08",
+      "case": "wrong password #2",
+      "status": 401,
+      "expected": "<function e6.<locals>.<lambda> at 0x0000023DFEE5D440>",
+      "pass": true,
+      "retry_after": null,
+      "content_type": "application/json",
+      "body": "{\"error\":\"invalid email or password\"}\n"
+    },
+    {
+      "rid": "e6-09",
+      "case": "wrong password #3",
+      "status": 401,
+      "expected": "<function e6.<locals>.<lambda> at 0x0000023DFEE5EC00>",
+      "pass": true,
+      "retry_after": null,
+      "content_type": "application/json",
+      "body": "{\"error\":\"invalid email or password\"}\n"
+    },
+    {
+      "rid": "e6-10",
+      "case": "wrong password #4",
+      "status": 401,
+      "expected": "<function e6.<locals>.<lambda> at 0x0000023DFEE5ED40>",
+      "pass": true,
+      "retry_after": null,
+      "content_type": "application/json",
+      "body": "{\"error\":\"invalid email or password\"}\n"
+    },
+    {
+      "rid": "e6-11",
+      "case": "wrong password #5",
+      "status": 401,
+      "expected": "<function e6.<locals>.<lambda> at 0x0000023DFEE5EE80>",
+      "pass": true,
+      "retry_after": null,
+      "content_type": "application/json",
+      "body": "{\"error\":\"invalid email or password\"}\n"
+    },
+    {
+      "rid": "e6-12",
+      "case": "wrong password #6",
+      "status": 401,
+      "expected": "<function e6.<locals>.<lambda> at 0x0000023DFEE5EFC0>",
+      "pass": true,
+      "retry_after": null,
+      "content_type": "application/json",
+      "body": "{\"error\":\"invalid email or password\"}\n"
+    },
+    {
+      "rid": "e6-13",
+      "case": "wrong password #7",
+      "status": 401,
+      "expected": "<function e6.<locals>.<lambda> at 0x0000023DFEE5F100>",
+      "pass": true,
+      "retry_after": null,
+      "content_type": "application/json",
+      "body": "{\"error\":\"invalid email or password\"}\n"
+    },
+    {
+      "rid": "e6-14",
+      "case": "wrong password #8",
+      "status": 401,
+      "expected": "<function e6.<locals>.<lambda> at 0x0000023DFEE5F240>",
+      "pass": true,
+      "retry_after": null,
+      "content_type": "application/json",
+      "body": "{\"error\":\"invalid email or password\"}\n"
+    },
+    {
+      "rid": "e6-15",
+      "case": "wrong password #9",
+      "status": 401,
+      "expected": "<function e6.<locals>.<lambda> at 0x0000023DFEE5F380>",
+      "pass": true,
+      "retry_after": null,
+      "content_type": "application/json",
+      "body": "{\"error\":\"invalid email or password\"}\n"
+    },
+    {
+      "rid": "e6-16",
+      "case": "wrong password #10",
+      "status": 429,
+      "expected": "<function e6.<locals>.<lambda> at 0x0000023DFEE5F4C0>",
+      "pass": true,
+      "retry_after": "900",
+      "content_type": "application/json",
+      "body": "{\"error\":\"too many login attempts, try again in 15 minutes\"}\n"
+    },
+    {
+      "rid": "e6-17",
+      "case": "wrong password #11",
+      "status": 401,
+      "expected": "<function e6.<locals>.<lambda> at 0x0000023DFEE5F600>",
+      "pass": true,
+      "retry_after": null,
+      "content_type": "application/json",
+      "body": "{\"error\":\"invalid email or password\"}\n"
+    },
+    {
+      "rid": "e6-18",
+      "case": "wrong password #12",
+      "status": 429,
+      "expected": "<function e6.<locals>.<lambda> at 0x0000023DFEE5F6A0>",
+      "pass": true,
+      "retry_after": "900",
+      "content_type": "application/json",
+      "body": "{\"error\":\"too many login attempts, try again in 15 minutes\"}\n"
+    },
+    {
+      "rid": "e6-19",
+      "case": "correct password after the burst",
+      "status": 429,
+      "expected": 429,
+      "pass": true,
+      "retry_after": "900",
+      "content_type": "application/json",
+      "body": "{\"error\":\"too many login attempts, try again in 15 minutes\"}\n"
+    }
+  ],
+  "probe": {
+    "requests": 43,
+    "success": 43,
+    "failed": 0,
+    "excluded": 0,
+    "error_rate_pct": 0.0,
+    "availability_pct": 100.0,
+    "lat_avg_ms": 13.2,
+    "lat_p95_ms": 37.9,
+    "lat_max_ms": 39.4,
+    "codes": {
+      "200": 43
+    }
+  },
+  "login_status_sequence": [
+    401,
+    401,
+    401,
+    401,
+    401,
+    401,
+    401,
+    401,
+    401,
+    429,
+    401,
+    429
+  ],
+  "first_429_at_attempt": 10,
+  "login_gateway_log": [
+    {
+      "time": "2026-11-04T12:17:18+00:00",
+      "request_id": "e6-08",
+      "method": "POST",
+      "uri": "/auth/login",
+      "status": 401,
+      "upstream_addr": "10.244.0.29:8080",
+      "request_time": 0.595,
+      "upstream_response_time": "0.594"
+    },
+    {
+      "time": "2026-11-04T12:17:18+00:00",
+      "request_id": "e6-09",
+      "method": "POST",
+      "uri": "/auth/login",
+      "status": 401,
+      "upstream_addr": "10.244.0.28:8080",
+      "request_time": 0.527,
+      "upstream_response_time": "0.526"
+    },
+    {
+      "time": "2026-11-04T12:17:20+00:00",
+      "request_id": "e6-11",
+      "method": "POST",
+      "uri": "/auth/login",
+      "status": 401,
+      "upstream_addr": "10.244.0.28:8080",
+      "request_time": 0.59,
+      "upstream_response_time": "0.589"
+    },
+    {
+      "time": "2026-11-04T12:17:21+00:00",
+      "request_id": "e6-13",
+      "method": "POST",
+      "uri": "/auth/login",
+      "status": 401,
+      "upstream_addr": "10.244.0.28:8080",
+      "request_time": 0.533,
+      "upstream_response_time": "0.532"
+    },
+    {
+      "time": "2026-11-04T12:17:21+00:00",
+      "request_id": "e6-14",
+      "method": "POST",
+      "uri": "/auth/login",
+      "status": 401,
+      "upstream_addr": "10.244.0.28:8080",
+      "request_time": 0.596,
+      "upstream_response_time": "0.594"
+    },
+    {
+      "time": "2026-11-04T12:17:22+00:00",
+      "request_id": "e6-15",
+      "method": "POST",
+      "uri": "/auth/login",
+      "status": 401,
+      "upstream_addr": "10.244.0.29:8080",
+      "request_time": 0.549,
+      "upstream_response_time": "0.548"
+    },
+    {
+      "time": "2026-11-04T12:17:22+00:00",
+      "request_id": "e6-16",
+      "method": "POST",
+      "uri": "/auth/login",
+      "status": 429,
+      "upstream_addr": "10.244.0.28:8080",
+      "request_time": 0.002,
+      "upstream_response_time": "0.001"
+    },
+    {
+      "time": "2026-11-04T12:17:23+00:00",
+      "request_id": "e6-17",
+      "method": "POST",
+      "uri": "/auth/login",
+      "status": 401,
+      "upstream_addr": "10.244.0.29:8080",
+      "request_time": 0.592,
+      "upstream_response_time": "0.592"
+    },
+    {
+      "time": "2026-11-04T12:17:17+00:00",
+      "request_id": "e6-07",
+      "method": "POST",
+      "uri": "/auth/login",
+      "status": 401,
+      "upstream_addr": "10.244.0.29:8080",
+      "request_time": 0.574,
+      "upstream_response_time": "0.575"
+    },
+    {
+      "time": "2026-11-04T12:17:19+00:00",
+      "request_id": "e6-10",
+      "method": "POST",
+      "uri": "/auth/login",
+      "status": 401,
+      "upstream_addr": "10.244.0.28:8080",
+      "request_time": 0.593,
+      "upstream_response_time": "0.593"
+    },
+    {
+      "time": "2026-11-04T12:17:20+00:00",
+      "request_id": "e6-12",
+      "method": "POST",
+      "uri": "/auth/login",
+      "status": 401,
+      "upstream_addr": "10.244.0.29:8080",
+      "request_time": 0.549,
+      "upstream_response_time": "0.549"
+    },
+    {
+      "time": "2026-11-04T12:17:23+00:00",
+      "request_id": "e6-18",
+      "method": "POST",
+      "uri": "/auth/login",
+      "status": 429,
+      "upstream_addr": "10.244.0.29:8080",
+      "request_time": 0.002,
+      "upstream_response_time": "0.001"
+    },
+    {
+      "time": "2026-11-04T12:17:23+00:00",
+      "request_id": "e6-19",
+      "method": "POST",
+      "uri": "/auth/login",
+      "status": 429,
+      "upstream_addr": "10.244.0.28:8080",
+      "request_time": 0.001,
+      "upstream_response_time": "0.001"
+    }
+  ],
+  "x_real_ip": [
+    {
+      "entry": "baseline direct",
+      "status": 401,
+      "logged_remote": "203.0.113.77",
+      "rid": "e6-xrealip-bl"
+    },
+    {
+      "entry": "gateway",
+      "status": 401,
+      "logged_remote": "10.244.0.1",
+      "rid": "e6-xrealip-gw"
+    }
+  ],
+  "accounts_before_after": [
+    "1",
+    "1"
+  ]
+}

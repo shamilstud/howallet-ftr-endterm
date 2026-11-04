@@ -1,0 +1,2499 @@
+{
+  "experiment": "E7 recovery and consistency",
+  "config": "endterm",
+  "rep": 1,
+  "n": 200,
+  "victim": "api-56b6dc48d5-vlc5l",
+  "kill_at_s": 16.7,
+  "duration_s": 51.6,
+  "attempts": 200,
+  "attempt_codes": {
+    "201": 200
+  },
+  "final_codes": {
+    "201": 200
+  },
+  "first_attempt_failed": 0,
+  "rows": 200,
+  "duplicates_db": 0,
+  "checks": [
+    {
+      "user": "l1",
+      "rows": 40,
+      "distinct_client_id": 40,
+      "sum_amount": 40820.0,
+      "expected_sum": 40820,
+      "balance": -40820.0,
+      "pass": true
+    },
+    {
+      "user": "l2",
+      "rows": 40,
+      "distinct_client_id": 40,
+      "sum_amount": 40820.0,
+      "expected_sum": 40820,
+      "balance": -40820.0,
+      "pass": true
+    },
+    {
+      "user": "l3",
+      "rows": 40,
+      "distinct_client_id": 40,
+      "sum_amount": 40820.0,
+      "expected_sum": 40820,
+      "balance": -40820.0,
+      "pass": true
+    },
+    {
+      "user": "l4",
+      "rows": 40,
+      "distinct_client_id": 40,
+      "sum_amount": 40820.0,
+      "expected_sum": 40820,
+      "balance": -40820.0,
+      "pass": true
+    },
+    {
+      "user": "l5",
+      "rows": 40,
+      "distinct_client_id": 40,
+      "sum_amount": 40820.0,
+      "expected_sum": 40820,
+      "balance": -40820.0,
+      "pass": true
+    }
+  ],
+  "pass": true,
+  "lat_avg_ms": 62.1,
+  "lat_p95_ms": 206.4,
+  "endpoints": [
+    [
+      -16.55,
+      2
+    ],
+    [
+      0.25,
+      1
+    ],
+    [
+      1.13,
+      1
+    ],
+    [
+      1.14,
+      2
+    ]
+  ],
+  "items": {
+    "l1": [
+      {
+        "client_id": "fb09b43e-09ce-4d4a-b532-ff09f88161f7",
+        "amount": 1001,
+        "attempts": [
+          {
+            "t": 1.5,
+            "s": 201,
+            "err": null,
+            "ms": 206.1
+          }
+        ]
+      },
+      {
+        "client_id": "7b6d9c42-49a7-4a25-a577-749a531a6fbd",
+        "amount": 1002,
+        "attempts": [
+          {
+            "t": 2.75,
+            "s": 201,
+            "err": null,
+            "ms": 64.9
+          }
+        ]
+      },
+      {
+        "client_id": "a6d56719-9c68-4ed4-aaee-322367b2042d",
+        "amount": 1003,
+        "attempts": [
+          {
+            "t": 4.0,
+            "s": 201,
+            "err": null,
+            "ms": 202.1
+          }
+        ]
+      },
+      {
+        "client_id": "4bf41c50-c106-4619-b9e8-e9213719c46a",
+        "amount": 1004,
+        "attempts": [
+          {
+            "t": 5.25,
+            "s": 201,
+            "err": null,
+            "ms": 51.8
+          }
+        ]
+      },
+      {
+        "client_id": "30f58416-81ed-4c55-813d-75b452170189",
+        "amount": 1005,
+        "attempts": [
+          {
+            "t": 6.5,
+            "s": 201,
+            "err": null,
+            "ms": 26.9
+          }
+        ]
+      },
+      {
+        "client_id": "d8a955d1-fdbf-48d4-829f-fa030600a114",
+        "amount": 1006,
+        "attempts": [
+          {
+            "t": 7.76,
+            "s": 201,
+            "err": null,
+            "ms": 21.8
+          }
+        ]
+      },
+      {
+        "client_id": "30714d86-abf5-46ef-9d0f-8bd1d58708a8",
+        "amount": 1007,
+        "attempts": [
+          {
+            "t": 9.01,
+            "s": 201,
+            "err": null,
+            "ms": 30.0
+          }
+        ]
+      },
+      {
+        "client_id": "37677124-389b-4a14-9a5f-2ea1085babfb",
+        "amount": 1008,
+        "attempts": [
+          {
+            "t": 10.26,
+            "s": 201,
+            "err": null,
+            "ms": 40.0
+          }
+        ]
+      },
+      {
+        "client_id": "8cd37faa-828c-4bd7-bc80-c8ca91c1e442",
+        "amount": 1009,
+        "attempts": [
+          {
+            "t": 11.51,
+            "s": 201,
+            "err": null,
+            "ms": 25.2
+          }
+        ]
+      },
+      {
+        "client_id": "a6d831a3-0147-491f-887f-bf883643dd21",
+        "amount": 1010,
+        "attempts": [
+          {
+            "t": 12.76,
+            "s": 201,
+            "err": null,
+            "ms": 57.8
+          }
+        ]
+      },
+      {
+        "client_id": "858c88f5-c1dc-41dc-bb42-b4489889d7a3",
+        "amount": 1011,
+        "attempts": [
+          {
+            "t": 14.01,
+            "s": 201,
+            "err": null,
+            "ms": 33.4
+          }
+        ]
+      },
+      {
+        "client_id": "618d062b-1869-4546-ab50-6e8775691d1d",
+        "amount": 1012,
+        "attempts": [
+          {
+            "t": 15.26,
+            "s": 201,
+            "err": null,
+            "ms": 31.0
+          }
+        ]
+      },
+      {
+        "client_id": "fa3c0c63-e3a0-4ea9-b2ab-64259e56da49",
+        "amount": 1013,
+        "attempts": [
+          {
+            "t": 16.51,
+            "s": 201,
+            "err": null,
+            "ms": 36.4
+          }
+        ]
+      },
+      {
+        "client_id": "c682d892-754d-4771-9eab-e07f5c47c790",
+        "amount": 1014,
+        "attempts": [
+          {
+            "t": 17.76,
+            "s": 201,
+            "err": null,
+            "ms": 644.9
+          }
+        ]
+      },
+      {
+        "client_id": "60001445-b270-44bb-a087-802e8d43660f",
+        "amount": 1015,
+        "attempts": [
+          {
+            "t": 19.01,
+            "s": 201,
+            "err": null,
+            "ms": 203.2
+          }
+        ]
+      },
+      {
+        "client_id": "73be9ef6-c78c-49e0-89ad-a3cc6f1ffcf6",
+        "amount": 1016,
+        "attempts": [
+          {
+            "t": 20.27,
+            "s": 201,
+            "err": null,
+            "ms": 133.4
+          }
+        ]
+      },
+      {
+        "client_id": "6b4b4db0-cd61-480d-aa38-6f5be0c296c0",
+        "amount": 1017,
+        "attempts": [
+          {
+            "t": 21.52,
+            "s": 201,
+            "err": null,
+            "ms": 91.2
+          }
+        ]
+      },
+      {
+        "client_id": "d139a1d3-a8ab-4ff4-a6a4-f8a8116f6ebf",
+        "amount": 1018,
+        "attempts": [
+          {
+            "t": 22.77,
+            "s": 201,
+            "err": null,
+            "ms": 229.6
+          }
+        ]
+      },
+      {
+        "client_id": "5f17f25d-1d8b-4cda-ba1d-0d9cfaa937d6",
+        "amount": 1019,
+        "attempts": [
+          {
+            "t": 24.02,
+            "s": 201,
+            "err": null,
+            "ms": 204.2
+          }
+        ]
+      },
+      {
+        "client_id": "e7d0f107-6214-48ad-8913-0f008e119605",
+        "amount": 1020,
+        "attempts": [
+          {
+            "t": 25.27,
+            "s": 201,
+            "err": null,
+            "ms": 30.4
+          }
+        ]
+      },
+      {
+        "client_id": "dbcc2ccf-2e85-4d0c-9ffa-ccb4a592b097",
+        "amount": 1021,
+        "attempts": [
+          {
+            "t": 26.52,
+            "s": 201,
+            "err": null,
+            "ms": 17.3
+          }
+        ]
+      },
+      {
+        "client_id": "85035320-881b-4e57-888e-57abd90eccab",
+        "amount": 1022,
+        "attempts": [
+          {
+            "t": 27.77,
+            "s": 201,
+            "err": null,
+            "ms": 29.2
+          }
+        ]
+      },
+      {
+        "client_id": "f51d1cc2-226c-4dc7-9350-71e9feedc363",
+        "amount": 1023,
+        "attempts": [
+          {
+            "t": 29.02,
+            "s": 201,
+            "err": null,
+            "ms": 38.6
+          }
+        ]
+      },
+      {
+        "client_id": "379295a2-793f-4fd8-82d0-b1b23748f7f9",
+        "amount": 1024,
+        "attempts": [
+          {
+            "t": 30.27,
+            "s": 201,
+            "err": null,
+            "ms": 32.0
+          }
+        ]
+      },
+      {
+        "client_id": "48fe46b3-130b-441d-8e22-5ed918fa2665",
+        "amount": 1025,
+        "attempts": [
+          {
+            "t": 31.52,
+            "s": 201,
+            "err": null,
+            "ms": 19.8
+          }
+        ]
+      },
+      {
+        "client_id": "0beb297e-cb19-4e58-bada-3333bc61b1be",
+        "amount": 1026,
+        "attempts": [
+          {
+            "t": 32.77,
+            "s": 201,
+            "err": null,
+            "ms": 28.8
+          }
+        ]
+      },
+      {
+        "client_id": "c9b0a728-da1b-4037-972a-83948ef479d8",
+        "amount": 1027,
+        "attempts": [
+          {
+            "t": 34.02,
+            "s": 201,
+            "err": null,
+            "ms": 34.9
+          }
+        ]
+      },
+      {
+        "client_id": "5b7e0705-fd83-4768-bce7-fa3609108ce2",
+        "amount": 1028,
+        "attempts": [
+          {
+            "t": 35.27,
+            "s": 201,
+            "err": null,
+            "ms": 18.4
+          }
+        ]
+      },
+      {
+        "client_id": "a4c1d76e-9165-4d74-a3b0-ea89cab0c46a",
+        "amount": 1029,
+        "attempts": [
+          {
+            "t": 36.53,
+            "s": 201,
+            "err": null,
+            "ms": 17.3
+          }
+        ]
+      },
+      {
+        "client_id": "d6575ea3-6a6e-455c-9a2b-b66a63e29222",
+        "amount": 1030,
+        "attempts": [
+          {
+            "t": 37.78,
+            "s": 201,
+            "err": null,
+            "ms": 17.5
+          }
+        ]
+      },
+      {
+        "client_id": "f76b585b-87d1-4c1d-b08f-b27745443458",
+        "amount": 1031,
+        "attempts": [
+          {
+            "t": 39.03,
+            "s": 201,
+            "err": null,
+            "ms": 41.1
+          }
+        ]
+      },
+      {
+        "client_id": "164311f5-c85f-48b3-a730-d04de42a3af2",
+        "amount": 1032,
+        "attempts": [
+          {
+            "t": 40.28,
+            "s": 201,
+            "err": null,
+            "ms": 32.2
+          }
+        ]
+      },
+      {
+        "client_id": "2780935a-990c-4388-aab0-2ac624f4f0fb",
+        "amount": 1033,
+        "attempts": [
+          {
+            "t": 41.53,
+            "s": 201,
+            "err": null,
+            "ms": 30.9
+          }
+        ]
+      },
+      {
+        "client_id": "65cf0013-d0fc-4c37-a29e-71df3e2aa029",
+        "amount": 1034,
+        "attempts": [
+          {
+            "t": 42.78,
+            "s": 201,
+            "err": null,
+            "ms": 19.6
+          }
+        ]
+      },
+      {
+        "client_id": "8d2a146a-8da2-41b9-a143-50f00e71bc1d",
+        "amount": 1035,
+        "attempts": [
+          {
+            "t": 44.03,
+            "s": 201,
+            "err": null,
+            "ms": 30.1
+          }
+        ]
+      },
+      {
+        "client_id": "ea1a3a12-ff75-42de-bddc-c5ceb7573abe",
+        "amount": 1036,
+        "attempts": [
+          {
+            "t": 45.28,
+            "s": 201,
+            "err": null,
+            "ms": 22.2
+          }
+        ]
+      },
+      {
+        "client_id": "2a9f1b1d-6211-4de6-80b4-d2b45b38f359",
+        "amount": 1037,
+        "attempts": [
+          {
+            "t": 46.53,
+            "s": 201,
+            "err": null,
+            "ms": 18.0
+          }
+        ]
+      },
+      {
+        "client_id": "de2e3d78-0dad-4ef9-9134-11b910d5bce3",
+        "amount": 1038,
+        "attempts": [
+          {
+            "t": 47.78,
+            "s": 201,
+            "err": null,
+            "ms": 15.9
+          }
+        ]
+      },
+      {
+        "client_id": "7aac9d52-e019-4d44-a6c7-f63b6fcc7716",
+        "amount": 1039,
+        "attempts": [
+          {
+            "t": 49.03,
+            "s": 201,
+            "err": null,
+            "ms": 27.9
+          }
+        ]
+      },
+      {
+        "client_id": "29e8fb75-24e0-4581-8869-dc269e23ac79",
+        "amount": 1040,
+        "attempts": [
+          {
+            "t": 50.28,
+            "s": 201,
+            "err": null,
+            "ms": 24.5
+          }
+        ]
+      }
+    ],
+    "l2": [
+      {
+        "client_id": "27ceec3d-8b41-400a-8c49-e296497bb4ce",
+        "amount": 1001,
+        "attempts": [
+          {
+            "t": 1.5,
+            "s": 201,
+            "err": null,
+            "ms": 205.1
+          }
+        ]
+      },
+      {
+        "client_id": "7b018447-60a0-41e2-a4e8-fdac94de8403",
+        "amount": 1002,
+        "attempts": [
+          {
+            "t": 2.75,
+            "s": 201,
+            "err": null,
+            "ms": 31.0
+          }
+        ]
+      },
+      {
+        "client_id": "19afaef2-f9b6-49c4-a763-739be0ce597a",
+        "amount": 1003,
+        "attempts": [
+          {
+            "t": 4.0,
+            "s": 201,
+            "err": null,
+            "ms": 111.8
+          }
+        ]
+      },
+      {
+        "client_id": "56707b6a-6b46-48f2-bf8d-d3a146de3dc4",
+        "amount": 1004,
+        "attempts": [
+          {
+            "t": 5.26,
+            "s": 201,
+            "err": null,
+            "ms": 56.1
+          }
+        ]
+      },
+      {
+        "client_id": "61b8ad82-8949-4929-9b1c-670a5b84d67a",
+        "amount": 1005,
+        "attempts": [
+          {
+            "t": 6.51,
+            "s": 201,
+            "err": null,
+            "ms": 24.4
+          }
+        ]
+      },
+      {
+        "client_id": "64033add-d080-4cbf-be1e-9d19cd7e372c",
+        "amount": 1006,
+        "attempts": [
+          {
+            "t": 7.76,
+            "s": 201,
+            "err": null,
+            "ms": 21.3
+          }
+        ]
+      },
+      {
+        "client_id": "de11d583-51b5-4a91-9c5b-901bfd7c7459",
+        "amount": 1007,
+        "attempts": [
+          {
+            "t": 9.01,
+            "s": 201,
+            "err": null,
+            "ms": 98.5
+          }
+        ]
+      },
+      {
+        "client_id": "ef47b24a-2265-4b88-b0dc-44919496cadc",
+        "amount": 1008,
+        "attempts": [
+          {
+            "t": 10.26,
+            "s": 201,
+            "err": null,
+            "ms": 42.5
+          }
+        ]
+      },
+      {
+        "client_id": "a4fecca9-2ec0-4f78-bf61-ebe9c1a5d257",
+        "amount": 1009,
+        "attempts": [
+          {
+            "t": 11.51,
+            "s": 201,
+            "err": null,
+            "ms": 34.7
+          }
+        ]
+      },
+      {
+        "client_id": "a86b0872-4c04-47cb-8b05-c7299c1f582f",
+        "amount": 1010,
+        "attempts": [
+          {
+            "t": 12.76,
+            "s": 201,
+            "err": null,
+            "ms": 31.3
+          }
+        ]
+      },
+      {
+        "client_id": "5b9e4a57-c5fb-43de-a79c-e7c986a8a41f",
+        "amount": 1011,
+        "attempts": [
+          {
+            "t": 14.01,
+            "s": 201,
+            "err": null,
+            "ms": 26.9
+          }
+        ]
+      },
+      {
+        "client_id": "4bf7a2b3-a694-4a14-8423-571a1e50c00f",
+        "amount": 1012,
+        "attempts": [
+          {
+            "t": 15.26,
+            "s": 201,
+            "err": null,
+            "ms": 23.0
+          }
+        ]
+      },
+      {
+        "client_id": "5453bfe5-cfab-40fb-82d5-8d2165a5c88a",
+        "amount": 1013,
+        "attempts": [
+          {
+            "t": 16.51,
+            "s": 201,
+            "err": null,
+            "ms": 25.6
+          }
+        ]
+      },
+      {
+        "client_id": "053eb935-4005-4475-93be-963999d162a7",
+        "amount": 1014,
+        "attempts": [
+          {
+            "t": 17.76,
+            "s": 201,
+            "err": null,
+            "ms": 545.3
+          }
+        ]
+      },
+      {
+        "client_id": "ff2f5dca-f74d-4a60-aa76-68fffe36ee09",
+        "amount": 1015,
+        "attempts": [
+          {
+            "t": 19.01,
+            "s": 201,
+            "err": null,
+            "ms": 14.6
+          }
+        ]
+      },
+      {
+        "client_id": "411cf754-d252-49ab-baa9-084bbbebc3ac",
+        "amount": 1016,
+        "attempts": [
+          {
+            "t": 20.26,
+            "s": 201,
+            "err": null,
+            "ms": 23.1
+          }
+        ]
+      },
+      {
+        "client_id": "b36e3097-f703-4b42-99e4-3f0b5c243b76",
+        "amount": 1017,
+        "attempts": [
+          {
+            "t": 21.51,
+            "s": 201,
+            "err": null,
+            "ms": 92.8
+          }
+        ]
+      },
+      {
+        "client_id": "09a103d7-1143-4805-90db-c2160eae247c",
+        "amount": 1018,
+        "attempts": [
+          {
+            "t": 22.77,
+            "s": 201,
+            "err": null,
+            "ms": 118.4
+          }
+        ]
+      },
+      {
+        "client_id": "058af0dc-3c93-41e0-82de-8974814d3830",
+        "amount": 1019,
+        "attempts": [
+          {
+            "t": 24.02,
+            "s": 201,
+            "err": null,
+            "ms": 189.9
+          }
+        ]
+      },
+      {
+        "client_id": "14120936-ebf1-42ee-a9d2-e949178355cd",
+        "amount": 1020,
+        "attempts": [
+          {
+            "t": 25.27,
+            "s": 201,
+            "err": null,
+            "ms": 24.2
+          }
+        ]
+      },
+      {
+        "client_id": "4ab47da3-cd7b-4fb6-9314-c05333e72033",
+        "amount": 1021,
+        "attempts": [
+          {
+            "t": 26.52,
+            "s": 201,
+            "err": null,
+            "ms": 15.3
+          }
+        ]
+      },
+      {
+        "client_id": "835c4ad8-8e5a-4225-835f-a357efcae258",
+        "amount": 1022,
+        "attempts": [
+          {
+            "t": 27.77,
+            "s": 201,
+            "err": null,
+            "ms": 28.2
+          }
+        ]
+      },
+      {
+        "client_id": "0fa144aa-8530-4e0a-b26b-094f0317f0ac",
+        "amount": 1023,
+        "attempts": [
+          {
+            "t": 29.02,
+            "s": 201,
+            "err": null,
+            "ms": 42.2
+          }
+        ]
+      },
+      {
+        "client_id": "3b35981e-52a9-40b1-a67c-6343b51a98b1",
+        "amount": 1024,
+        "attempts": [
+          {
+            "t": 30.27,
+            "s": 201,
+            "err": null,
+            "ms": 30.4
+          }
+        ]
+      },
+      {
+        "client_id": "434858db-67f7-475d-a0ea-3a23158c2cdd",
+        "amount": 1025,
+        "attempts": [
+          {
+            "t": 31.52,
+            "s": 201,
+            "err": null,
+            "ms": 27.6
+          }
+        ]
+      },
+      {
+        "client_id": "deb417b8-192c-459a-ab3a-2e9a03b593cd",
+        "amount": 1026,
+        "attempts": [
+          {
+            "t": 32.77,
+            "s": 201,
+            "err": null,
+            "ms": 109.3
+          }
+        ]
+      },
+      {
+        "client_id": "4ed15af3-1bf6-4d68-809a-7aa81be28c27",
+        "amount": 1027,
+        "attempts": [
+          {
+            "t": 34.03,
+            "s": 201,
+            "err": null,
+            "ms": 34.2
+          }
+        ]
+      },
+      {
+        "client_id": "d45857e8-8ddd-4a6a-9f8f-b7da0e372ef9",
+        "amount": 1028,
+        "attempts": [
+          {
+            "t": 35.28,
+            "s": 201,
+            "err": null,
+            "ms": 28.4
+          }
+        ]
+      },
+      {
+        "client_id": "ca0ab64f-e576-4335-b386-6e446206aef3",
+        "amount": 1029,
+        "attempts": [
+          {
+            "t": 36.53,
+            "s": 201,
+            "err": null,
+            "ms": 20.8
+          }
+        ]
+      },
+      {
+        "client_id": "7fc09a21-6408-44d3-a6b3-1257cab12d5d",
+        "amount": 1030,
+        "attempts": [
+          {
+            "t": 37.78,
+            "s": 201,
+            "err": null,
+            "ms": 25.7
+          }
+        ]
+      },
+      {
+        "client_id": "523ab7e8-be7b-421e-bc8f-dd467b936bf8",
+        "amount": 1031,
+        "attempts": [
+          {
+            "t": 39.03,
+            "s": 201,
+            "err": null,
+            "ms": 39.9
+          }
+        ]
+      },
+      {
+        "client_id": "0d985ca2-02a9-482f-815b-3d24270f04fd",
+        "amount": 1032,
+        "attempts": [
+          {
+            "t": 40.29,
+            "s": 201,
+            "err": null,
+            "ms": 30.2
+          }
+        ]
+      },
+      {
+        "client_id": "bd92f8c3-d9d3-4148-a0dd-bd6ce072b557",
+        "amount": 1033,
+        "attempts": [
+          {
+            "t": 41.54,
+            "s": 201,
+            "err": null,
+            "ms": 19.9
+          }
+        ]
+      },
+      {
+        "client_id": "2774fc6e-f19e-451e-b16c-9b9acf49c9bf",
+        "amount": 1034,
+        "attempts": [
+          {
+            "t": 42.79,
+            "s": 201,
+            "err": null,
+            "ms": 19.3
+          }
+        ]
+      },
+      {
+        "client_id": "352d51b4-b1e9-40f2-901d-1f9447e40aaf",
+        "amount": 1035,
+        "attempts": [
+          {
+            "t": 44.04,
+            "s": 201,
+            "err": null,
+            "ms": 29.6
+          }
+        ]
+      },
+      {
+        "client_id": "ffccf0ac-e1b5-44cb-93a6-f5646b1cf19d",
+        "amount": 1036,
+        "attempts": [
+          {
+            "t": 45.29,
+            "s": 201,
+            "err": null,
+            "ms": 20.0
+          }
+        ]
+      },
+      {
+        "client_id": "56ecb1d9-17a7-45a5-a413-57cc8b084880",
+        "amount": 1037,
+        "attempts": [
+          {
+            "t": 46.54,
+            "s": 201,
+            "err": null,
+            "ms": 23.8
+          }
+        ]
+      },
+      {
+        "client_id": "89d5ebbb-35bd-4da0-9434-c9cb53834120",
+        "amount": 1038,
+        "attempts": [
+          {
+            "t": 47.79,
+            "s": 201,
+            "err": null,
+            "ms": 32.4
+          }
+        ]
+      },
+      {
+        "client_id": "2850b61b-a0d1-48a8-83f6-7537d00a679e",
+        "amount": 1039,
+        "attempts": [
+          {
+            "t": 49.04,
+            "s": 201,
+            "err": null,
+            "ms": 29.3
+          }
+        ]
+      },
+      {
+        "client_id": "2752facc-45b4-4f1d-927f-fa0a9afca572",
+        "amount": 1040,
+        "attempts": [
+          {
+            "t": 50.29,
+            "s": 201,
+            "err": null,
+            "ms": 19.4
+          }
+        ]
+      }
+    ],
+    "l3": [
+      {
+        "client_id": "e38dff43-386a-4beb-8c6f-be48e8fde4bb",
+        "amount": 1001,
+        "attempts": [
+          {
+            "t": 1.5,
+            "s": 201,
+            "err": null,
+            "ms": 212.2
+          }
+        ]
+      },
+      {
+        "client_id": "adb3a8fd-16cd-4e2f-98a3-be81f799096e",
+        "amount": 1002,
+        "attempts": [
+          {
+            "t": 2.75,
+            "s": 201,
+            "err": null,
+            "ms": 63.4
+          }
+        ]
+      },
+      {
+        "client_id": "60236bec-617d-4086-9a76-eb7f2d639fb3",
+        "amount": 1003,
+        "attempts": [
+          {
+            "t": 4.0,
+            "s": 201,
+            "err": null,
+            "ms": 109.2
+          }
+        ]
+      },
+      {
+        "client_id": "074f4c13-1e66-4656-861d-e1db38282a07",
+        "amount": 1004,
+        "attempts": [
+          {
+            "t": 5.25,
+            "s": 201,
+            "err": null,
+            "ms": 31.3
+          }
+        ]
+      },
+      {
+        "client_id": "81a35963-6823-41e0-af27-2b8d39a9919d",
+        "amount": 1005,
+        "attempts": [
+          {
+            "t": 6.5,
+            "s": 201,
+            "err": null,
+            "ms": 20.2
+          }
+        ]
+      },
+      {
+        "client_id": "71cd2ac0-4b4a-4561-88f9-453ec81c1769",
+        "amount": 1006,
+        "attempts": [
+          {
+            "t": 7.75,
+            "s": 201,
+            "err": null,
+            "ms": 23.3
+          }
+        ]
+      },
+      {
+        "client_id": "da4b49d6-f179-42af-986c-c6453978e167",
+        "amount": 1007,
+        "attempts": [
+          {
+            "t": 9.01,
+            "s": 201,
+            "err": null,
+            "ms": 24.5
+          }
+        ]
+      },
+      {
+        "client_id": "deba5940-1fbe-4b56-83f1-6fa067af5b02",
+        "amount": 1008,
+        "attempts": [
+          {
+            "t": 10.26,
+            "s": 201,
+            "err": null,
+            "ms": 37.0
+          }
+        ]
+      },
+      {
+        "client_id": "5054e3fa-157d-450e-b6b2-68c95490185d",
+        "amount": 1009,
+        "attempts": [
+          {
+            "t": 11.51,
+            "s": 201,
+            "err": null,
+            "ms": 37.2
+          }
+        ]
+      },
+      {
+        "client_id": "32b986ba-edb6-468c-b0aa-c18fd5b16b7d",
+        "amount": 1010,
+        "attempts": [
+          {
+            "t": 12.76,
+            "s": 201,
+            "err": null,
+            "ms": 30.8
+          }
+        ]
+      },
+      {
+        "client_id": "bd2a2e37-b278-45f9-8d9f-ee7c51ef31f0",
+        "amount": 1011,
+        "attempts": [
+          {
+            "t": 14.01,
+            "s": 201,
+            "err": null,
+            "ms": 23.9
+          }
+        ]
+      },
+      {
+        "client_id": "5852e30b-ba8e-4185-bf0f-7850cba1050e",
+        "amount": 1012,
+        "attempts": [
+          {
+            "t": 15.26,
+            "s": 201,
+            "err": null,
+            "ms": 17.7
+          }
+        ]
+      },
+      {
+        "client_id": "7a04e362-61cf-4a26-a7ae-10b33fc123a6",
+        "amount": 1013,
+        "attempts": [
+          {
+            "t": 16.51,
+            "s": 201,
+            "err": null,
+            "ms": 32.8
+          }
+        ]
+      },
+      {
+        "client_id": "22fa62a7-17d1-4a6d-993e-458db734d635",
+        "amount": 1014,
+        "attempts": [
+          {
+            "t": 17.76,
+            "s": 201,
+            "err": null,
+            "ms": 445.0
+          }
+        ]
+      },
+      {
+        "client_id": "aed4ca62-b698-49f6-80df-2f0cc807aace",
+        "amount": 1015,
+        "attempts": [
+          {
+            "t": 19.01,
+            "s": 201,
+            "err": null,
+            "ms": 20.0
+          }
+        ]
+      },
+      {
+        "client_id": "a239e292-09b0-408b-9fe1-80ca34b7184e",
+        "amount": 1016,
+        "attempts": [
+          {
+            "t": 20.26,
+            "s": 201,
+            "err": null,
+            "ms": 23.6
+          }
+        ]
+      },
+      {
+        "client_id": "70a64cea-cad3-4cdc-b016-504696bbbc1b",
+        "amount": 1017,
+        "attempts": [
+          {
+            "t": 21.51,
+            "s": 201,
+            "err": null,
+            "ms": 198.0
+          }
+        ]
+      },
+      {
+        "client_id": "e56dd9c3-17dc-4fed-89f6-df76773a6667",
+        "amount": 1018,
+        "attempts": [
+          {
+            "t": 22.77,
+            "s": 201,
+            "err": null,
+            "ms": 35.4
+          }
+        ]
+      },
+      {
+        "client_id": "7be8c969-7314-4fb0-b686-9e7681e80908",
+        "amount": 1019,
+        "attempts": [
+          {
+            "t": 24.02,
+            "s": 201,
+            "err": null,
+            "ms": 29.3
+          }
+        ]
+      },
+      {
+        "client_id": "c748a574-418f-4a84-860e-9bcf6f059bf0",
+        "amount": 1020,
+        "attempts": [
+          {
+            "t": 25.27,
+            "s": 201,
+            "err": null,
+            "ms": 48.5
+          }
+        ]
+      },
+      {
+        "client_id": "dba3d61e-4006-457b-8f2a-a24004272ad0",
+        "amount": 1021,
+        "attempts": [
+          {
+            "t": 26.52,
+            "s": 201,
+            "err": null,
+            "ms": 93.1
+          }
+        ]
+      },
+      {
+        "client_id": "6917a483-6c99-4b3f-89ba-4ea3ee746a3b",
+        "amount": 1022,
+        "attempts": [
+          {
+            "t": 27.77,
+            "s": 201,
+            "err": null,
+            "ms": 30.4
+          }
+        ]
+      },
+      {
+        "client_id": "151b57d0-fff4-4d49-b934-2f198e12d941",
+        "amount": 1023,
+        "attempts": [
+          {
+            "t": 29.02,
+            "s": 201,
+            "err": null,
+            "ms": 34.4
+          }
+        ]
+      },
+      {
+        "client_id": "229575e4-8d79-4639-bf56-edd8694dc8a4",
+        "amount": 1024,
+        "attempts": [
+          {
+            "t": 30.27,
+            "s": 201,
+            "err": null,
+            "ms": 25.6
+          }
+        ]
+      },
+      {
+        "client_id": "bbbaa583-253a-48fc-937f-895567582161",
+        "amount": 1025,
+        "attempts": [
+          {
+            "t": 31.52,
+            "s": 201,
+            "err": null,
+            "ms": 20.8
+          }
+        ]
+      },
+      {
+        "client_id": "f7463d5f-c774-4bd1-862d-37343e56340b",
+        "amount": 1026,
+        "attempts": [
+          {
+            "t": 32.77,
+            "s": 201,
+            "err": null,
+            "ms": 22.4
+          }
+        ]
+      },
+      {
+        "client_id": "c0160f4c-672e-4be7-bc86-0b46bf6ffa7a",
+        "amount": 1027,
+        "attempts": [
+          {
+            "t": 34.02,
+            "s": 201,
+            "err": null,
+            "ms": 18.7
+          }
+        ]
+      },
+      {
+        "client_id": "0dd1f221-d7fd-4b87-81b3-ae2409fcb18f",
+        "amount": 1028,
+        "attempts": [
+          {
+            "t": 35.27,
+            "s": 201,
+            "err": null,
+            "ms": 19.9
+          }
+        ]
+      },
+      {
+        "client_id": "276c74b0-e9b8-4376-8398-c28de8d59219",
+        "amount": 1029,
+        "attempts": [
+          {
+            "t": 36.52,
+            "s": 201,
+            "err": null,
+            "ms": 19.0
+          }
+        ]
+      },
+      {
+        "client_id": "a63cc78c-0e32-4126-8270-ac54c06a9b12",
+        "amount": 1030,
+        "attempts": [
+          {
+            "t": 37.77,
+            "s": 201,
+            "err": null,
+            "ms": 16.6
+          }
+        ]
+      },
+      {
+        "client_id": "2c31eac2-5030-41ea-9e28-930efccfb352",
+        "amount": 1031,
+        "attempts": [
+          {
+            "t": 39.03,
+            "s": 201,
+            "err": null,
+            "ms": 42.3
+          }
+        ]
+      },
+      {
+        "client_id": "540085be-9346-491d-99fe-02bdaa0c1f3c",
+        "amount": 1032,
+        "attempts": [
+          {
+            "t": 40.28,
+            "s": 201,
+            "err": null,
+            "ms": 32.3
+          }
+        ]
+      },
+      {
+        "client_id": "93ec60f5-9aa4-47aa-a338-40de31c774da",
+        "amount": 1033,
+        "attempts": [
+          {
+            "t": 41.53,
+            "s": 201,
+            "err": null,
+            "ms": 17.1
+          }
+        ]
+      },
+      {
+        "client_id": "0988aea5-e292-47d8-9222-dd1b9f06ae78",
+        "amount": 1034,
+        "attempts": [
+          {
+            "t": 42.78,
+            "s": 201,
+            "err": null,
+            "ms": 25.1
+          }
+        ]
+      },
+      {
+        "client_id": "09b8f068-e1cc-4cf4-8aa7-ce0c328c9acb",
+        "amount": 1035,
+        "attempts": [
+          {
+            "t": 44.03,
+            "s": 201,
+            "err": null,
+            "ms": 34.2
+          }
+        ]
+      },
+      {
+        "client_id": "3330ac7d-9e6e-427b-ad95-8a2fa1f822b4",
+        "amount": 1036,
+        "attempts": [
+          {
+            "t": 45.28,
+            "s": 201,
+            "err": null,
+            "ms": 21.7
+          }
+        ]
+      },
+      {
+        "client_id": "ace15ae6-fa06-474e-a536-e81a17189aa8",
+        "amount": 1037,
+        "attempts": [
+          {
+            "t": 46.53,
+            "s": 201,
+            "err": null,
+            "ms": 15.4
+          }
+        ]
+      },
+      {
+        "client_id": "712e2e69-6c8a-4da6-84a8-a97676e6bbf5",
+        "amount": 1038,
+        "attempts": [
+          {
+            "t": 47.78,
+            "s": 201,
+            "err": null,
+            "ms": 16.4
+          }
+        ]
+      },
+      {
+        "client_id": "9df19040-05d6-488e-ba17-92974afb1bca",
+        "amount": 1039,
+        "attempts": [
+          {
+            "t": 49.03,
+            "s": 201,
+            "err": null,
+            "ms": 27.4
+          }
+        ]
+      },
+      {
+        "client_id": "cabb78cd-4d1d-4ab8-9ad0-c0c460b4c2cb",
+        "amount": 1040,
+        "attempts": [
+          {
+            "t": 50.28,
+            "s": 201,
+            "err": null,
+            "ms": 25.5
+          }
+        ]
+      }
+    ],
+    "l4": [
+      {
+        "client_id": "59e79311-2d85-4d33-96d9-1372d15e4987",
+        "amount": 1001,
+        "attempts": [
+          {
+            "t": 1.5,
+            "s": 201,
+            "err": null,
+            "ms": 204.0
+          }
+        ]
+      },
+      {
+        "client_id": "b7e06189-2259-450a-89cc-95f6efd31d40",
+        "amount": 1002,
+        "attempts": [
+          {
+            "t": 2.75,
+            "s": 201,
+            "err": null,
+            "ms": 52.8
+          }
+        ]
+      },
+      {
+        "client_id": "554c9146-b2d2-485a-a84e-4a59f8ebdae4",
+        "amount": 1003,
+        "attempts": [
+          {
+            "t": 4.01,
+            "s": 201,
+            "err": null,
+            "ms": 23.5
+          }
+        ]
+      },
+      {
+        "client_id": "54031a34-9e73-4084-ae9f-510f196aa8ff",
+        "amount": 1004,
+        "attempts": [
+          {
+            "t": 5.26,
+            "s": 201,
+            "err": null,
+            "ms": 56.0
+          }
+        ]
+      },
+      {
+        "client_id": "3b16cc04-8b12-489b-8fac-0abb6b22565d",
+        "amount": 1005,
+        "attempts": [
+          {
+            "t": 6.51,
+            "s": 201,
+            "err": null,
+            "ms": 29.8
+          }
+        ]
+      },
+      {
+        "client_id": "78edc030-6261-4a9c-90d0-1638a1f7208b",
+        "amount": 1006,
+        "attempts": [
+          {
+            "t": 7.76,
+            "s": 201,
+            "err": null,
+            "ms": 27.4
+          }
+        ]
+      },
+      {
+        "client_id": "fb8f0503-d00d-440c-a267-0f9b85d79705",
+        "amount": 1007,
+        "attempts": [
+          {
+            "t": 9.01,
+            "s": 201,
+            "err": null,
+            "ms": 99.5
+          }
+        ]
+      },
+      {
+        "client_id": "d53ec688-d0f0-418a-a829-4ab4116aeddb",
+        "amount": 1008,
+        "attempts": [
+          {
+            "t": 10.26,
+            "s": 201,
+            "err": null,
+            "ms": 46.9
+          }
+        ]
+      },
+      {
+        "client_id": "e1cb48a4-f202-4551-b4cb-7999035ca5e7",
+        "amount": 1009,
+        "attempts": [
+          {
+            "t": 11.51,
+            "s": 201,
+            "err": null,
+            "ms": 27.7
+          }
+        ]
+      },
+      {
+        "client_id": "f9f7ad4a-cec5-45c6-94aa-a366a09289a4",
+        "amount": 1010,
+        "attempts": [
+          {
+            "t": 12.76,
+            "s": 201,
+            "err": null,
+            "ms": 29.7
+          }
+        ]
+      },
+      {
+        "client_id": "8060dc05-e510-45dc-a573-28ae4223c861",
+        "amount": 1011,
+        "attempts": [
+          {
+            "t": 14.01,
+            "s": 201,
+            "err": null,
+            "ms": 27.7
+          }
+        ]
+      },
+      {
+        "client_id": "63252571-c5b5-48f0-b2bb-a06514cc03f3",
+        "amount": 1012,
+        "attempts": [
+          {
+            "t": 15.26,
+            "s": 201,
+            "err": null,
+            "ms": 22.0
+          }
+        ]
+      },
+      {
+        "client_id": "6e43709d-ea48-4fd1-ad14-a1ac10aaa92e",
+        "amount": 1013,
+        "attempts": [
+          {
+            "t": 16.51,
+            "s": 201,
+            "err": null,
+            "ms": 38.9
+          }
+        ]
+      },
+      {
+        "client_id": "0d3d7a0b-384b-419d-9256-515003903dc7",
+        "amount": 1014,
+        "attempts": [
+          {
+            "t": 17.76,
+            "s": 201,
+            "err": null,
+            "ms": 243.0
+          }
+        ]
+      },
+      {
+        "client_id": "06cb6654-907a-4a47-bb24-eead4836ed41",
+        "amount": 1015,
+        "attempts": [
+          {
+            "t": 19.02,
+            "s": 201,
+            "err": null,
+            "ms": 107.6
+          }
+        ]
+      },
+      {
+        "client_id": "6106863a-58b8-47f8-bcf1-5d003395931b",
+        "amount": 1016,
+        "attempts": [
+          {
+            "t": 20.27,
+            "s": 201,
+            "err": null,
+            "ms": 29.8
+          }
+        ]
+      },
+      {
+        "client_id": "f1ef540f-fdd7-4721-a3f0-fa6c1c3d8a19",
+        "amount": 1017,
+        "attempts": [
+          {
+            "t": 21.52,
+            "s": 201,
+            "err": null,
+            "ms": 302.7
+          }
+        ]
+      },
+      {
+        "client_id": "a5469c63-8d72-4322-abe9-692092cc5029",
+        "amount": 1018,
+        "attempts": [
+          {
+            "t": 22.77,
+            "s": 201,
+            "err": null,
+            "ms": 221.8
+          }
+        ]
+      },
+      {
+        "client_id": "91b1a320-94dc-443f-aa95-5898f9a6e064",
+        "amount": 1019,
+        "attempts": [
+          {
+            "t": 24.02,
+            "s": 201,
+            "err": null,
+            "ms": 94.9
+          }
+        ]
+      },
+      {
+        "client_id": "d0f80ec2-a187-4163-baed-66ce88c6a6f6",
+        "amount": 1020,
+        "attempts": [
+          {
+            "t": 25.27,
+            "s": 201,
+            "err": null,
+            "ms": 37.4
+          }
+        ]
+      },
+      {
+        "client_id": "0dac12bd-8e73-47b8-83e2-c8353cf69475",
+        "amount": 1021,
+        "attempts": [
+          {
+            "t": 26.52,
+            "s": 201,
+            "err": null,
+            "ms": 17.1
+          }
+        ]
+      },
+      {
+        "client_id": "68d63111-4b57-4ac5-8d4d-48a8dbbc21d2",
+        "amount": 1022,
+        "attempts": [
+          {
+            "t": 27.77,
+            "s": 201,
+            "err": null,
+            "ms": 32.1
+          }
+        ]
+      },
+      {
+        "client_id": "6e63da3c-dc58-408a-be40-a08168189c9c",
+        "amount": 1023,
+        "attempts": [
+          {
+            "t": 29.02,
+            "s": 201,
+            "err": null,
+            "ms": 42.1
+          }
+        ]
+      },
+      {
+        "client_id": "1c769c20-3202-447b-b0f4-344587a0ef8f",
+        "amount": 1024,
+        "attempts": [
+          {
+            "t": 30.27,
+            "s": 201,
+            "err": null,
+            "ms": 38.7
+          }
+        ]
+      },
+      {
+        "client_id": "9fee0256-299f-40e2-9006-dbcf4575f0fd",
+        "amount": 1025,
+        "attempts": [
+          {
+            "t": 31.52,
+            "s": 201,
+            "err": null,
+            "ms": 27.6
+          }
+        ]
+      },
+      {
+        "client_id": "642ec8c3-5b41-4948-ae64-2a5342c06cc9",
+        "amount": 1026,
+        "attempts": [
+          {
+            "t": 32.77,
+            "s": 201,
+            "err": null,
+            "ms": 110.8
+          }
+        ]
+      },
+      {
+        "client_id": "d53ab1b6-a639-47d0-b043-e12dfd521b14",
+        "amount": 1027,
+        "attempts": [
+          {
+            "t": 34.03,
+            "s": 201,
+            "err": null,
+            "ms": 36.8
+          }
+        ]
+      },
+      {
+        "client_id": "5a486c50-1a73-4ccb-a1f9-74411b13c959",
+        "amount": 1028,
+        "attempts": [
+          {
+            "t": 35.28,
+            "s": 201,
+            "err": null,
+            "ms": 27.9
+          }
+        ]
+      },
+      {
+        "client_id": "56109f48-354f-4321-8b97-2b645597617e",
+        "amount": 1029,
+        "attempts": [
+          {
+            "t": 36.53,
+            "s": 201,
+            "err": null,
+            "ms": 16.3
+          }
+        ]
+      },
+      {
+        "client_id": "e04dcd26-a3f1-402e-9e8f-07254c58c540",
+        "amount": 1030,
+        "attempts": [
+          {
+            "t": 37.78,
+            "s": 201,
+            "err": null,
+            "ms": 22.7
+          }
+        ]
+      },
+      {
+        "client_id": "54dbfe64-d007-446a-8b53-d59ea467f1c4",
+        "amount": 1031,
+        "attempts": [
+          {
+            "t": 39.03,
+            "s": 201,
+            "err": null,
+            "ms": 41.0
+          }
+        ]
+      },
+      {
+        "client_id": "a614e65b-6123-4138-96e4-0c2fb7b877f1",
+        "amount": 1032,
+        "attempts": [
+          {
+            "t": 40.28,
+            "s": 201,
+            "err": null,
+            "ms": 33.8
+          }
+        ]
+      },
+      {
+        "client_id": "c62409ec-bc51-4fc2-a93d-40124ac094b5",
+        "amount": 1033,
+        "attempts": [
+          {
+            "t": 41.53,
+            "s": 201,
+            "err": null,
+            "ms": 15.3
+          }
+        ]
+      },
+      {
+        "client_id": "494ee46b-9d62-4f83-a355-f503b799ea81",
+        "amount": 1034,
+        "attempts": [
+          {
+            "t": 42.78,
+            "s": 201,
+            "err": null,
+            "ms": 34.4
+          }
+        ]
+      },
+      {
+        "client_id": "7ad916e3-d575-4c2e-a7f2-0c6e6f21eeeb",
+        "amount": 1035,
+        "attempts": [
+          {
+            "t": 44.04,
+            "s": 201,
+            "err": null,
+            "ms": 33.1
+          }
+        ]
+      },
+      {
+        "client_id": "05c1e41a-f7bd-466b-88a8-0ba8711cffe1",
+        "amount": 1036,
+        "attempts": [
+          {
+            "t": 45.29,
+            "s": 201,
+            "err": null,
+            "ms": 20.8
+          }
+        ]
+      },
+      {
+        "client_id": "6edda5d2-1d0f-415c-91ae-0aa83eb6bbc7",
+        "amount": 1037,
+        "attempts": [
+          {
+            "t": 46.54,
+            "s": 201,
+            "err": null,
+            "ms": 31.3
+          }
+        ]
+      },
+      {
+        "client_id": "965ea194-31fa-4456-9935-475700600325",
+        "amount": 1038,
+        "attempts": [
+          {
+            "t": 47.79,
+            "s": 201,
+            "err": null,
+            "ms": 18.0
+          }
+        ]
+      },
+      {
+        "client_id": "5802da23-e5ca-4543-a40d-a92430393b90",
+        "amount": 1039,
+        "attempts": [
+          {
+            "t": 49.04,
+            "s": 201,
+            "err": null,
+            "ms": 33.8
+          }
+        ]
+      },
+      {
+        "client_id": "fa1fcacd-7cb6-4f8f-9e29-8aeed3970eba",
+        "amount": 1040,
+        "attempts": [
+          {
+            "t": 50.29,
+            "s": 201,
+            "err": null,
+            "ms": 17.8
+          }
+        ]
+      }
+    ],
+    "l5": [
+      {
+        "client_id": "4384e002-8d8a-446c-bd5f-a48725b3b841",
+        "amount": 1001,
+        "attempts": [
+          {
+            "t": 1.5,
+            "s": 201,
+            "err": null,
+            "ms": 206.4
+          }
+        ]
+      },
+      {
+        "client_id": "1cac8cdb-2cb4-4ddf-8618-5a32e52adaf8",
+        "amount": 1002,
+        "attempts": [
+          {
+            "t": 2.76,
+            "s": 201,
+            "err": null,
+            "ms": 60.5
+          }
+        ]
+      },
+      {
+        "client_id": "9ed49f96-20d2-42f8-ba7e-db251b042a56",
+        "amount": 1003,
+        "attempts": [
+          {
+            "t": 4.01,
+            "s": 201,
+            "err": null,
+            "ms": 26.0
+          }
+        ]
+      },
+      {
+        "client_id": "e09ffe0c-92e4-421e-bf03-04dc180c5e49",
+        "amount": 1004,
+        "attempts": [
+          {
+            "t": 5.26,
+            "s": 201,
+            "err": null,
+            "ms": 63.8
+          }
+        ]
+      },
+      {
+        "client_id": "f3a3ca2b-cad8-49d1-9f38-0f9c9b030b70",
+        "amount": 1005,
+        "attempts": [
+          {
+            "t": 6.51,
+            "s": 201,
+            "err": null,
+            "ms": 26.1
+          }
+        ]
+      },
+      {
+        "client_id": "99466166-2925-4abc-8b5b-71593b077981",
+        "amount": 1006,
+        "attempts": [
+          {
+            "t": 7.76,
+            "s": 201,
+            "err": null,
+            "ms": 25.9
+          }
+        ]
+      },
+      {
+        "client_id": "852d3af7-6fad-4013-b1f3-5642151a6ffc",
+        "amount": 1007,
+        "attempts": [
+          {
+            "t": 9.01,
+            "s": 201,
+            "err": null,
+            "ms": 97.0
+          }
+        ]
+      },
+      {
+        "client_id": "a81c9f7a-26e7-4b12-ac64-2d311ecf38e4",
+        "amount": 1008,
+        "attempts": [
+          {
+            "t": 10.26,
+            "s": 201,
+            "err": null,
+            "ms": 43.8
+          }
+        ]
+      },
+      {
+        "client_id": "af56e2a1-c5e8-40ea-a9fe-176dbc9a91ae",
+        "amount": 1009,
+        "attempts": [
+          {
+            "t": 11.51,
+            "s": 201,
+            "err": null,
+            "ms": 25.7
+          }
+        ]
+      },
+      {
+        "client_id": "bcf3a098-ee4e-439f-80e4-e460bdc69fd0",
+        "amount": 1010,
+        "attempts": [
+          {
+            "t": 12.76,
+            "s": 201,
+            "err": null,
+            "ms": 33.1
+          }
+        ]
+      },
+      {
+        "client_id": "b4fae6c4-17de-4b11-a76e-86cd633802aa",
+        "amount": 1011,
+        "attempts": [
+          {
+            "t": 14.01,
+            "s": 201,
+            "err": null,
+            "ms": 21.3
+          }
+        ]
+      },
+      {
+        "client_id": "aef8640a-1af5-40b8-9a24-9f9df996539a",
+        "amount": 1012,
+        "attempts": [
+          {
+            "t": 15.26,
+            "s": 201,
+            "err": null,
+            "ms": 23.9
+          }
+        ]
+      },
+      {
+        "client_id": "21754368-4c6a-4810-a7e5-bd07758a70ba",
+        "amount": 1013,
+        "attempts": [
+          {
+            "t": 16.51,
+            "s": 201,
+            "err": null,
+            "ms": 36.9
+          }
+        ]
+      },
+      {
+        "client_id": "d3659ee9-d537-4759-94eb-16b888faa3be",
+        "amount": 1014,
+        "attempts": [
+          {
+            "t": 17.77,
+            "s": 201,
+            "err": null,
+            "ms": 839.8
+          }
+        ]
+      },
+      {
+        "client_id": "61194034-8bdf-439f-b638-10ca2b490587",
+        "amount": 1015,
+        "attempts": [
+          {
+            "t": 19.02,
+            "s": 201,
+            "err": null,
+            "ms": 109.1
+          }
+        ]
+      },
+      {
+        "client_id": "a04f3802-a388-4cd9-a573-72db986f4eca",
+        "amount": 1016,
+        "attempts": [
+          {
+            "t": 20.27,
+            "s": 201,
+            "err": null,
+            "ms": 25.8
+          }
+        ]
+      },
+      {
+        "client_id": "7200cf89-06d2-4fb7-851d-22114bf46ac5",
+        "amount": 1017,
+        "attempts": [
+          {
+            "t": 21.52,
+            "s": 201,
+            "err": null,
+            "ms": 199.9
+          }
+        ]
+      },
+      {
+        "client_id": "59275a90-0028-4590-84da-a181f0852622",
+        "amount": 1018,
+        "attempts": [
+          {
+            "t": 22.77,
+            "s": 201,
+            "err": null,
+            "ms": 235.3
+          }
+        ]
+      },
+      {
+        "client_id": "a0db93aa-644c-4a9a-a4f8-3485ea5bb91d",
+        "amount": 1019,
+        "attempts": [
+          {
+            "t": 24.02,
+            "s": 201,
+            "err": null,
+            "ms": 23.2
+          }
+        ]
+      },
+      {
+        "client_id": "526f020a-3ee1-4acc-aea8-4bba50419a39",
+        "amount": 1020,
+        "attempts": [
+          {
+            "t": 25.27,
+            "s": 201,
+            "err": null,
+            "ms": 38.4
+          }
+        ]
+      },
+      {
+        "client_id": "ad3e5e28-24af-432e-9d19-49e4b82e4a3b",
+        "amount": 1021,
+        "attempts": [
+          {
+            "t": 26.52,
+            "s": 201,
+            "err": null,
+            "ms": 84.1
+          }
+        ]
+      },
+      {
+        "client_id": "35b90899-b723-4775-abef-3cadf77a5e99",
+        "amount": 1022,
+        "attempts": [
+          {
+            "t": 27.77,
+            "s": 201,
+            "err": null,
+            "ms": 33.6
+          }
+        ]
+      },
+      {
+        "client_id": "84a25835-8313-4184-a969-e93ba5bf7472",
+        "amount": 1023,
+        "attempts": [
+          {
+            "t": 29.02,
+            "s": 201,
+            "err": null,
+            "ms": 42.1
+          }
+        ]
+      },
+      {
+        "client_id": "a897a445-b90b-45e8-8af9-e971b0fed9c0",
+        "amount": 1024,
+        "attempts": [
+          {
+            "t": 30.27,
+            "s": 201,
+            "err": null,
+            "ms": 32.9
+          }
+        ]
+      },
+      {
+        "client_id": "1fb2dbd6-6676-4950-ab40-3489e90733e8",
+        "amount": 1025,
+        "attempts": [
+          {
+            "t": 31.52,
+            "s": 201,
+            "err": null,
+            "ms": 19.3
+          }
+        ]
+      },
+      {
+        "client_id": "8a97fc7d-b4dd-4795-a58b-9b188c0a3eb3",
+        "amount": 1026,
+        "attempts": [
+          {
+            "t": 32.77,
+            "s": 201,
+            "err": null,
+            "ms": 26.7
+          }
+        ]
+      },
+      {
+        "client_id": "5f86ad0d-973b-4cfa-8ccd-e765bb342a4b",
+        "amount": 1027,
+        "attempts": [
+          {
+            "t": 34.03,
+            "s": 201,
+            "err": null,
+            "ms": 41.1
+          }
+        ]
+      },
+      {
+        "client_id": "63f60acd-a959-41b4-bd78-979e2322bf00",
+        "amount": 1028,
+        "attempts": [
+          {
+            "t": 35.28,
+            "s": 201,
+            "err": null,
+            "ms": 22.7
+          }
+        ]
+      },
+      {
+        "client_id": "115db74a-de19-472d-8780-dd2820649edb",
+        "amount": 1029,
+        "attempts": [
+          {
+            "t": 36.53,
+            "s": 201,
+            "err": null,
+            "ms": 27.4
+          }
+        ]
+      },
+      {
+        "client_id": "419ba69e-0427-490c-b08a-bdc8b0f8267e",
+        "amount": 1030,
+        "attempts": [
+          {
+            "t": 37.78,
+            "s": 201,
+            "err": null,
+            "ms": 28.2
+          }
+        ]
+      },
+      {
+        "client_id": "b094b562-7e3c-4b22-bb02-9eaf65eaeca1",
+        "amount": 1031,
+        "attempts": [
+          {
+            "t": 39.03,
+            "s": 201,
+            "err": null,
+            "ms": 41.0
+          }
+        ]
+      },
+      {
+        "client_id": "630739f7-4ad4-4035-84b5-17d2dad3ede9",
+        "amount": 1032,
+        "attempts": [
+          {
+            "t": 40.29,
+            "s": 201,
+            "err": null,
+            "ms": 31.2
+          }
+        ]
+      },
+      {
+        "client_id": "bcd28d17-72a3-4f53-8796-3f17c1cdedcb",
+        "amount": 1033,
+        "attempts": [
+          {
+            "t": 41.54,
+            "s": 201,
+            "err": null,
+            "ms": 17.1
+          }
+        ]
+      },
+      {
+        "client_id": "b1369d5b-fca1-4ea4-9a81-ccd34040d8d6",
+        "amount": 1034,
+        "attempts": [
+          {
+            "t": 42.79,
+            "s": 201,
+            "err": null,
+            "ms": 17.1
+          }
+        ]
+      },
+      {
+        "client_id": "0e7d5895-c0b4-4c4a-bde4-b5ddeec14082",
+        "amount": 1035,
+        "attempts": [
+          {
+            "t": 44.04,
+            "s": 201,
+            "err": null,
+            "ms": 30.1
+          }
+        ]
+      },
+      {
+        "client_id": "4538dbbb-057b-44d3-8128-a73e03a0ec02",
+        "amount": 1036,
+        "attempts": [
+          {
+            "t": 45.29,
+            "s": 201,
+            "err": null,
+            "ms": 22.6
+          }
+        ]
+      },
+      {
+        "client_id": "20e32191-eec5-465b-acb4-d282ca683292",
+        "amount": 1037,
+        "attempts": [
+          {
+            "t": 46.54,
+            "s": 201,
+            "err": null,
+            "ms": 22.8
+          }
+        ]
+      },
+      {
+        "client_id": "dcc80de1-1041-401e-86e6-fc1805a4943e",
+        "amount": 1038,
+        "attempts": [
+          {
+            "t": 47.79,
+            "s": 201,
+            "err": null,
+            "ms": 18.5
+          }
+        ]
+      },
+      {
+        "client_id": "0aaa5644-3026-48ce-b33d-c7be4900c85e",
+        "amount": 1039,
+        "attempts": [
+          {
+            "t": 49.04,
+            "s": 201,
+            "err": null,
+            "ms": 32.2
+          }
+        ]
+      },
+      {
+        "client_id": "316ce602-bc54-41ad-96c1-203d610d5e38",
+        "amount": 1040,
+        "attempts": [
+          {
+            "t": 50.3,
+            "s": 201,
+            "err": null,
+            "ms": 16.3
+          }
+        ]
+      }
+    ]
+  }
+}

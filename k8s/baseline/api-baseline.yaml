@@ -1,0 +1,66 @@
+# Baseline ("midterm") configuration, for comparison against the hardened
+# api. Coexists in the same cluster and shares the same database:
+#   - 1 replica (no redundancy)
+#   - no preStop hook (connections cut on termination)
+#   - no gateway: exposed directly on NodePort 30081 (no retries, no
+#     correlation id, no graceful 503)
+# It is scraped by Prometheus under job "api-baseline" so both configs can be
+# measured side by side. Apply/remove it independently of the main stack.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-baseline
+  namespace: university
+  labels: { app: api-baseline }
+spec:
+  replicas: 1
+  selector:
+    matchLabels: { app: api-baseline }
+  template:
+    metadata:
+      labels: { app: api-baseline, tier: app }
+    spec:
+      automountServiceAccountToken: false
+      enableServiceLinks: false   # Service "api" would inject API_PORT=tcp://..., which the app reads as its listen port
+      containers:
+        - name: api
+          image: howallet-api:endterm
+          imagePullPolicy: Never
+          ports: [{ name: http, containerPort: 8080 }]
+          envFrom: [{ secretRef: { name: university-secrets } }]
+          env:
+            - { name: DB_HOST, value: postgres }
+            - { name: DB_PORT, value: "5432" }
+            - { name: JWT_ACCESS_TTL, value: 24h }
+            - { name: METRICS_ENABLED, value: "true" }
+            - { name: SALES_PAUSED, value: "true" }   # else free-plan limits (1 household, 150 records) 403 the load tests
+          resources:
+            requests: { cpu: 50m, memory: 64Mi }
+            limits:   { cpu: 500m, memory: 256Mi }
+          readinessProbe:
+            httpGet: { path: /health, port: http }
+            periodSeconds: 2
+---
+# Direct NodePort — no gateway in front.
+apiVersion: v1
+kind: Service
+metadata:
+  name: api-baseline
+  namespace: university
+spec:
+  type: NodePort
+  selector: { app: api-baseline }
+  ports:
+    - { name: http, port: 80, targetPort: http, nodePort: 30081 }
+---
+# Headless Service so Prometheus scrapes the baseline replica too.
+apiVersion: v1
+kind: Service
+metadata:
+  name: api-baseline-headless
+  namespace: university
+spec:
+  clusterIP: None
+  selector: { app: api-baseline }
+  ports:
+    - { name: metrics, port: 8080, targetPort: http }

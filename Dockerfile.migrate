@@ -1,0 +1,6 @@
+# Fallback migrate image, used only if ftr-migrate:endterm is not already
+# built by the other agent. Migrations are baked in, so the Job needs no
+# volume. Build from the repo root:
+#   docker build -f coursework/ftr-endterm/Dockerfile.migrate -t ftr-migrate:endterm .
+FROM migrate/migrate:v4.17.0
+COPY migrations /migrations

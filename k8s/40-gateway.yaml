@@ -1,0 +1,133 @@
+# API gateway: nginx in front of the api Service. Single public entry point
+# (NodePort 30080). Bounded retries, tight timeouts, a correlation id shared
+# with the API, JSON access logs, and a JSON 503 when the upstream is down.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: gateway-conf
+  namespace: university
+data:
+  default.conf: |
+    # Correlation id: adopt an incoming X-Request-Id, otherwise mint nginx's
+    # own $request_id. chi's RequestID middleware in the API adopts the
+    # X-Request-Id header we forward, so the same id appears in both logs.
+    map $http_x_request_id $req_id {
+      default $http_x_request_id;
+      ""      $request_id;
+    }
+
+    log_format json escape=json
+      '{"time":"$time_iso8601","request_id":"$req_id","method":"$request_method",'
+      '"uri":"$uri","status":$status,"upstream_addr":"$upstream_addr",'
+      '"request_time":$request_time,"upstream_response_time":"$upstream_response_time"}';
+
+    # Upstream = one entry per api pod (headless Service A records), not the
+    # single ClusterIP: with one server nginx has no "next upstream", so the
+    # retries below would never reach the other replica. `resolve` (open-source
+    # since 1.27.3) re-reads the records as pods come and go; 10.96.0.10 is
+    # kind's kube-dns Service IP.
+    resolver 10.96.0.10 valid=2s ipv6=off;
+    resolver_timeout 1s;
+
+    upstream api_upstream {
+      zone api_upstream 64k;
+      server api-headless.university.svc.cluster.local:8080 resolve max_fails=1 fail_timeout=2s;
+    }
+
+    server {
+      listen 80;
+      access_log /dev/stdout json;
+      client_max_body_size 2m;
+
+      # Gateway's own readiness endpoint (does not touch the upstream).
+      location = /healthz {
+        default_type text/plain;
+        return 200 "ok\n";
+      }
+
+      location / {
+        proxy_set_header Host              $host;
+        # The API takes the client IP from True-Client-IP > X-Real-IP >
+        # X-Forwarded-For. Overwrite X-Real-IP and blank True-Client-IP so a
+        # client cannot spoof its IP past the rate limits / login lockout.
+        proxy_set_header X-Real-IP         $remote_addr;
+        proxy_set_header True-Client-IP    "";
+        proxy_set_header X-Forwarded-For   $proxy_add_x_forwarded_for;
+        proxy_set_header X-Request-Id      $req_id;   # shared correlation id
+
+        proxy_connect_timeout 1s;
+        proxy_read_timeout    5s;
+
+        # Bounded failover. nginx only retries idempotent methods by default
+        # (POST is NOT replayed unless proxy_next_upstream includes
+        # non_idempotent, which we deliberately do NOT add): a failed register
+        # must not be re-sent and double-charged.
+        proxy_next_upstream error timeout http_502 http_503 http_504;
+        proxy_next_upstream_tries 2;
+
+        proxy_pass http://api_upstream;
+
+        # Graceful degradation: a dead upstream returns a JSON 503 with
+        # Retry-After, not nginx's HTML error page.
+        error_page 502 503 504 = @degraded;
+        # Must sit here, not at server level: a location's own error_page
+        # stops inheritance, which left 413 as nginx's HTML page.
+        error_page 413 = @too_large;
+      }
+
+      location @degraded {
+        add_header Retry-After 2 always;
+        default_type application/json;
+        return 503 '{"error":"service_unavailable","message":"upstream API is temporarily unavailable","request_id":"$req_id"}';
+      }
+
+      location @too_large {
+        default_type application/json;
+        return 413 '{"error":"payload_too_large","message":"request body exceeds 2 MB","request_id":"$req_id"}';
+      }
+    }
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gateway
+  namespace: university
+  labels: { app: gateway }
+spec:
+  replicas: 2
+  selector:
+    matchLabels: { app: gateway }
+  template:
+    metadata:
+      labels: { app: gateway, tier: gateway }
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:1.27-alpine
+          ports: [{ name: http, containerPort: 80 }]
+          volumeMounts:
+            - { name: conf, mountPath: /etc/nginx/conf.d }
+          resources:
+            requests: { cpu: 50m, memory: 32Mi }
+            limits:   { cpu: 300m, memory: 128Mi }
+          readinessProbe:
+            httpGet: { path: /healthz, port: http }
+            periodSeconds: 5
+          livenessProbe:
+            httpGet: { path: /healthz, port: http }
+            initialDelaySeconds: 5
+            periodSeconds: 10
+      volumes:
+        - name: conf
+          configMap: { name: gateway-conf }
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: gateway
+  namespace: university
+spec:
+  type: NodePort
+  selector: { app: gateway }
+  ports:
+    - { name: http, port: 80, targetPort: http, nodePort: 30080 }

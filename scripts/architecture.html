@@ -1,0 +1,102 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Endterm Architecture</title>
+<style>
+  body { margin: 0; background: #ffffff; font-family: "Segoe UI", system-ui, sans-serif; }
+  svg text { font-family: "Segoe UI", system-ui, sans-serif; }
+</style></head>
+<body>
+<svg width="1400" height="760" viewBox="0 0 1400 760" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="a" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0,0 L10,4 L0,8 z" fill="#334155"/></marker>
+    <marker id="g" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0,0 L10,4 L0,8 z" fill="#7c3aed"/></marker>
+    <marker id="o" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0,0 L10,4 L0,8 z" fill="#b45309"/></marker>
+  </defs>
+  <text x="30" y="40" font-size="24" font-weight="700" fill="#0f172a">FTR Endterm lab: kind cluster, namespace "university"</text>
+  <text x="30" y="64" font-size="14" fill="#475569">Endterm path (hardened) on top, midterm baseline path at the bottom; both share one PostgreSQL. All traffic from the host enters via NodePorts on 127.0.0.1.</text>
+
+  <!-- cluster frame -->
+  <rect x="200" y="90" width="1180" height="650" rx="14" fill="#f8fafc" stroke="#cbd5e1" stroke-dasharray="6 4"/>
+  <text x="216" y="114" font-size="13" fill="#64748b">kind node ftr-endterm-control-plane (Kubernetes v1.33, kindnet NetworkPolicies: default-deny ingress + allowlist)</text>
+
+  <!-- client -->
+  <rect x="30" y="250" width="140" height="80" rx="10" fill="#e2e8f0" stroke="#475569"/>
+  <text x="100" y="283" font-size="16" font-weight="600" text-anchor="middle" fill="#0f172a">Client</text>
+  <text x="100" y="304" font-size="12" text-anchor="middle" fill="#334155">probe / load scripts</text>
+  <text x="100" y="320" font-size="12" text-anchor="middle" fill="#334155">browser</text>
+
+  <!-- gateway -->
+  <rect x="250" y="160" width="220" height="250" rx="12" fill="#dbeafe" stroke="#1d4ed8"/>
+  <text x="360" y="186" font-size="16" font-weight="700" text-anchor="middle" fill="#1e3a8a">Gateway  :30080</text>
+  <rect x="270" y="200" width="180" height="56" rx="8" fill="#fff" stroke="#1d4ed8"/>
+  <text x="360" y="233" font-size="14" text-anchor="middle" fill="#1e3a8a">nginx #1</text>
+  <rect x="270" y="266" width="180" height="56" rx="8" fill="#fff" stroke="#1d4ed8"/>
+  <text x="360" y="299" font-size="14" text-anchor="middle" fill="#1e3a8a">nginx #2</text>
+  <text x="360" y="345" font-size="11.5" text-anchor="middle" fill="#1e3a8a">timeouts 1 s / 5 s, 2 tries (GET only)</text>
+  <text x="360" y="361" font-size="11.5" text-anchor="middle" fill="#1e3a8a">JSON 503 / 413, X-Request-Id</text>
+  <text x="360" y="377" font-size="11.5" text-anchor="middle" fill="#1e3a8a">X-Real-IP overwritten, 2 MB body cap</text>
+  <text x="360" y="393" font-size="11.5" text-anchor="middle" fill="#1e3a8a">upstream = per-pod DNS (headless)</text>
+
+  <!-- api -->
+  <rect x="560" y="160" width="250" height="250" rx="12" fill="#dcfce7" stroke="#15803d"/>
+  <text x="685" y="186" font-size="16" font-weight="700" text-anchor="middle" fill="#14532d">api (Deployment, 2 replicas)</text>
+  <rect x="580" y="200" width="210" height="56" rx="8" fill="#fff" stroke="#15803d"/>
+  <text x="685" y="225" font-size="14" text-anchor="middle" fill="#14532d">api pod #1  :8080</text>
+  <text x="685" y="243" font-size="11.5" text-anchor="middle" fill="#14532d">/health  /metrics</text>
+  <rect x="580" y="266" width="210" height="56" rx="8" fill="#fff" stroke="#15803d"/>
+  <text x="685" y="291" font-size="14" text-anchor="middle" fill="#14532d">api pod #2  :8080</text>
+  <text x="685" y="309" font-size="11.5" text-anchor="middle" fill="#14532d">/health  /metrics</text>
+  <text x="685" y="345" font-size="11.5" text-anchor="middle" fill="#14532d">maxUnavailable 0, preStop sleep 5</text>
+  <text x="685" y="361" font-size="11.5" text-anchor="middle" fill="#14532d">readiness 2 s, liveness 10 s x3</text>
+  <text x="685" y="377" font-size="11.5" text-anchor="middle" fill="#14532d">non-root, read-only rootfs</text>
+  <text x="685" y="393" font-size="11.5" text-anchor="middle" fill="#14532d">JWT, rate limits, client_id idempotency</text>
+
+  <!-- postgres -->
+  <rect x="900" y="300" width="200" height="110" rx="12" fill="#fef3c7" stroke="#b45309"/>
+  <text x="1000" y="335" font-size="16" font-weight="700" text-anchor="middle" fill="#78350f">PostgreSQL 16</text>
+  <text x="1000" y="356" font-size="12" text-anchor="middle" fill="#78350f">StatefulSet postgres-0</text>
+  <text x="1000" y="374" font-size="12" text-anchor="middle" fill="#78350f">PVC 1 Gi, :5432</text>
+  <text x="1000" y="392" font-size="12" text-anchor="middle" fill="#78350f">migrated by a Job</text>
+
+  <!-- prometheus / grafana -->
+  <rect x="900" y="150" width="200" height="90" rx="12" fill="#ede9fe" stroke="#7c3aed"/>
+  <text x="1000" y="182" font-size="16" font-weight="700" text-anchor="middle" fill="#4c1d95">Prometheus :30090</text>
+  <text x="1000" y="202" font-size="12" text-anchor="middle" fill="#4c1d95">scrape 2 s (dns_sd per pod)</text>
+  <text x="1000" y="220" font-size="12" text-anchor="middle" fill="#4c1d95">3 alert rules</text>
+  <rect x="1160" y="150" width="190" height="90" rx="12" fill="#ede9fe" stroke="#7c3aed"/>
+  <text x="1255" y="182" font-size="16" font-weight="700" text-anchor="middle" fill="#4c1d95">Grafana :30300</text>
+  <text x="1255" y="202" font-size="12" text-anchor="middle" fill="#4c1d95">dashboard</text>
+  <text x="1255" y="220" font-size="12" text-anchor="middle" fill="#4c1d95">howallet-endterm</text>
+
+  <!-- baseline -->
+  <rect x="560" y="560" width="250" height="120" rx="12" fill="#fee2e2" stroke="#b91c1c"/>
+  <text x="685" y="590" font-size="16" font-weight="700" text-anchor="middle" fill="#7f1d1d">api-baseline (midterm)</text>
+  <text x="685" y="612" font-size="12" text-anchor="middle" fill="#7f1d1d">1 replica, no preStop</text>
+  <text x="685" y="630" font-size="12" text-anchor="middle" fill="#7f1d1d">no gateway: NodePort :30081 direct</text>
+  <text x="685" y="648" font-size="12" text-anchor="middle" fill="#7f1d1d">no retries, no JSON 503, trusts X-Real-IP</text>
+  <text x="685" y="666" font-size="12" text-anchor="middle" fill="#7f1d1d">scraped as job "api-baseline"</text>
+
+  <!-- arrows: client -> gateway -->
+  <line x1="170" y1="290" x2="248" y2="290" stroke="#334155" stroke-width="2.5" marker-end="url(#a)"/>
+  <text x="209" y="281" font-size="11" text-anchor="middle" fill="#334155">HTTP</text>
+  <!-- gateway -> api (each nginx to each pod) -->
+  <line x1="450" y1="228" x2="578" y2="228" stroke="#334155" stroke-width="2" marker-end="url(#a)"/>
+  <line x1="450" y1="294" x2="578" y2="294" stroke="#334155" stroke-width="2" marker-end="url(#a)"/>
+  <line x1="450" y1="234" x2="578" y2="288" stroke="#334155" stroke-width="1.3" stroke-dasharray="4 3" marker-end="url(#a)"/>
+  <line x1="450" y1="288" x2="578" y2="234" stroke="#334155" stroke-width="1.3" stroke-dasharray="4 3" marker-end="url(#a)"/>
+  <text x="514" y="210" font-size="11" text-anchor="middle" fill="#334155">round robin + retry</text>
+  <!-- api -> postgres -->
+  <line x1="790" y1="300" x2="898" y2="350" stroke="#b45309" stroke-width="2.5" marker-end="url(#o)"/>
+  <text x="850" y="312" font-size="11" text-anchor="middle" fill="#b45309">pgx pool (40)</text>
+  <!-- baseline path -->
+  <path d="M100,330 L100,620 L558,620" fill="none" stroke="#b91c1c" stroke-width="2.5" marker-end="url(#a)"/>
+  <text x="300" y="610" font-size="12" text-anchor="middle" fill="#b91c1c">baseline: client -> api-baseline directly (:30081)</text>
+  <path d="M810,620 L1000,620 L1000,412" fill="none" stroke="#b45309" stroke-width="2.5" marker-end="url(#o)"/>
+  <text x="905" y="610" font-size="11" text-anchor="middle" fill="#b45309">same database</text>
+  <!-- prometheus scrape -->
+  <path d="M900,205 L840,205 L840,250 L792,250" fill="none" stroke="#7c3aed" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#g)"/>
+  <text x="868" y="196" font-size="11" text-anchor="middle" fill="#7c3aed">scrape /metrics</text>
+  <path d="M960,240 L960,280 L1130,280 L1130,640 L812,640" fill="none" stroke="#7c3aed" stroke-width="1.6" stroke-dasharray="6 4" marker-end="url(#g)"/>
+  <line x1="1158" y1="195" x2="1102" y2="195" stroke="#7c3aed" stroke-width="2" marker-end="url(#g)"/>
+  <text x="1130" y="188" font-size="11" text-anchor="middle" fill="#7c3aed">PromQL</text>
+</svg>
+</body></html>

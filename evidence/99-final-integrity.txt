@@ -1,0 +1,49 @@
+$ python scripts/final_check.py
+NAME                            READY   STATUS      RESTARTS       AGE     IP            NODE                        NOMINATED NODE   READINESS GATES
+api-56b6dc48d5-h9djq            1/1     Running     0              105s    10.244.0.48   ftr-endterm-control-plane   <none>           <none>
+api-56b6dc48d5-pjqn6            1/1     Running     0              107s    10.244.0.47   ftr-endterm-control-plane   <none>           <none>
+api-baseline-69bbd8cf45-nhgcv   1/1     Running     0              2m52s   10.244.0.44   ftr-endterm-control-plane   <none>           <none>
+gateway-5f4ffd5966-cvth8        1/1     Running     0              62m     10.244.0.24   ftr-endterm-control-plane   <none>           <none>
+gateway-5f4ffd5966-x6nwz        1/1     Running     0              62m     10.244.0.25   ftr-endterm-control-plane   <none>           <none>
+grafana-978bd745f-7ct2r         1/1     Running     0              67m     10.244.0.13   ftr-endterm-control-plane   <none>           <none>
+postgres-0                      1/1     Running     1 (114s ago)   10m     10.244.0.40   ftr-endterm-control-plane   <none>           <none>
+prometheus-6885ddbd9b-77c8q     1/1     Running     0              67m     10.244.0.12   ftr-endterm-control-plane   <none>           <none>
+university-migrate-2xjg6        0/1     Completed   0              67m     10.244.0.7    ftr-endterm-control-plane   <none>           <none>
+postgres-0 lastState: {"terminated":{"containerID":"containerd://f5700d5edc3a17537beae199a6c2abe095964ea3b5e2f8e5604aa89956729be6","exitCode":137,"finishedAt":"2026-11-04T12:22:04Z","reason":"OOMKilled","startedAt":"2026-11-04T12:13:28Z"}}
+postgres-0 memory limit: 256Mi
+main   probe-acc              rows=   3 distinct_client_id=   3 sum=   1503.00 balance=  -1503.00 OK
+main   e8-kzt                 rows=   2 distinct_client_id=   2 sum=   2200.00 balance=  -2200.00 OK
+other  other-acc              rows=   0 distinct_client_id=   0 sum=      0.00 balance=      0.00 OK
+l1     e2-endterm-1-stop      rows=  35 distinct_client_id=  35 sum=   4130.00 balance=  -4130.00 OK
+l1     e2-endterm-2-stop      rows=  34 distinct_client_id=  34 sum=   3995.00 balance=  -3995.00 OK
+l1     e2-endterm-3-freeze    rows=  31 distinct_client_id=  31 sum=   3596.00 balance=  -3596.00 OK
+l1     e2-endterm-4-freeze    rows=  31 distinct_client_id=  31 sum=   3596.00 balance=  -3596.00 OK
+l1     e2-endterm-5-freeze    rows=  55 distinct_client_id=  55 sum=   7040.00 balance=  -7040.00 OK
+l1     e2-endterm-6-freeze    rows=  39 distinct_client_id=  39 sum=   4680.00 balance=  -4680.00 OK
+l1     e7-endterm-1           rows=  40 distinct_client_id=  40 sum=  40820.00 balance= -40820.00 OK
+l1     e7-baseline-1          rows=  40 distinct_client_id=  40 sum=  40820.00 balance= -40820.00 OK
+l1     e7-endterm-2           rows=  40 distinct_client_id=  40 sum=  40820.00 balance= -40820.00 OK
+l1     e7-baseline-2          rows=  40 distinct_client_id=  40 sum=  40820.00 balance= -40820.00 OK
+l2     e2-baseline-1-stop     rows=  34 distinct_client_id=  34 sum=   3995.00 balance=  -3995.00 OK
+l2     e2-baseline-2-stop     rows=  34 distinct_client_id=  34 sum=   3995.00 balance=  -3995.00 OK
+l2     e2-baseline-3-freeze   rows=  30 distinct_client_id=  30 sum=   3465.00 balance=  -3465.00 OK
+l2     e2-baseline-4-freeze   rows=  30 distinct_client_id=  30 sum=   3465.00 balance=  -3465.00 OK
+l2     e2-baseline-5-freeze   rows=  41 distinct_client_id=  41 sum=   4961.00 balance=  -4961.00 OK
+l2     e2-baseline-6-freeze   rows=  38 distinct_client_id=  38 sum=   4541.00 balance=  -4541.00 OK
+l2     e7-endterm-1           rows=  40 distinct_client_id=  40 sum=  40820.00 balance= -40820.00 OK
+l2     e7-baseline-1          rows=  40 distinct_client_id=  40 sum=  40820.00 balance= -40820.00 OK
+l2     e7-endterm-2           rows=  40 distinct_client_id=  40 sum=  40820.00 balance= -40820.00 OK
+l2     e7-baseline-2          rows=  40 distinct_client_id=  40 sum=  40820.00 balance= -40820.00 OK
+l3     e7-endterm-1           rows=  40 distinct_client_id=  40 sum=  40820.00 balance= -40820.00 OK
+l3     e7-baseline-1          rows=  40 distinct_client_id=  40 sum=  40820.00 balance= -40820.00 OK
+l3     e7-endterm-2           rows=  40 distinct_client_id=  40 sum=  40820.00 balance= -40820.00 OK
+l3     e7-baseline-2          rows=  40 distinct_client_id=  40 sum=  40820.00 balance= -40820.00 OK
+l4     e7-endterm-1           rows=  40 distinct_client_id=  40 sum=  40820.00 balance= -40820.00 OK
+l4     e7-baseline-1          rows=  40 distinct_client_id=  40 sum=  40820.00 balance= -40820.00 OK
+l4     e7-endterm-2           rows=  40 distinct_client_id=  40 sum=  40820.00 balance= -40820.00 OK
+l4     e7-baseline-2          rows=  40 distinct_client_id=  40 sum=  40820.00 balance= -40820.00 OK
+l5     e7-endterm-1           rows=  40 distinct_client_id=  40 sum=  40820.00 balance= -40820.00 OK
+l5     e7-baseline-1          rows=  40 distinct_client_id=  40 sum=  40820.00 balance= -40820.00 OK
+l5     e7-endterm-2           rows=  40 distinct_client_id=  40 sum=  40820.00 balance= -40820.00 OK
+l5     e7-baseline-2          rows=  40 distinct_client_id=  40 sum=  40820.00 balance= -40820.00 OK
+duplicate (household_id, client_id) pairs in the whole DB: 0 | accounts with mismatch: 0

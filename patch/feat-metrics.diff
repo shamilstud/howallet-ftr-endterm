@@ -1,0 +1,531 @@
+diff --git a/go.mod b/go.mod
+index 93e19762..6f8a0990 100644
+--- a/go.mod
++++ b/go.mod
+@@ -12,6 +12,7 @@ require (
+ 	github.com/google/uuid v1.6.0
+ 	github.com/jackc/pgx/v5 v5.9.2
+ 	github.com/joho/godotenv v1.5.1
++	github.com/prometheus/client_golang v1.22.0
+ 	github.com/shopspring/decimal v1.4.0
+ 	github.com/stretchr/testify v1.12.1
+ 	github.com/testcontainers/testcontainers-go v0.35.0
+@@ -25,6 +26,7 @@ require (
+ 	github.com/AdaLogics/go-fuzz-headers v0.0.0-20240806141605-e8a1dd7889d6 // indirect
+ 	github.com/Azure/go-ansiterm v0.0.0-20250102033503-faa5f7b0171c // indirect
+ 	github.com/Microsoft/go-winio v0.6.2 // indirect
++	github.com/beorn7/perks v1.0.1 // indirect
+ 	github.com/cenkalti/backoff/v4 v4.3.0 // indirect
+ 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
+ 	github.com/containerd/log v0.1.0 // indirect
+@@ -48,6 +50,7 @@ require (
+ 	github.com/jackc/puddle/v2 v2.2.2 // indirect
+ 	github.com/klauspost/compress v1.18.2 // indirect
+ 	github.com/klauspost/cpuid/v2 v2.2.10 // indirect
++	github.com/kylelemons/godebug v1.1.0 // indirect
+ 	github.com/lufia/plan9stats v0.0.0-20211012122336-39d0f177ccd0 // indirect
+ 	github.com/magiconair/properties v1.8.10 // indirect
+ 	github.com/moby/docker-image-spec v1.3.1 // indirect
+@@ -57,11 +60,15 @@ require (
+ 	github.com/moby/sys/userns v0.1.0 // indirect
+ 	github.com/moby/term v0.5.2 // indirect
+ 	github.com/morikuni/aec v1.0.0 // indirect
++	github.com/munnerz/goautoneg v0.0.0-20191010083416-a7dc8b61c822 // indirect
+ 	github.com/opencontainers/go-digest v1.0.0 // indirect
+ 	github.com/opencontainers/image-spec v1.1.1 // indirect
+ 	github.com/philhofer/fwd v1.2.0 // indirect
+ 	github.com/pkg/errors v0.9.1 // indirect
+ 	github.com/power-devops/perfstat v0.0.0-20240221224432-82ca36839d55 // indirect
++	github.com/prometheus/client_model v0.6.1 // indirect
++	github.com/prometheus/common v0.62.0 // indirect
++	github.com/prometheus/procfs v0.15.1 // indirect
+ 	github.com/shirou/gopsutil/v3 v3.23.12 // indirect
+ 	github.com/shoenig/go-m1cpu v0.1.6 // indirect
+ 	github.com/sirupsen/logrus v1.9.3 // indirect
+@@ -83,5 +90,6 @@ require (
+ 	golang.org/x/sys v0.47.0 // indirect
+ 	golang.org/x/text v0.41.0 // indirect
+ 	golang.org/x/time v0.15.0 // indirect
++	google.golang.org/protobuf v1.36.11 // indirect
+ 	gotest.tools/v3 v3.5.2 // indirect
+ )
+diff --git a/internal/app/app.go b/internal/app/app.go
+index cfce714b..6a469aee 100644
+--- a/internal/app/app.go
++++ b/internal/app/app.go
+@@ -15,6 +15,7 @@ import (
+ 	"time"
+ 
+ 	"github.com/jackc/pgx/v5/pgxpool"
++	"github.com/prometheus/client_golang/prometheus"
+ 
+ 	"github.com/howallet/howallet/internal/config"
+ 	db "github.com/howallet/howallet/internal/db"
+@@ -573,7 +574,11 @@ func Build(ctx context.Context, cfg *config.Config, pool *pgxpool.Pool, opts Opt
+ 		close(changesDone)
+ 	}()
+ 
+-	mux := router.New(cfg, logger, authH, hhH, accH, txnH, expH, catH, budgetH, planH, recH, goalH, debtH, tmplH, notifH, settingsH, statsH, auditLogH, feedbackH, aiH, subH, payH, currencyH, ingestH, questH, suggestH, merchantH, receiptH, bankH, handler.NewWebVitalsHandler(opsSvc), handler.NewEventsHandler(changeHub, hhSvc.CheckMembership, repos.Sessions), pushH, handler.NewBadgeHandler(badgeSvc), handler.NewReminderHandler(reminderSvc), adminH, sessionTracker, adminMFASvc, hhSvc.CheckMembership, repos.Sessions)
++	var routerOpts []router.Option
++	if cfg.Metrics.Enabled {
++		routerOpts = append(routerOpts, router.WithMetricsRegistry(poolMetricsRegistry(pool)))
++	}
++	mux := router.New(cfg, logger, authH, hhH, accH, txnH, expH, catH, budgetH, planH, recH, goalH, debtH, tmplH, notifH, settingsH, statsH, auditLogH, feedbackH, aiH, subH, payH, currencyH, ingestH, questH, suggestH, merchantH, receiptH, bankH, handler.NewWebVitalsHandler(opsSvc), handler.NewEventsHandler(changeHub, hhSvc.CheckMembership, repos.Sessions), pushH, handler.NewBadgeHandler(badgeSvc), handler.NewReminderHandler(reminderSvc), adminH, sessionTracker, adminMFASvc, hhSvc.CheckMembership, repos.Sessions, routerOpts...)
+ 
+ 	// Background jobs.
+ 	//
+@@ -829,3 +834,18 @@ func requireMoneyWired(services map[string]moneyWired) error {
+ 	slices.Sort(missing)
+ 	return fmt.Errorf("app: money converter is not wired into %s", strings.Join(missing, ", "))
+ }
++
++// poolMetricsRegistry is the metrics registry with the pgx pool gauges added.
++func poolMetricsRegistry(pool *pgxpool.Pool) *prometheus.Registry {
++	reg := middleware.NewMetricsRegistry()
++	gauge := func(name, help string, read func(*pgxpool.Stat) int32) prometheus.Collector {
++		return prometheus.NewGaugeFunc(prometheus.GaugeOpts{Name: name, Help: help},
++			func() float64 { return float64(read(pool.Stat())) })
++	}
++	reg.MustRegister(
++		gauge("db_pool_acquired_conns", "Connections currently checked out of the pgx pool.", (*pgxpool.Stat).AcquiredConns),
++		gauge("db_pool_total_conns", "Connections currently open in the pgx pool.", (*pgxpool.Stat).TotalConns),
++		gauge("db_pool_max_conns", "The pgx pool's connection ceiling.", (*pgxpool.Stat).MaxConns),
++	)
++	return reg
++}
+diff --git a/internal/config/config.go b/internal/config/config.go
+index 94810f50..9b00fb83 100644
+--- a/internal/config/config.go
++++ b/internal/config/config.go
+@@ -30,9 +30,20 @@ type Config struct {
+ 	Logs     LogsConfig
+ 	Alerts   AlertsConfig
+ 	Push     PushConfig
++	Metrics  MetricsConfig
+ 	Env      string
+ }
+ 
++// MetricsConfig switches the Prometheus endpoint on. Off by default: with it
++// off the router has no /metrics route and no metrics middleware at all.
++type MetricsConfig struct {
++	Enabled bool
++	// Token, when set, is required as "Authorization: Bearer <token>" on
++	// /metrics. Empty leaves the endpoint open — nginx does not proxy it, so it
++	// is reachable only from the container network.
++	Token string
++}
++
+ // PushConfig is the VAPID identity Web Push is signed with.
+ //
+ // All three empty is a complete configuration: push is then off as a whole —
+@@ -448,6 +459,10 @@ func Load() (*Config, error) {
+ 			VAPIDPrivateKey: strings.TrimSpace(getEnv("VAPID_PRIVATE_KEY", "")),
+ 			VAPIDSubject:    strings.TrimSpace(getEnv("VAPID_SUBJECT", "")),
+ 		},
++		Metrics: MetricsConfig{
++			Enabled: getEnv("METRICS_ENABLED", "false") == "true",
++			Token:   strings.TrimSpace(getEnv("METRICS_TOKEN", "")),
++		},
+ 		Env: getEnv("ENV", "development"),
+ 	}
+ 
+diff --git a/internal/middleware/metrics.go b/internal/middleware/metrics.go
+new file mode 100644
+index 00000000..8e1c74ef
+--- /dev/null
++++ b/internal/middleware/metrics.go
+@@ -0,0 +1,119 @@
++package middleware
++
++import (
++	"crypto/subtle"
++	"net/http"
++	"strconv"
++	"time"
++
++	"github.com/go-chi/chi/v5"
++	chimw "github.com/go-chi/chi/v5/middleware"
++	"github.com/prometheus/client_golang/prometheus"
++	"github.com/prometheus/client_golang/prometheus/collectors"
++	"github.com/prometheus/client_golang/prometheus/promhttp"
++)
++
++// MetricsPath is the Prometheus scrape endpoint. Served by Metrics.Middleware
++// itself, ahead of the logger and the rate limits, and never counted.
++const MetricsPath = "/metrics"
++
++// unmatchedRoute labels requests no route matched: the raw path would give
++// every scanner probe its own series.
++const unmatchedRoute = "unmatched"
++
++// Metrics holds the HTTP collectors on a registry of its own (not the global
++// default), so tests and a second router do not share counters.
++type Metrics struct {
++	reg      *prometheus.Registry
++	token    string
++	requests *prometheus.CounterVec
++	duration *prometheus.HistogramVec
++	inFlight prometheus.Gauge
++}
++
++// NewMetricsRegistry returns a registry with the Go runtime and process
++// collectors already registered.
++func NewMetricsRegistry() *prometheus.Registry {
++	reg := prometheus.NewRegistry()
++	reg.MustRegister(
++		collectors.NewGoCollector(),
++		collectors.NewProcessCollector(collectors.ProcessCollectorOpts{}),
++	)
++	return reg
++}
++
++// NewMetrics registers the HTTP collectors on reg. token, when non-empty, is
++// required as a bearer token on MetricsPath.
++func NewMetrics(reg *prometheus.Registry, token string) *Metrics {
++	m := &Metrics{
++		reg:   reg,
++		token: token,
++		requests: prometheus.NewCounterVec(prometheus.CounterOpts{
++			Name: "http_requests_total",
++			Help: "HTTP requests by method, chi route pattern and status code.",
++		}, []string{"method", "route", "status"}),
++		duration: prometheus.NewHistogramVec(prometheus.HistogramOpts{
++			Name:    "http_request_duration_seconds",
++			Help:    "HTTP request latency by method and chi route pattern (live event stream excluded).",
++			Buckets: []float64{.005, .01, .025, .05, .1, .25, .5, 1, 2.5, 5, 10},
++		}, []string{"method", "route"}),
++		inFlight: prometheus.NewGauge(prometheus.GaugeOpts{
++			Name: "http_requests_in_flight",
++			Help: "HTTP requests being served now (live event stream excluded).",
++		}),
++	}
++	reg.MustRegister(m.requests, m.duration, m.inFlight)
++	return m
++}
++
++// Middleware must be installed on the chi router itself (r.Use), first in the
++// chain: the route pattern lives in chi's RouteContext, which exists only
++// inside the mux, and is complete only after next has run.
++func (m *Metrics) Middleware(next http.Handler) http.Handler {
++	scrape := promhttp.HandlerFor(m.reg, promhttp.HandlerOpts{})
++	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
++		if r.URL.Path == MetricsPath {
++			if m.token != "" && !bearerMatches(r, m.token) {
++				writeJSONError(w, http.StatusUnauthorized, "unauthorized")
++				return
++			}
++			scrape.ServeHTTP(w, r)
++			return
++		}
++
++		// The live stream stays open for hours; in the histogram and the
++		// in-flight gauge it would read as an outage of slow requests.
++		streaming := r.URL.Path == EventsPath
++		if !streaming {
++			m.inFlight.Inc()
++			defer m.inFlight.Dec()
++		}
++		start := time.Now()
++		ww := chimw.NewWrapResponseWriter(w, r.ProtoMajor)
++		next.ServeHTTP(ww, r)
++
++		route := unmatchedRoute
++		if rc := chi.RouteContext(r.Context()); rc != nil {
++			if p := rc.RoutePattern(); p != "" {
++				route = p
++			}
++		}
++		status := ww.Status()
++		if status == 0 {
++			status = http.StatusOK
++		}
++		m.requests.WithLabelValues(r.Method, route, strconv.Itoa(status)).Inc()
++		if !streaming {
++			m.duration.WithLabelValues(r.Method, route).Observe(time.Since(start).Seconds())
++		}
++	})
++}
++
++func bearerMatches(r *http.Request, token string) bool {
++	const prefix = "Bearer "
++	h := r.Header.Get("Authorization")
++	if len(h) <= len(prefix) || h[:len(prefix)] != prefix {
++		return false
++	}
++	return subtle.ConstantTimeCompare([]byte(h[len(prefix):]), []byte(token)) == 1
++}
+diff --git a/internal/middleware/metrics_test.go b/internal/middleware/metrics_test.go
+new file mode 100644
+index 00000000..4717574c
+--- /dev/null
++++ b/internal/middleware/metrics_test.go
+@@ -0,0 +1,143 @@
++package middleware
++
++import (
++	"net/http"
++	"net/http/httptest"
++	"strings"
++	"testing"
++
++	"github.com/go-chi/chi/v5"
++	"github.com/prometheus/client_golang/prometheus"
++	"github.com/prometheus/client_golang/prometheus/testutil"
++	"github.com/stretchr/testify/assert"
++	"github.com/stretchr/testify/require"
++)
++
++// metricsRouter is a chi router with the metrics middleware first, as
++// router.New installs it.
++func metricsRouter(t *testing.T, token string, routes func(r chi.Router)) (*Metrics, http.Handler) {
++	t.Helper()
++	m := NewMetrics(prometheus.NewRegistry(), token)
++	r := chi.NewRouter()
++	r.Use(m.Middleware)
++	routes(r)
++	return m, r
++}
++
++func serve(h http.Handler, method, path string, hdr ...string) *httptest.ResponseRecorder {
++	req := httptest.NewRequest(method, path, nil)
++	for i := 0; i+1 < len(hdr); i += 2 {
++		req.Header.Set(hdr[i], hdr[i+1])
++	}
++	rr := httptest.NewRecorder()
++	h.ServeHTTP(rr, req)
++	return rr
++}
++
++// The route label is the chi pattern, never the raw path: one series per
++// endpoint, not one per id.
++func TestMetrics_RouteLabel_IsThePatternNotThePath(t *testing.T) {
++	m, h := metricsRouter(t, "", func(r chi.Router) {
++		r.Route("/api", func(r chi.Router) {
++			r.Get("/x/{id}", func(w http.ResponseWriter, _ *http.Request) { w.WriteHeader(http.StatusOK) })
++		})
++	})
++
++	serve(h, http.MethodGet, "/api/x/123")
++	serve(h, http.MethodGet, "/api/x/456")
++
++	assert.Equal(t, 2.0, testutil.ToFloat64(m.requests.WithLabelValues("GET", "/api/x/{id}", "200")),
++		"both ids land on the one pattern series")
++	assert.Equal(t, 1, testutil.CollectAndCount(m.requests), "no per-id series")
++	assert.Equal(t, 1, testutil.CollectAndCount(m.duration), "histogram keyed by the pattern too")
++}
++
++func TestMetrics_StatusLabel_IsTheCodeTheHandlerWrote(t *testing.T) {
++	m, h := metricsRouter(t, "", func(r chi.Router) {
++		r.Post("/boom", func(w http.ResponseWriter, _ *http.Request) { w.WriteHeader(http.StatusInternalServerError) })
++		r.Get("/silent", func(http.ResponseWriter, *http.Request) {}) // never writes: net/http sends 200
++	})
++
++	serve(h, http.MethodPost, "/boom")
++	serve(h, http.MethodGet, "/silent")
++
++	assert.Equal(t, 1.0, testutil.ToFloat64(m.requests.WithLabelValues("POST", "/boom", "500")), "a 500 is counted as 500")
++	assert.Equal(t, 0.0, testutil.ToFloat64(m.requests.WithLabelValues("POST", "/boom", "200")), "not as 200")
++	assert.Equal(t, 1.0, testutil.ToFloat64(m.requests.WithLabelValues("GET", "/silent", "200")),
++		"a handler that writes nothing answered 200, not 0")
++}
++
++func TestMetrics_NoRouteMatched_LabelsUnmatched(t *testing.T) {
++	m, h := metricsRouter(t, "", func(r chi.Router) {
++		r.Get("/known", func(_ http.ResponseWriter, _ *http.Request) {})
++	})
++
++	serve(h, http.MethodGet, "/wp-admin/setup-config.php")
++
++	assert.Equal(t, 1.0, testutil.ToFloat64(m.requests.WithLabelValues("GET", unmatchedRoute, "404")))
++	assert.Equal(t, 1, testutil.CollectAndCount(m.requests), "the scanner's path is not a label")
++}
++
++func TestMetrics_InFlight_CountsWhileServingAndReturnsToZero(t *testing.T) {
++	var during float64
++	var m *Metrics
++	m, h := metricsRouter(t, "", func(r chi.Router) {
++		r.Get("/slow", func(_ http.ResponseWriter, _ *http.Request) { during = testutil.ToFloat64(m.inFlight) })
++		r.Get("/panic", func(http.ResponseWriter, *http.Request) { panic(http.ErrAbortHandler) })
++	})
++
++	serve(h, http.MethodGet, "/slow")
++	assert.Equal(t, 1.0, during, "the request is in flight while its handler runs")
++	assert.Equal(t, 0.0, testutil.ToFloat64(m.inFlight), "and leaves when it is done")
++
++	assert.Panics(t, func() { serve(h, http.MethodGet, "/panic") })
++	assert.Equal(t, 0.0, testutil.ToFloat64(m.inFlight), "an aborted request leaves too")
++}
++
++// The live stream stays open for hours: counted, but kept out of latency and
++// in-flight, where it would read as an outage.
++func TestMetrics_EventStream_CountedButNotTimed(t *testing.T) {
++	var during float64
++	var m *Metrics
++	m, h := metricsRouter(t, "", func(r chi.Router) {
++		r.Get(EventsPath, func(_ http.ResponseWriter, _ *http.Request) { during = testutil.ToFloat64(m.inFlight) })
++	})
++
++	serve(h, http.MethodGet, EventsPath)
++
++	assert.Equal(t, 1.0, testutil.ToFloat64(m.requests.WithLabelValues("GET", EventsPath, "200")))
++	assert.Equal(t, 0, testutil.CollectAndCount(m.duration), "no latency sample for the stream")
++	assert.Equal(t, 0.0, during, "the stream is not an in-flight request")
++}
++
++func TestMetrics_ScrapeEndpoint_ServesExpositionAndIsNotCounted(t *testing.T) {
++	m, h := metricsRouter(t, "", func(r chi.Router) {
++		r.Get("/health", func(http.ResponseWriter, *http.Request) {})
++	})
++	serve(h, http.MethodGet, "/health")
++
++	rr := serve(h, http.MethodGet, MetricsPath)
++
++	require.Equal(t, http.StatusOK, rr.Code)
++	body := rr.Body.String()
++	assert.Contains(t, body, `http_requests_total{method="GET",route="/health",status="200"} 1`)
++	assert.Contains(t, body, "http_requests_in_flight 0")
++	assert.Contains(t, body, `http_request_duration_seconds_bucket{method="GET",route="/health",le="0.005"}`)
++	assert.False(t, strings.Contains(body, `route="/metrics"`), "the scrape does not count itself")
++	assert.Equal(t, 1, testutil.CollectAndCount(m.requests))
++}
++
++func TestMetrics_ScrapeEndpoint_WithToken_RefusesWithoutIt(t *testing.T) {
++	// chi skips the middleware chain of a mux with no routes at all.
++	_, h := metricsRouter(t, "s3cret", func(r chi.Router) { r.Get("/health", func(http.ResponseWriter, *http.Request) {}) })
++
++	assert.Equal(t, http.StatusUnauthorized, serve(h, http.MethodGet, MetricsPath).Code, "no header")
++	assert.Equal(t, http.StatusUnauthorized,
++		serve(h, http.MethodGet, MetricsPath, "Authorization", "Bearer wrong").Code, "wrong token")
++	assert.Equal(t, http.StatusUnauthorized,
++		serve(h, http.MethodGet, MetricsPath, "Authorization", "s3cret").Code, "token without the Bearer scheme")
++	assert.Equal(t, http.StatusUnauthorized,
++		serve(h, http.MethodGet, MetricsPath, "Authorization", "Basic: s3cret").Code, "another 7-char scheme")
++	assert.Equal(t, http.StatusOK,
++		serve(h, http.MethodGet, MetricsPath, "Authorization", "Bearer s3cret").Code, "right token")
++}
+diff --git a/internal/router/metrics_test.go b/internal/router/metrics_test.go
+new file mode 100644
+index 00000000..84564cf2
+--- /dev/null
++++ b/internal/router/metrics_test.go
+@@ -0,0 +1,63 @@
++package router_test
++
++import (
++	"net/http"
++	"strings"
++	"testing"
++	"time"
++
++	"github.com/stretchr/testify/assert"
++	"github.com/stretchr/testify/require"
++
++	"github.com/howallet/howallet/internal/config"
++	"github.com/howallet/howallet/internal/router/routertest"
++)
++
++func metricsConfig(enabled bool) *config.Config {
++	return &config.Config{
++		JWT:      config.JWTConfig{Secret: routertest.Secret, AccessTTL: 15 * time.Minute, RefreshTTL: time.Hour},
++		Frontend: config.FrontendConfig{URL: "http://localhost:3000"},
++		Metrics:  config.MetricsConfig{Enabled: enabled},
++		Env:      "test",
++	}
++}
++
++// Off by default: production without METRICS_ENABLED has no /metrics at all.
++func TestRouter_MetricsDisabled_NoScrapeEndpoint(t *testing.T) {
++	rt := routertest.New(t, routertest.Handlers{Config: metricsConfig(false)})
++
++	rec := rt.Do(http.MethodGet, "/metrics", nil)
++
++	assert.Equal(t, http.StatusNotFound, rec.Code)
++	assert.NotContains(t, rec.Body.String(), "http_requests_total")
++}
++
++func TestRouter_MetricsEnabled_CountsRealRoutesByPattern(t *testing.T) {
++	rt := routertest.New(t, routertest.Handlers{Config: metricsConfig(true)})
++
++	require.Equal(t, http.StatusOK, rt.Do(http.MethodGet, "/health", nil).Code)
++	rt.Do(http.MethodGet, "/no/such/path/42", nil)
++	rec := rt.Do(http.MethodGet, "/metrics", nil)
++
++	require.Equal(t, http.StatusOK, rec.Code)
++	body := rec.Body.String()
++	assert.Contains(t, body, `http_requests_total{method="GET",route="/health",status="200"} 1`)
++	assert.NotContains(t, body, "/no/such/path", "a raw path never becomes a label")
++	assert.Contains(t, body, "go_goroutines", "Go runtime collector is on")
++}
++
++// A scraper polling every few seconds from one address must never be refused
++// by the per-IP limit, nor eat that address's budget.
++func TestRouter_MetricsEndpoint_OutsideTheRateLimit(t *testing.T) {
++	rt := routertest.New(t, routertest.Handlers{Config: metricsConfig(true)})
++
++	for i := range 1300 { // the global limit is 1200/min per address
++		rec := rt.Do(http.MethodGet, "/metrics", nil, routertest.Header("X-Real-IP", "203.0.113.9"))
++		if rec.Code != http.StatusOK {
++			t.Fatalf("scrape %d answered %d: /metrics is behind the rate limit", i+1, rec.Code)
++		}
++	}
++	rec := rt.Do(http.MethodGet, "/health", nil, routertest.Header("X-Real-IP", "203.0.113.9"))
++	assert.Equal(t, http.StatusOK, rec.Code, "scrapes did not spend the address's budget")
++	assert.False(t, strings.Contains(rec.Body.String(), "rate"), "not a refusal body")
++}
+diff --git a/internal/router/router.go b/internal/router/router.go
+index 444933da..ce081cd0 100644
+--- a/internal/router/router.go
++++ b/internal/router/router.go
+@@ -10,6 +10,7 @@ import (
+ 	"github.com/go-chi/cors"
+ 	"github.com/go-chi/httprate"
+ 	"github.com/google/uuid"
++	"github.com/prometheus/client_golang/prometheus"
+ 
+ 	"github.com/howallet/howallet/internal/config"
+ 	"github.com/howallet/howallet/internal/handler"
+@@ -17,6 +18,19 @@ import (
+ 	"github.com/howallet/howallet/internal/service"
+ )
+ 
++// Option adjusts router.New without growing its positional list.
++type Option func(*options)
++
++type options struct {
++	metricsRegistry *prometheus.Registry
++}
++
++// WithMetricsRegistry makes the metrics middleware (when cfg.Metrics.Enabled)
++// register on reg, so the caller can add its own collectors (the DB pool).
++func WithMetricsRegistry(reg *prometheus.Registry) Option {
++	return func(o *options) { o.metricsRegistry = reg }
++}
++
+ // New creates and configures the chi router with all routes.
+ func New(
+ 	cfg *config.Config,
+@@ -58,9 +72,24 @@ func New(
+ 	adminMFAVerifier mw.AdminMFAVerifier, // nil if admin is disabled
+ 	checkMembership mw.MembershipChecker,
+ 	sessions mw.SessionLiveness,
++	opts ...Option,
+ ) http.Handler {
++	var o options
++	for _, opt := range opts {
++		opt(&o)
++	}
+ 	r := chi.NewRouter()
+ 
++	// Opt-in, and first: /metrics is answered here, ahead of the logger and the
++	// rate limits, and the route pattern is read only after the whole chain ran.
++	if cfg.Metrics.Enabled {
++		reg := o.metricsRegistry
++		if reg == nil {
++			reg = mw.NewMetricsRegistry()
++		}
++		r.Use(mw.NewMetrics(reg, cfg.Metrics.Token).Middleware)
++	}
++
+ 	// Global middleware
+ 	r.Use(chimw.RequestID)
+ 	// nginx (deployments/nginx-ssl.conf) overwrites X-Real-IP on every request,

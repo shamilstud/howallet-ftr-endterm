@@ -1,0 +1,47 @@
+$ python scripts/exps.py e6
+[17:17:16.611] known state e6: all workloads ready, no alerts (waited 0.0s for alerts to clear)
+=== E6 input and limit acceptance ===
+  e6-01 malformed JSON POST /api/accounts                    -> HTTP 400  {"error":"invalid request body"} 
+  e6-02 malformed JSON POST /api/transactions                -> HTTP 400  {"error":"invalid request body"} 
+  e6-03 negative amount                                      -> HTTP 400  {"error":"amount must be positive"} 
+  e6-04 invalid UUID in path                                 -> HTTP 400  {"error":"invalid account id"} 
+  e6-05 3 MB body via gateway                                -> HTTP 413  {"error":"payload_too_large","message":"request body exceeds 2 MB","request_id":"e6-05"}
+  e6-06 1.5 MB body via gateway (API's own 1 MB decode limit) -> HTTP 400  {"error":"invalid request body"} 
+  accounts in household A before/after the malformed requests: 1/1
+  -- 12 wrong-password logins for one synthetic account via the gateway (2 replicas) --
+  e6-07 wrong password #1                                    -> HTTP 401  {"error":"invalid email or password"} 
+  e6-08 wrong password #2                                    -> HTTP 401  {"error":"invalid email or password"} 
+  e6-09 wrong password #3                                    -> HTTP 401  {"error":"invalid email or password"} 
+  e6-10 wrong password #4                                    -> HTTP 401  {"error":"invalid email or password"} 
+  e6-11 wrong password #5                                    -> HTTP 401  {"error":"invalid email or password"} 
+  e6-12 wrong password #6                                    -> HTTP 401  {"error":"invalid email or password"} 
+  e6-13 wrong password #7                                    -> HTTP 401  {"error":"invalid email or password"} 
+  e6-14 wrong password #8                                    -> HTTP 401  {"error":"invalid email or password"} 
+  e6-15 wrong password #9                                    -> HTTP 401  {"error":"invalid email or password"} 
+  e6-16 wrong password #10                                   -> HTTP 429  {"error":"too many login attempts, try again in 15 minutes"} 
+  e6-17 wrong password #11                                   -> HTTP 401  {"error":"invalid email or password"} 
+  e6-18 wrong password #12                                   -> HTTP 429  {"error":"too many login attempts, try again in 15 minutes"} 
+  e6-19 correct password after the burst                     -> HTTP 429  {"error":"too many login attempts, try again in 15 minutes"} 
+  probe during E6 (GET /api/accounts, 5 req/s): {'requests': 43, 'success': 43, 'failed': 0, 'excluded': 0, 'error_rate_pct': 0.0, 'availability_pct': 100.0, 'lat_avg_ms': 13.2, 'lat_p95_ms': 37.9, 'lat_max_ms': 39.4, 'codes': {'200': 43}}
+  gateway log for the logins (request_id, status, upstream):
+    e6-08 401 10.244.0.29:8080
+    e6-09 401 10.244.0.28:8080
+    e6-11 401 10.244.0.28:8080
+    e6-13 401 10.244.0.28:8080
+    e6-14 401 10.244.0.28:8080
+    e6-15 401 10.244.0.29:8080
+    e6-16 429 10.244.0.28:8080
+    e6-17 401 10.244.0.29:8080
+    e6-07 401 10.244.0.29:8080
+    e6-10 401 10.244.0.28:8080
+    e6-12 401 10.244.0.29:8080
+    e6-18 429 10.244.0.29:8080
+    e6-19 429 10.244.0.28:8080
+
+  -- finding: client-supplied X-Real-IP, baseline (direct :30081) vs gateway --
+  baseline direct  sent X-Real-IP: 203.0.113.77 -> HTTP 401, API logged remote=203.0.113.77
+      {"time":"2026-11-04T12:17:26.174378856Z","level":"WARN","msg":"request","method":"POST","path":"/auth/login","status":401,"duration":545725075,"remote":"203.0.113.77","request_id":"e6-xrealip-bl"}
+  gateway          sent X-Real-IP: 203.0.113.77 -> HTTP 401, API logged remote=10.244.0.1
+      {"time":"2026-11-04T12:17:27.910941694Z","level":"WARN","msg":"request","method":"POST","path":"/auth/login","status":401,"duration":507729088,"remote":"10.244.0.1","request_id":"e6-xrealip-gw"}
+  login status sequence: [401, 401, 401, 401, 401, 401, 401, 401, 401, 429, 401, 429] | first 429 at attempt 10
+[17:17:29.164] saved evidence\results\e6-input-limits.json

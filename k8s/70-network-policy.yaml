@@ -1,0 +1,98 @@
+# Segmentation. kind's default CNI (kindnet) enforces NetworkPolicy — A4
+# proved this empirically (ftr-a4/evidence/03-egress.txt); we re-verify here.
+#
+# Default: deny all ingress in the namespace, then open only the needed paths.
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: default-deny-ingress
+  namespace: university
+spec:
+  podSelector: {}
+  policyTypes: ["Ingress"]
+---
+# The production api accepts traffic only from the gateway and from
+# Prometheus, on 8080. (No direct NodePort — the gateway is the entry point.)
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: api-ingress
+  namespace: university
+spec:
+  podSelector:
+    matchLabels: { app: api }
+  policyTypes: ["Ingress"]
+  ingress:
+    - from:
+        - podSelector: { matchLabels: { app: gateway } }
+        - podSelector: { matchLabels: { app: prometheus } }
+      ports: [{ protocol: TCP, port: 8080 }]
+---
+# The baseline api is reached directly over its NodePort (midterm config), so
+# it accepts ingress from anywhere, plus Prometheus scraping. Same 8080.
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: api-baseline-ingress
+  namespace: university
+spec:
+  podSelector:
+    matchLabels: { app: api-baseline }
+  policyTypes: ["Ingress"]
+  ingress:
+    - {}
+---
+# Postgres accepts traffic only from api, the baseline api and the migrate Job.
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: postgres-ingress
+  namespace: university
+spec:
+  podSelector:
+    matchLabels: { app: postgres }
+  policyTypes: ["Ingress"]
+  ingress:
+    - from:
+        - podSelector: { matchLabels: { tier: app } }
+        - podSelector: { matchLabels: { app: migrate } }
+      ports: [{ protocol: TCP, port: 5432 }]
+---
+# The three NodePort-exposed services accept ingress from anywhere (the host
+# reaches them via the node). Needed because default-deny covers every pod.
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: nodeport-ingress
+  namespace: university
+spec:
+  podSelector:
+    matchExpressions:
+      - { key: app, operator: In, values: [gateway, grafana, prometheus] }
+  policyTypes: ["Ingress"]
+  ingress:
+    - {}
+---
+# api egress allowlist: cluster DNS, Postgres, and external HTTPS (Frankfurter
+# exchange-rate provider). Replace this policy with optional/block-egress.yaml
+# (same name) to cut external egress for the graceful-degradation experiment.
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: api-egress
+  namespace: university
+spec:
+  podSelector:
+    matchLabels: { tier: app }
+  policyTypes: ["Egress"]
+  egress:
+    - to:
+        - namespaceSelector: {}
+          podSelector: { matchLabels: { k8s-app: kube-dns } }
+      ports: [{ protocol: UDP, port: 53 }, { protocol: TCP, port: 53 }]
+    - to:
+        - podSelector: { matchLabels: { app: postgres } }
+      ports: [{ protocol: TCP, port: 5432 }]
+    - to:
+        - ipBlock: { cidr: 0.0.0.0/0 }
+      ports: [{ protocol: TCP, port: 443 }]

@@ -1,0 +1,21 @@
+{
+  "experiment": "E4 quiet window",
+  "duration_s": 120,
+  "polls": 120,
+  "alerts_seen": [],
+  "probe": {
+    "requests": 601,
+    "success": 601,
+    "failed": 0,
+    "excluded": 0,
+    "error_rate_pct": 0.0,
+    "availability_pct": 100.0,
+    "lat_avg_ms": 11.4,
+    "lat_p95_ms": 25.2,
+    "lat_max_ms": 182.3,
+    "codes": {
+      "200": 601
+    }
+  },
+  "t0": 1793793750.1168897
+}

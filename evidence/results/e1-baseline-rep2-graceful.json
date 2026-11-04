@@ -1,0 +1,1418 @@
+{
+  "experiment": "E1 replica failure",
+  "config": "baseline",
+  "rep": 2,
+  "mode": "graceful",
+  "victim": "api-baseline-69bbd8cf45-q29w7",
+  "inject": "kubectl -n university delete pod api-baseline-69bbd8cf45-q29w7 --wait=false",
+  "t0": 1793792324.2998903,
+  "window_s": 17.3,
+  "stats_interval": {
+    "requests": 179,
+    "success": 41,
+    "failed": 138,
+    "excluded": 0,
+    "error_rate_pct": 77.09,
+    "availability_pct": 22.91,
+    "lat_avg_ms": 4568.1,
+    "lat_p95_ms": 6015.7,
+    "lat_max_ms": 6031.8,
+    "codes": {
+      "200": 41,
+      "conn_error": 2,
+      "timeout": 136
+    }
+  },
+  "stats_after_injection": {
+    "requests": 139,
+    "success": 1,
+    "failed": 138,
+    "excluded": 0,
+    "error_rate_pct": 99.28,
+    "availability_pct": 0.72,
+    "lat_avg_ms": 5880.0,
+    "lat_p95_ms": 6016.7,
+    "lat_max_ms": 6031.8,
+    "codes": {
+      "200": 1,
+      "conn_error": 2,
+      "timeout": 136
+    }
+  },
+  "detection": {
+    "endpoint_drop_s": 0.2,
+    "first_failed_request_s": 0.2
+  },
+  "recovery": {
+    "endpoints_back_s": 1.7,
+    "last_failed_request_end_s": 23.4,
+    "recovery_s": 23.4,
+    "user_visible_outage_s": 23.1
+  },
+  "alerts": {},
+  "failed_samples": [
+    {
+      "t": 0.2,
+      "status": 0,
+      "err": "RemoteDisconnected: Remote end closed connection without response",
+      "body": ""
+    },
+    {
+      "t": 0.4,
+      "status": 0,
+      "err": "RemoteDisconnected: Remote end closed connection without response",
+      "body": ""
+    },
+    {
+      "t": 0.5,
+      "status": 0,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 0.6,
+      "status": 0,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 0.8,
+      "status": 0,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 0.9,
+      "status": 0,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1.0,
+      "status": 0,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1.1,
+      "status": 0,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1.3,
+      "status": 0,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1.4,
+      "status": 0,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1.5,
+      "status": 0,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1.6,
+      "status": 0,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1.8,
+      "status": 0,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1.9,
+      "status": 0,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 2.0,
+      "status": 0,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    }
+  ],
+  "records": [
+    {
+      "t": 1793792319.425,
+      "s": 200,
+      "ms": 25.6,
+      "err": null,
+      "body": ""
+    },
+    {
+      "t": 1793792319.55,
+      "s": 200,
+      "ms": 9.3,
+      "err": null,
+      "body": ""
+    },
+    {
+      "t": 1793792319.675,
+      "s": 200,
+      "ms": 10.5,
+      "err": null,
+      "body": ""
+    },
+    {
+      "t": 1793792319.799,
+      "s": 200,
+      "ms": 7.8,
+      "err": null,
+      "body": ""
+    },
+    {
+      "t": 1793792319.925,
+      "s": 200,
+      "ms": 10.1,
+      "err": null,
+      "body": ""
+    },
+    {
+      "t": 1793792320.05,
+      "s": 200,
+      "ms": 8.9,
+      "err": null,
+      "body": ""
+    },
+    {
+      "t": 1793792320.174,
+      "s": 200,
+      "ms": 7.3,
+      "err": null,
+      "body": ""
+    },
+    {
+      "t": 1793792320.299,
+      "s": 200,
+      "ms": 7.1,
+      "err": null,
+      "body": ""
+    },
+    {
+      "t": 1793792320.425,
+      "s": 200,
+      "ms": 7.4,
+      "err": null,
+      "body": ""
+    },
+    {
+      "t": 1793792320.55,
+      "s": 200,
+      "ms": 5.8,
+      "err": null,
+      "body": ""
+    },
+    {
+      "t": 1793792320.674,
+      "s": 200,
+      "ms": 5.9,
+      "err": null,
+      "body": ""
+    },
+    {
+      "t": 1793792320.799,
+      "s": 200,
+      "ms": 18.8,
+      "err": null,
+      "body": ""
+    },
+    {
+      "t": 1793792320.924,
+      "s": 200,
+      "ms": 7.7,
+      "err": null,
+      "body": ""
+    },
+    {
+      "t": 1793792321.05,
+      "s": 200,
+      "ms": 7.1,
+      "err": null,
+      "body": ""
+    },
+    {
+      "t": 1793792321.175,
+      "s": 200,
+      "ms": 7.3,
+      "err": null,
+      "body": ""
+    },
+    {
+      "t": 1793792321.299,
+      "s": 200,
+      "ms": 18.5,
+      "err": null,
+      "body": ""
+    },
+    {
+      "t": 1793792321.424,
+      "s": 200,
+      "ms": 7.6,
+      "err": null,
+      "body": ""
+    },
+    {
+      "t": 1793792321.55,
+      "s": 200,
+      "ms": 7.4,
+      "err": null,
+      "body": ""
+    },
+    {
+      "t": 1793792321.675,
+      "s": 200,
+      "ms": 5.8,
+      "err": null,
+      "body": ""
+    },
+    {
+      "t": 1793792321.799,
+      "s": 200,
+      "ms": 17.4,
+      "err": null,
+      "body": ""
+    },
+    {
+      "t": 1793792321.924,
+      "s": 200,
+      "ms": 8.0,
+      "err": null,
+      "body": ""
+    },
+    {
+      "t": 1793792322.05,
+      "s": 200,
+      "ms": 6.6,
+      "err": null,
+      "body": ""
+    },
+    {
+      "t": 1793792322.174,
+      "s": 200,
+      "ms": 7.6,
+      "err": null,
+      "body": ""
+    },
+    {
+      "t": 1793792322.299,
+      "s": 200,
+      "ms": 7.8,
+      "err": null,
+      "body": ""
+    },
+    {
+      "t": 1793792322.425,
+      "s": 200,
+      "ms": 29.3,
+      "err": null,
+      "body": ""
+    },
+    {
+      "t": 1793792322.55,
+      "s": 200,
+      "ms": 7.5,
+      "err": null,
+      "body": ""
+    },
+    {
+      "t": 1793792322.675,
+      "s": 200,
+      "ms": 7.2,
+      "err": null,
+      "body": ""
+    },
+    {
+      "t": 1793792322.799,
+      "s": 200,
+      "ms": 7.7,
+      "err": null,
+      "body": ""
+    },
+    {
+      "t": 1793792322.925,
+      "s": 200,
+      "ms": 8.1,
+      "err": null,
+      "body": ""
+    },
+    {
+      "t": 1793792323.05,
+      "s": 200,
+      "ms": 7.3,
+      "err": null,
+      "body": ""
+    },
+    {
+      "t": 1793792323.174,
+      "s": 200,
+      "ms": 7.4,
+      "err": null,
+      "body": ""
+    },
+    {
+      "t": 1793792323.299,
+      "s": 200,
+      "ms": 6.9,
+      "err": null,
+      "body": ""
+    },
+    {
+      "t": 1793792323.424,
+      "s": 200,
+      "ms": 7.9,
+      "err": null,
+      "body": ""
+    },
+    {
+      "t": 1793792323.549,
+      "s": 200,
+      "ms": 7.6,
+      "err": null,
+      "body": ""
+    },
+    {
+      "t": 1793792323.674,
+      "s": 200,
+      "ms": 6.4,
+      "err": null,
+      "body": ""
+    },
+    {
+      "t": 1793792323.799,
+      "s": 200,
+      "ms": 6.8,
+      "err": null,
+      "body": ""
+    },
+    {
+      "t": 1793792323.925,
+      "s": 200,
+      "ms": 8.4,
+      "err": null,
+      "body": ""
+    },
+    {
+      "t": 1793792324.05,
+      "s": 200,
+      "ms": 7.7,
+      "err": null,
+      "body": ""
+    },
+    {
+      "t": 1793792324.174,
+      "s": 200,
+      "ms": 10.4,
+      "err": null,
+      "body": ""
+    },
+    {
+      "t": 1793792324.299,
+      "s": 200,
+      "ms": 7.7,
+      "err": null,
+      "body": ""
+    },
+    {
+      "t": 1793792324.424,
+      "s": 200,
+      "ms": 6.8,
+      "err": null,
+      "body": ""
+    },
+    {
+      "t": 1793792324.55,
+      "s": 0,
+      "ms": 12.2,
+      "err": "RemoteDisconnected: Remote end closed connection without response",
+      "body": ""
+    },
+    {
+      "t": 1793792324.675,
+      "s": 0,
+      "ms": 5.1,
+      "err": "RemoteDisconnected: Remote end closed connection without response",
+      "body": ""
+    },
+    {
+      "t": 1793792324.8,
+      "s": 0,
+      "ms": 6008.5,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792324.925,
+      "s": 0,
+      "ms": 6008.3,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792325.05,
+      "s": 0,
+      "ms": 6006.4,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792325.176,
+      "s": 0,
+      "ms": 6007.1,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792325.301,
+      "s": 0,
+      "ms": 6007.7,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792325.425,
+      "s": 0,
+      "ms": 6009.0,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792325.55,
+      "s": 0,
+      "ms": 6009.0,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792325.676,
+      "s": 0,
+      "ms": 6008.4,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792325.799,
+      "s": 0,
+      "ms": 6011.3,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792325.924,
+      "s": 0,
+      "ms": 6010.3,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792326.05,
+      "s": 0,
+      "ms": 6008.1,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792326.176,
+      "s": 0,
+      "ms": 6006.5,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792326.3,
+      "s": 0,
+      "ms": 6007.5,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792326.425,
+      "s": 0,
+      "ms": 6006.2,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792326.551,
+      "s": 0,
+      "ms": 6006.4,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792326.675,
+      "s": 0,
+      "ms": 6007.1,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792326.8,
+      "s": 0,
+      "ms": 6006.3,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792326.926,
+      "s": 0,
+      "ms": 6019.9,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792327.049,
+      "s": 0,
+      "ms": 6020.9,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792327.176,
+      "s": 0,
+      "ms": 6002.7,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792327.3,
+      "s": 0,
+      "ms": 6002.0,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792327.425,
+      "s": 0,
+      "ms": 6002.8,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792327.55,
+      "s": 0,
+      "ms": 6003.4,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792327.676,
+      "s": 0,
+      "ms": 6002.8,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792327.8,
+      "s": 0,
+      "ms": 6015.5,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792327.926,
+      "s": 0,
+      "ms": 6014.5,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792328.05,
+      "s": 0,
+      "ms": 6014.9,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792328.175,
+      "s": 0,
+      "ms": 6014.8,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792328.3,
+      "s": 0,
+      "ms": 6014.3,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792328.425,
+      "s": 0,
+      "ms": 6012.6,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792328.551,
+      "s": 0,
+      "ms": 6013.1,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792328.675,
+      "s": 0,
+      "ms": 6013.6,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792328.8,
+      "s": 0,
+      "ms": 6011.5,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792328.925,
+      "s": 0,
+      "ms": 6011.7,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792329.05,
+      "s": 0,
+      "ms": 6012.1,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792329.175,
+      "s": 0,
+      "ms": 6012.8,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792329.301,
+      "s": 0,
+      "ms": 6013.7,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792329.425,
+      "s": 0,
+      "ms": 6015.8,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792329.55,
+      "s": 0,
+      "ms": 6014.4,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792329.675,
+      "s": 0,
+      "ms": 6014.1,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792329.8,
+      "s": 0,
+      "ms": 6012.9,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792329.925,
+      "s": 0,
+      "ms": 6013.1,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792330.05,
+      "s": 0,
+      "ms": 6011.5,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792330.175,
+      "s": 0,
+      "ms": 6010.2,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792330.3,
+      "s": 0,
+      "ms": 6009.2,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792330.425,
+      "s": 0,
+      "ms": 6007.7,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792330.55,
+      "s": 0,
+      "ms": 6007.9,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792330.676,
+      "s": 0,
+      "ms": 6007.2,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792330.8,
+      "s": 0,
+      "ms": 6007.2,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792330.925,
+      "s": 0,
+      "ms": 6023.0,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792331.05,
+      "s": 0,
+      "ms": 6007.2,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792331.174,
+      "s": 0,
+      "ms": 6006.7,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792331.3,
+      "s": 0,
+      "ms": 6007.6,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792331.424,
+      "s": 0,
+      "ms": 6008.2,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792331.55,
+      "s": 0,
+      "ms": 6007.0,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792331.674,
+      "s": 0,
+      "ms": 6008.9,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792331.799,
+      "s": 0,
+      "ms": 6007.6,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792331.924,
+      "s": 0,
+      "ms": 6005.1,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792332.05,
+      "s": 0,
+      "ms": 6005.3,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792332.174,
+      "s": 0,
+      "ms": 6003.6,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792332.3,
+      "s": 0,
+      "ms": 6003.6,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792332.425,
+      "s": 0,
+      "ms": 6003.8,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792332.549,
+      "s": 0,
+      "ms": 6004.8,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792332.675,
+      "s": 0,
+      "ms": 6003.8,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792332.8,
+      "s": 0,
+      "ms": 6004.0,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792332.925,
+      "s": 0,
+      "ms": 6004.0,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792333.05,
+      "s": 0,
+      "ms": 6003.1,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792333.175,
+      "s": 0,
+      "ms": 6002.1,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792333.299,
+      "s": 0,
+      "ms": 6002.1,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792333.424,
+      "s": 0,
+      "ms": 6015.7,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792333.55,
+      "s": 0,
+      "ms": 6015.5,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792333.674,
+      "s": 0,
+      "ms": 6013.8,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792333.799,
+      "s": 0,
+      "ms": 6011.1,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792333.925,
+      "s": 0,
+      "ms": 6011.2,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792334.05,
+      "s": 0,
+      "ms": 6010.6,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792334.175,
+      "s": 0,
+      "ms": 6025.8,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792334.3,
+      "s": 0,
+      "ms": 6010.5,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792334.424,
+      "s": 0,
+      "ms": 6011.7,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792334.55,
+      "s": 0,
+      "ms": 6009.8,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792334.675,
+      "s": 0,
+      "ms": 6008.6,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792334.8,
+      "s": 0,
+      "ms": 6008.6,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792334.924,
+      "s": 0,
+      "ms": 6009.5,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792335.05,
+      "s": 0,
+      "ms": 6008.5,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792335.175,
+      "s": 0,
+      "ms": 6008.4,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792335.299,
+      "s": 0,
+      "ms": 6007.5,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792335.424,
+      "s": 0,
+      "ms": 6006.9,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792335.55,
+      "s": 0,
+      "ms": 6006.5,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792335.675,
+      "s": 0,
+      "ms": 6006.3,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792335.8,
+      "s": 0,
+      "ms": 6005.1,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792335.924,
+      "s": 0,
+      "ms": 6005.2,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792336.05,
+      "s": 0,
+      "ms": 6005.0,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792336.175,
+      "s": 0,
+      "ms": 6005.6,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792336.3,
+      "s": 0,
+      "ms": 6004.6,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792336.425,
+      "s": 0,
+      "ms": 6004.1,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792336.55,
+      "s": 0,
+      "ms": 6004.7,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792336.674,
+      "s": 0,
+      "ms": 6005.3,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792336.8,
+      "s": 0,
+      "ms": 6004.8,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792336.924,
+      "s": 0,
+      "ms": 6005.6,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792337.049,
+      "s": 0,
+      "ms": 6006.3,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792337.175,
+      "s": 0,
+      "ms": 6006.8,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792337.3,
+      "s": 0,
+      "ms": 6004.6,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792337.424,
+      "s": 0,
+      "ms": 6005.0,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792337.55,
+      "s": 0,
+      "ms": 6003.9,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792337.674,
+      "s": 0,
+      "ms": 6005.6,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792337.8,
+      "s": 0,
+      "ms": 6003.1,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792337.925,
+      "s": 0,
+      "ms": 6003.7,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792338.049,
+      "s": 0,
+      "ms": 6003.4,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792338.174,
+      "s": 0,
+      "ms": 6003.0,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792338.3,
+      "s": 0,
+      "ms": 6016.7,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792338.425,
+      "s": 0,
+      "ms": 6015.2,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792338.549,
+      "s": 0,
+      "ms": 6015.1,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792338.675,
+      "s": 0,
+      "ms": 6031.8,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792338.799,
+      "s": 0,
+      "ms": 6015.3,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792338.924,
+      "s": 0,
+      "ms": 6014.5,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792339.05,
+      "s": 0,
+      "ms": 6031.7,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792339.174,
+      "s": 0,
+      "ms": 6015.7,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792339.299,
+      "s": 0,
+      "ms": 6012.6,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792339.424,
+      "s": 0,
+      "ms": 6013.0,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792339.55,
+      "s": 0,
+      "ms": 6013.0,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792339.675,
+      "s": 0,
+      "ms": 6013.4,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792339.799,
+      "s": 0,
+      "ms": 6014.5,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792339.925,
+      "s": 0,
+      "ms": 6012.4,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792340.049,
+      "s": 0,
+      "ms": 6014.5,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792340.175,
+      "s": 0,
+      "ms": 6012.2,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792340.3,
+      "s": 0,
+      "ms": 6009.7,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792340.424,
+      "s": 0,
+      "ms": 6009.7,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792340.55,
+      "s": 0,
+      "ms": 6009.3,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792340.674,
+      "s": 0,
+      "ms": 6010.8,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792340.8,
+      "s": 0,
+      "ms": 6010.3,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792340.924,
+      "s": 0,
+      "ms": 6011.1,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792341.049,
+      "s": 0,
+      "ms": 6011.2,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792341.174,
+      "s": 0,
+      "ms": 6010.1,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792341.314,
+      "s": 0,
+      "ms": 6010.8,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792341.425,
+      "s": 0,
+      "ms": 6008.0,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792341.549,
+      "s": 0,
+      "ms": 6008.1,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    },
+    {
+      "t": 1793792341.674,
+      "s": 0,
+      "ms": 6006.2,
+      "err": "TimeoutError: timed out",
+      "body": ""
+    }
+  ],
+  "endpoints": [
+    [
+      -6.34,
+      1
+    ],
+    [
+      0.23,
+      0
+    ],
+    [
+      1.7,
+      1
+    ],
+    [
+      1.71,
+      1
+    ]
+  ]
+}

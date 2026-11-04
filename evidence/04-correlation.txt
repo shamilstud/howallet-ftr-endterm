@@ -1,0 +1,14 @@
+$ # A) client supplies X-Request-Id: gateway forwards it, API adopts it
+$ curl -s -o /dev/null -w 'HTTP %{http_code}\n' -H 'X-Request-Id: endterm-corr-A-001' -H "Authorization: Bearer $(cat evidence/token.txt)" http://127.0.0.1:30080/api/households
+HTTP 200
+$ kubectl -n university logs -l app=gateway --tail=300 | grep endterm-corr-A-001
+{"time":"2026-11-04T11:22:28+00:00","request_id":"endterm-corr-A-001","method":"GET","uri":"/api/households","status":200,"upstream_addr":"10.244.0.23:8080","request_time":0.015,"upstream_response_time":"0.014"}
+$ kubectl -n university logs -l app=api --tail=1000 | grep endterm-corr-A-001
+{"time":"2026-11-04T11:22:28.606293453Z","level":"INFO","msg":"request","method":"GET","path":"/api/households","status":200,"duration":14014531,"remote":"10.244.0.1","request_id":"endterm-corr-A-001","user_id":"e078777c-ffd0-4fea-b2a4-24f318c959f1"}
+$ # B) no incoming id: nginx mints $request_id; take it from the gateway log and find it in the API log
+$ curl -s -o /dev/null -w 'HTTP %{http_code}\n' -H "Authorization: Bearer $(cat evidence/token.txt)" 'http://127.0.0.1:30080/api/households?corr=B'
+HTTP 200
+$ RID=$(kubectl -n university logs -l app=gateway --tail=300 | grep 'households' | grep -v endterm-corr | tail -1 | python -c 'import sys,json; print(json.loads(sys.stdin.read())["request_id"])'); echo "gateway-generated id: $RID"; kubectl -n university logs -l app=gateway --tail=300 | grep "$RID"; kubectl -n university logs -l app=api --tail=1000 | grep "$RID"
+gateway-generated id: 715b152b146a75d71299d05c96c92b72
+{"time":"2026-11-04T11:22:32+00:00","request_id":"715b152b146a75d71299d05c96c92b72","method":"GET","uri":"/api/households","status":200,"upstream_addr":"10.244.0.22:8080","request_time":0.008,"upstream_response_time":"0.008"}
+{"time":"2026-11-04T11:22:32.843167162Z","level":"INFO","msg":"request","method":"GET","path":"/api/households","status":200,"duration":6420177,"remote":"10.244.0.1","request_id":"715b152b146a75d71299d05c96c92b72","user_id":"e078777c-ffd0-4fea-b2a4-24f318c959f1"}

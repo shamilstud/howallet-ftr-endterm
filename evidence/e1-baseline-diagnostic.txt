@@ -1,0 +1,85 @@
+$ bash scripts/e1_diag.sh
+16:40:37.085 delete pod api-baseline-69bbd8cf45-2zq5v (graceful, no preStop)
+pod "api-baseline-69bbd8cf45-2zq5v" deleted from university namespace
+--- host: count by result
+      2 000ERR
+     58 200
+first/last non-200:
+16:40:37.833 host 000ERR
+16:40:38.700 host 000ERR
+--- node: count by result
+      2 000ERR
+     58 200
+first/last non-200:
+16:40:36.898 node 000ERR
+16:40:38.241 node 000ERR
+--- pod: count by result
+     59 200
+      1 ERR
+first/last non-200:
+16:40:37.339 pod ERR
+16:40:37.339 pod ERR
+$ python scripts/e1_diag2.py
+[16:42:17.672] known state e1-diag2: all workloads ready, no alerts (waited 0.0s for alerts to clear)
+[16:42:22.113] delete api-baseline-69bbd8cf45-8czgq pod "api-baseline-69bbd8cf45-8czgq" deleted from university namespace
+host probe after injection: {'requests': 244, 'success': 93, 'failed': 151, 'excluded': 0, 'error_rate_pct': 61.89, 'availability_pct': 38.11, 'lat_avg_ms': 4374.7, 'lat_p95_ms': 6016.7, 'lat_max_ms': 6033.6, 'codes': {'200': 93, 'conn_error': 2, 'timeout': 149}}
+host last failure starts at t+20.1s
+in-node curl after injection: 7 requests, 7 not 200; non-200 at t+ ['0.4s:\'000\'\'000\'\'000\'{"error":"missing authorization header"}\n\'401\'', '5.0s:\'000\'\'000\'\'000\'{"error":"missing authorization header"}\n\'401\'', '9.7s:\'000\'\'000\'\'000\'{"error":"missing authorization header"}\n\'401\'', '14.2s:\'000\'\'000\'\'000\'{"error":"missing authorization header"}\n\'401\'', '19.0s:\'000\'\'000\'\'000\'{"error":"missing authorization header"}\n\'401\'', '23.6s:\'000\'\'000\'\'000\'{"error":"missing authorization header"}\n\'401\'', '28.2s:\'000\'\'000\'\'000\'{"error":"missing authorization header"}\n\'401\'']
+$ python scripts/e1_diag3.py
+[16:43:50.465] known state e1-diag3: all workloads ready, no alerts (waited 0.0s for alerts to clear)
+[16:43:50.871] delete api-baseline-69bbd8cf45-kfcw9 pod "api-baseline-69bbd8cf45-kfcw9" deleted from university namespace
+t+  0.3s metrics=ERR acquired=None total=None max=None in_flight=None | /api/accounts -> ConnectionAbortedError: [WinEr in 18.0 ms
+t+  1.3s metrics=ERR acquired=None total=None max=None in_flight=None | /api/accounts -> RemoteDisconnected: Remote end in 3.2 ms
+t+  2.3s metrics=200 acquired=0 total=18 max=40 in_flight=0 | /api/accounts -> 200 in 22.3 ms
+t+  3.3s metrics=200 acquired=0 total=18 max=40 in_flight=0 | /api/accounts -> 200 in 7.4 ms
+t+  4.3s metrics=200 acquired=0 total=18 max=40 in_flight=0 | /api/accounts -> 200 in 6.4 ms
+t+  5.3s metrics=200 acquired=0 total=18 max=40 in_flight=0 | /api/accounts -> 200 in 8.0 ms
+t+  6.4s metrics=200 acquired=0 total=18 max=40 in_flight=0 | /api/accounts -> 200 in 7.7 ms
+t+  7.4s metrics=200 acquired=0 total=18 max=40 in_flight=0 | /api/accounts -> 200 in 8.8 ms
+t+  8.4s metrics=200 acquired=0 total=18 max=40 in_flight=0 | /api/accounts -> 200 in 6.0 ms
+t+  9.4s metrics=200 acquired=0 total=18 max=40 in_flight=0 | /api/accounts -> 200 in 6.1 ms
+t+ 10.4s metrics=200 acquired=0 total=18 max=40 in_flight=0 | /api/accounts -> 200 in 7.0 ms
+t+ 11.4s metrics=200 acquired=0 total=18 max=40 in_flight=0 | /api/accounts -> 200 in 9.7 ms
+t+ 12.5s metrics=200 acquired=0 total=18 max=40 in_flight=0 | /api/accounts -> 200 in 22.6 ms
+t+ 13.5s metrics=200 acquired=0 total=18 max=40 in_flight=0 | /api/accounts -> 200 in 6.0 ms
+t+ 14.5s metrics=200 acquired=0 total=18 max=40 in_flight=0 | /api/accounts -> 200 in 16.4 ms
+t+ 15.5s metrics=200 acquired=0 total=18 max=40 in_flight=0 | /api/accounts -> 200 in 5.9 ms
+t+ 16.6s metrics=200 acquired=0 total=18 max=40 in_flight=0 | /api/accounts -> 200 in 6.6 ms
+t+ 17.6s metrics=200 acquired=0 total=18 max=40 in_flight=0 | /api/accounts -> 200 in 8.1 ms
+t+ 18.6s metrics=200 acquired=0 total=18 max=40 in_flight=0 | /api/accounts -> 200 in 6.7 ms
+t+ 19.6s metrics=200 acquired=0 total=18 max=40 in_flight=0 | /api/accounts -> 200 in 7.4 ms
+t+ 20.6s metrics=200 acquired=0 total=18 max=40 in_flight=0 | /api/accounts -> 200 in 6.0 ms
+t+ 21.7s metrics=200 acquired=0 total=18 max=40 in_flight=0 | /api/accounts -> 200 in 6.8 ms
+t+ 22.7s metrics=200 acquired=0 total=18 max=40 in_flight=0 | /api/accounts -> 200 in 7.2 ms
+t+ 23.7s metrics=200 acquired=0 total=18 max=40 in_flight=0 | /api/accounts -> 200 in 7.3 ms
+t+ 24.7s metrics=200 acquired=0 total=18 max=40 in_flight=0 | /api/accounts -> 200 in 7.1 ms
+t+ 25.7s metrics=200 acquired=0 total=18 max=40 in_flight=0 | /api/accounts -> 200 in 7.5 ms
+t+ 26.7s metrics=200 acquired=0 total=18 max=40 in_flight=0 | /api/accounts -> 200 in 7.4 ms
+t+ 27.8s metrics=200 acquired=0 total=18 max=40 in_flight=0 | /api/accounts -> 200 in 7.7 ms
+t+ 28.8s metrics=200 acquired=0 total=18 max=40 in_flight=0 | /api/accounts -> 200 in 6.7 ms
+t+ 29.8s metrics=200 acquired=0 total=18 max=40 in_flight=0 | /api/accounts -> 200 in 15.3 ms
+t+ 30.8s metrics=200 acquired=0 total=18 max=40 in_flight=0 | /api/accounts -> 200 in 7.0 ms
+t+ 31.8s metrics=200 acquired=0 total=18 max=40 in_flight=0 | /api/accounts -> 200 in 7.5 ms
+new pod job log lines:
+{"time":"2026-11-04T11:43:52.000027702Z","level":"INFO","msg":"background job done","job":"integration_probes","items":8,"duration_ms":634}
+{"time":"2026-11-04T11:44:11.789537469Z","level":"ERROR","msg":"background job failed","job":"exchange_rates","error":"rates source returned 522: error code: 522\n","duration_ms":20425}
+$ python scripts/e1_diag3.py 8
+[16:44:41.844] known state e1-diag3: all workloads ready, no alerts (waited 0.0s for alerts to clear)
+[16:44:45.261] background probe 8.0 req/s; delete api-baseline-69bbd8cf45-55ct7 pod "api-baseline-69bbd8cf45-55ct7" deleted from university namespace
+t+  0.3s metrics=ERR acquired=None total=None max=None in_flight=None | /api/accounts -> RemoteDisconnected: Remote end in 41.9 ms
+t+  6.3s metrics=ERR acquired=None total=None max=None in_flight=None | /api/accounts -> TimeoutError: timed out in 3008.6 ms
+t+ 12.3s metrics=ERR acquired=None total=None max=None in_flight=None | /api/accounts -> TimeoutError: timed out in 3001.8 ms
+t+ 18.4s metrics=ERR acquired=None total=None max=None in_flight=None | /api/accounts -> TimeoutError: timed out in 3015.4 ms
+t+ 24.4s metrics=ERR acquired=None total=None max=None in_flight=None | /api/accounts -> TimeoutError: timed out in 3009.2 ms
+t+ 25.8s metrics=200 acquired=33 total=40 max=40 in_flight=34 | /api/accounts -> 200 in 391.8 ms
+t+ 26.8s metrics=200 acquired=0 total=32 max=40 in_flight=0 | /api/accounts -> 200 in 7.9 ms
+t+ 27.8s metrics=200 acquired=0 total=32 max=40 in_flight=0 | /api/accounts -> 200 in 5.8 ms
+t+ 28.9s metrics=200 acquired=0 total=32 max=40 in_flight=0 | /api/accounts -> 200 in 6.2 ms
+t+ 29.9s metrics=200 acquired=0 total=32 max=40 in_flight=0 | /api/accounts -> 200 in 7.6 ms
+t+ 30.9s metrics=200 acquired=0 total=32 max=40 in_flight=0 | /api/accounts -> 200 in 7.4 ms
+t+ 31.9s metrics=200 acquired=0 total=32 max=40 in_flight=0 | /api/accounts -> 200 in 26.5 ms
+background probe after injection: {'requests': 265, 'success': 108, 'failed': 157, 'excluded': 0, 'error_rate_pct': 59.25, 'availability_pct': 40.75, 'lat_avg_ms': 4050.1, 'lat_p95_ms': 6020.3, 'lat_max_ms': 6036.1, 'codes': {'200': 108, 'conn_error': 2, 'timeout': 155}}
+new pod job log lines:
+{"time":"2026-11-04T11:44:45.784587143Z","level":"INFO","msg":"connected to database","pool_max_conns":40,"pool_min_conns":5}
+{"time":"2026-11-04T11:44:46.492210778Z","level":"INFO","msg":"background job done","job":"integration_probes","items":8,"duration_ms":675}
+{"time":"2026-11-04T11:45:06.077502117Z","level":"ERROR","msg":"background job failed","job":"exchange_rates","error":"rates source returned 522: error code: 522\n","duration_ms":20258}

@@ -1,0 +1,55 @@
+$ python scripts/exps.py e5
+[17:17:04.536] known state e5: all workloads ready, no alerts (waited 0.0s for alerts to clear)
+=== E5 access control ===
+victim household A=f6a66eb6-d824-43f9-ad5c-7768f768c410 (user main); attacker = user other (own household cad78195-3e43-404d-bc9a-889002836472)
+SQL snapshot A before: accounts=1 transactions=3 accounts_md5=ee8af40e44b655f4b39677e3bb411f36 txn_md5=75910a9704104c5835816d038980fa5d
+  e5-01 no token GET /api/accounts                           -> HTTP 401  {"error":"missing authorization header"} 
+  e5-02 no token POST /api/transactions                      -> HTTP 401  {"error":"missing authorization header"} 
+  e5-03 garbage token GET /api/households                    -> HTTP 401  {"error":"invalid or expired token"} 
+  e5-04 token signed with wrong secret                       -> HTTP 401  {"error":"invalid or expired token"} 
+  e5-05 B reads A's accounts (X-Household-ID=A)              -> HTTP 404  {"error":"household not found"} 
+  e5-06 B reads A's transactions                             -> HTTP 404  {"error":"household not found"} 
+  e5-07 B creates expense on A's account                     -> HTTP 404  {"error":"household not found"} 
+  e5-08 B deletes A's account                                -> HTTP 404  {"error":"household not found"} 
+  e5-09 B uses own household but A's account id              -> HTTP 400  {"error":"account not found"} 
+  e5-10 B GET /api/households/{A}                            -> HTTP 405  
+  e5-11 A reads own accounts (control)                       -> HTTP 200  [{"id":"150d9c87-ce33-4d18-b325-587beb478899","household_id":"f6a66eb6-d824-43f9-ad5c-7768f768c410","name":"probe-acc","type":"cash","balance":"-1503","currency
+SQL snapshot A after:  accounts=1 transactions=3 accounts_md5=ee8af40e44b655f4b39677e3bb411f36 txn_md5=75910a9704104c5835816d038980fa5d
+household A unchanged: True
+request log lines (gateway + API) by request_id:
+  [e5-01]
+    gateway: {"time":"2026-11-04T12:17:05+00:00","request_id":"e5-01","method":"GET","uri":"/api/accounts","status":401,"upstream_addr":"10.244.0.28:8080","request_time":0.001,"upstream_response_time":"0.001"}
+    api:     {"time":"2026-11-04T12:17:05.08391849Z","level":"INFO","msg":"request","method":"GET","path":"/api/accounts","status":401,"duration":80245,"remote":"10.244.0.1","request_id":"e5-01"}
+  [e5-02]
+    gateway: {"time":"2026-11-04T12:17:05+00:00","request_id":"e5-02","method":"POST","uri":"/api/transactions","status":401,"upstream_addr":"10.244.0.29:8080","request_time":0.002,"upstream_response_time":"0.001"}
+    api:     {"time":"2026-11-04T12:17:05.090394021Z","level":"INFO","msg":"request","method":"POST","path":"/api/transactions","status":401,"duration":96386,"remote":"10.244.0.1","request_id":"e5-02"}
+  [e5-03]
+    gateway: {"time":"2026-11-04T12:17:05+00:00","request_id":"e5-03","method":"GET","uri":"/api/households","status":401,"upstream_addr":"10.244.0.28:8080","request_time":0.001,"upstream_response_time":"0.001"}
+    api:     {"time":"2026-11-04T12:17:05.096101348Z","level":"INFO","msg":"request","method":"GET","path":"/api/households","status":401,"duration":94192,"remote":"10.244.0.1","request_id":"e5-03"}
+  [e5-04]
+    gateway: {"time":"2026-11-04T12:17:05+00:00","request_id":"e5-04","method":"GET","uri":"/api/households","status":401,"upstream_addr":"10.244.0.29:8080","request_time":0.001,"upstream_response_time":"0.002"}
+    api:     {"time":"2026-11-04T12:17:05.11551308Z","level":"INFO","msg":"request","method":"GET","path":"/api/households","status":401,"duration":118319,"remote":"10.244.0.1","request_id":"e5-04"}
+  [e5-05]
+    gateway: {"time":"2026-11-04T12:17:05+00:00","request_id":"e5-05","method":"GET","uri":"/api/accounts","status":404,"upstream_addr":"10.244.0.28:8080","request_time":0.002,"upstream_response_time":"0.002"}
+    api:     {"time":"2026-11-04T12:17:05.12242305Z","level":"INFO","msg":"request","method":"GET","path":"/api/accounts","status":404,"duration":1169369,"remote":"10.244.0.1","request_id":"e5-05","user_id":"853dc17f-10e1-4787-9ba1-14461f12d288"}
+  [e5-06]
+    gateway: {"time":"2026-11-04T12:17:05+00:00","request_id":"e5-06","method":"GET","uri":"/api/transactions","status":404,"upstream_addr":"10.244.0.29:8080","request_time":0.001,"upstream_response_time":"0.002"}
+    api:     {"time":"2026-11-04T12:17:05.128737108Z","level":"INFO","msg":"request","method":"GET","path":"/api/transactions","status":404,"duration":844994,"remote":"10.244.0.1","request_id":"e5-06","user_id":"853dc17f-10e1-4787-9ba1-14461f12d288"}
+  [e5-07]
+    gateway: {"time":"2026-11-04T12:17:05+00:00","request_id":"e5-07","method":"POST","uri":"/api/transactions","status":404,"upstream_addr":"10.244.0.29:8080","request_time":0.002,"upstream_response_time":"0.002"}
+    api:     {"time":"2026-11-04T12:17:05.135854458Z","level":"INFO","msg":"request","method":"POST","path":"/api/transactions","status":404,"duration":760299,"remote":"10.244.0.1","request_id":"e5-07","user_id":"853dc17f-10e1-4787-9ba1-14461f12d288"}
+  [e5-08]
+    gateway: {"time":"2026-11-04T12:17:05+00:00","request_id":"e5-08","method":"DELETE","uri":"/api/accounts/150d9c87-ce33-4d18-b325-587beb478899","status":404,"upstream_addr":"10.244.0.28:8080","request_time":0.002,"upstream_response_time":"0.002"}
+    api:     {"time":"2026-11-04T12:17:05.142555785Z","level":"INFO","msg":"request","method":"DELETE","path":"/api/accounts/150d9c87-ce33-4d18-b325-587beb478899","status":404,"duration":1239724,"remote":"10.244.0.1","request_id":"e5-08","user_id":"853dc17f-10e1-4787-9ba1-14461f12d288"}
+  [e5-09]
+    gateway: {"time":"2026-11-04T12:17:05+00:00","request_id":"e5-09","method":"POST","uri":"/api/transactions","status":400,"upstream_addr":"10.244.0.29:8080","request_time":0.006,"upstream_response_time":"0.006"}
+    api:     {"time":"2026-11-04T12:17:05.153751385Z","level":"INFO","msg":"request","method":"POST","path":"/api/transactions","status":400,"duration":5058080,"remote":"10.244.0.1","request_id":"e5-09","user_id":"853dc17f-10e1-4787-9ba1-14461f12d288","household_id":"cad78195-3e43-404d-bc9a-889002836472"}
+  [e5-10]
+    gateway: {"time":"2026-11-04T12:17:05+00:00","request_id":"e5-10","method":"GET","uri":"/api/households/f6a66eb6-d824-43f9-ad5c-7768f768c410","status":405,"upstream_addr":"10.244.0.28:8080","request_time":0.003,"upstream_response_time":"0.002"}
+    api:     {"time":"2026-11-04T12:17:05.161116766Z","level":"INFO","msg":"request","method":"GET","path":"/api/households/f6a66eb6-d824-43f9-ad5c-7768f768c410","status":405,"duration":1419753,"remote":"10.244.0.1","request_id":"e5-10","user_id":"853dc17f-10e1-4787-9ba1-14461f12d288"}
+  [e5-11]
+    gateway: {"time":"2026-11-04T12:17:05+00:00","request_id":"e5-11","method":"GET","uri":"/api/accounts","status":200,"upstream_addr":"10.244.0.28:8080","request_time":0.004,"upstream_response_time":"0.004"}
+    api:     {"time":"2026-11-04T12:17:05.170056117Z","level":"INFO","msg":"request","method":"GET","path":"/api/accounts","status":200,"duration":2869998,"remote":"10.244.0.1","request_id":"e5-11","user_id":"afe6988a-9de4-4f82-aa11-961f88877568","household_id":"f6a66eb6-d824-43f9-ad5c-7768f768c410"}
+app_logs rows with request_id e5-*: 11
+[['e5-01', '401', '/api/accounts', '-'], ['e5-02', '401', '/api/transactions', '-'], ['e5-03', '401', '/api/households', '-'], ['e5-04', '401', '/api/households', '-'], ['e5-05', '404', '/api/accounts', '853dc17f-10e1-4787-9ba1-14461f12d288'], ['e5-06', '404', '/api/transactions', '853dc17f-10e1-4787-9ba1-14461f12d288'], ['e5-07', '404', '/api/transactions', '853dc17f-10e1-4787-9ba1-14461f12d288'], ['e5-08', '404', '/api/accounts/150d9c87-ce33-4d18-b325-587beb478899', '853dc17f-10e1-4787-9ba1-14461f12d288'], ['e5-09', '400', '/api/transactions', '853dc17f-10e1-4787-9ba1-14461f12d288'], ['e5-10', '405', '/api/households/f6a66eb6-d824-43f9-ad5c-7768f768c410', '853dc17f-10e1-4787-9ba1-14461f12d288'], ['e5-11', '200', '/api/accounts', 'afe6988a-9de4-4f82-aa11-961f88877568']]
+[17:17:09.974] saved evidence\results\e5-access-control.json

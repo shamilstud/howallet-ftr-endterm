@@ -1,0 +1,126 @@
+$ python scripts/exps.py e7 endterm 1
+[17:18:00.452] known state e7-endterm-rep1: all workloads ready, no alerts (waited 24.1s for alerts to clear)
+[17:18:17.553] e7-endterm-rep1: t+16.7s inject `kubectl -n university delete pod api-56b6dc48d5-vlc5l --wait=false` pod "api-56b6dc48d5-vlc5l" deleted from university namespace
+
+=== e7-endterm-rep1 ===
+pods before:
+NAME                            READY   STATUS      RESTARTS        AGE     IP            NODE                        NOMINATED NODE   READINESS GATES
+api-56b6dc48d5-vlc5l            1/1     Running     3 (6m31s ago)   40m     10.244.0.29   ftr-endterm-control-plane   <none>           <none>
+api-56b6dc48d5-x92fh            1/1     Running     0               40m     10.244.0.28   ftr-endterm-control-plane   <none>           <none>
+api-baseline-69bbd8cf45-zzwq5   1/1     Running     0               33m     10.244.0.36   ftr-endterm-control-plane   <none>           <none>
+gateway-5f4ffd5966-cvth8        1/1     Running     0               56m     10.244.0.24   ftr-endterm-control-plane   <none>           <none>
+gateway-5f4ffd5966-x6nwz        1/1     Running     0               56m     10.244.0.25   ftr-endterm-control-plane   <none>           <none>
+grafana-978bd745f-7ct2r         1/1     Running     0               61m     10.244.0.13   ftr-endterm-control-plane   <none>           <none>
+postgres-0                      1/1     Running     0               4m33s   10.244.0.40   ftr-endterm-control-plane   <none>           <none>
+prometheus-6885ddbd9b-77c8q     1/1     Running     0               61m     10.244.0.12   ftr-endterm-control-plane   <none>           <none>
+university-migrate-2xjg6        0/1     Completed   0               61m     10.244.0.7    ftr-endterm-control-plane   <none>           <none>
+5 users x 40 logical creates = 200, each with its own client_id; pod api-56b6dc48d5-vlc5l deleted at t+16.7s; run took 51.6s
+HTTP attempts: 200 by status: {'201': 200}
+final status per logical create: {'201': 200} (200 = server already had it: a retry replayed by client_id)
+logical creates whose first attempt failed: 0
+SQL integrity per account:
+    {'user': 'l1', 'rows': 40, 'distinct_client_id': 40, 'sum_amount': 40820.0, 'expected_sum': 40820, 'balance': -40820.0, 'pass': True}
+    {'user': 'l2', 'rows': 40, 'distinct_client_id': 40, 'sum_amount': 40820.0, 'expected_sum': 40820, 'balance': -40820.0, 'pass': True}
+    {'user': 'l3', 'rows': 40, 'distinct_client_id': 40, 'sum_amount': 40820.0, 'expected_sum': 40820, 'balance': -40820.0, 'pass': True}
+    {'user': 'l4', 'rows': 40, 'distinct_client_id': 40, 'sum_amount': 40820.0, 'expected_sum': 40820, 'balance': -40820.0, 'pass': True}
+    {'user': 'l5', 'rows': 40, 'distinct_client_id': 40, 'sum_amount': 40820.0, 'expected_sum': 40820, 'balance': -40820.0, 'pass': True}
+TOTAL rows=200 (expected 200), duplicate (household_id, client_id) pairs in the whole DB = 0, balance == -sum(amounts) for every account: True
+PASS
+[17:18:55.100] saved evidence\results\e7-endterm-rep1.json
+$ python scripts/exps.py e7 baseline 1
+[17:18:56.155] known state e7-baseline-rep1: all workloads ready, no alerts (waited 0.0s for alerts to clear)
+[17:19:13.261] e7-baseline-rep1: t+16.7s inject `kubectl -n university delete pod api-baseline-69bbd8cf45-zzwq5 --wait=false` pod "api-baseline-69bbd8cf45-zzwq5" deleted from university namespace
+
+=== e7-baseline-rep1 ===
+pods before:
+NAME                            READY   STATUS      RESTARTS   AGE     IP            NODE                        NOMINATED NODE   READINESS GATES
+api-56b6dc48d5-t8ljp            1/1     Running     0          39s     10.244.0.41   ftr-endterm-control-plane   <none>           <none>
+api-56b6dc48d5-x92fh            1/1     Running     0          41m     10.244.0.28   ftr-endterm-control-plane   <none>           <none>
+api-baseline-69bbd8cf45-zzwq5   1/1     Running     0          34m     10.244.0.36   ftr-endterm-control-plane   <none>           <none>
+gateway-5f4ffd5966-cvth8        1/1     Running     0          57m     10.244.0.24   ftr-endterm-control-plane   <none>           <none>
+gateway-5f4ffd5966-x6nwz        1/1     Running     0          57m     10.244.0.25   ftr-endterm-control-plane   <none>           <none>
+grafana-978bd745f-7ct2r         1/1     Running     0          62m     10.244.0.13   ftr-endterm-control-plane   <none>           <none>
+postgres-0                      1/1     Running     0          5m29s   10.244.0.40   ftr-endterm-control-plane   <none>           <none>
+prometheus-6885ddbd9b-77c8q     1/1     Running     0          62m     10.244.0.12   ftr-endterm-control-plane   <none>           <none>
+university-migrate-2xjg6        0/1     Completed   0          62m     10.244.0.7    ftr-endterm-control-plane   <none>           <none>
+5 users x 40 logical creates = 200, each with its own client_id; pod api-baseline-69bbd8cf45-zzwq5 deleted at t+16.7s; run took 53.4s
+HTTP attempts: 207 by status: {'201': 200, 'conn_error/timeout': 7}
+final status per logical create: {'201': 200} (200 = server already had it: a retry replayed by client_id)
+logical creates whose first attempt failed: 5
+    4403db6d-64ba-4d35-a6a7-a8b07d56b27b [(17.76, 'RemoteDisconnected: Remote end'), (18.28, 201)]
+    ffa405aa-e99b-495c-8b1e-18819b3334d4 [(17.76, 'RemoteDisconnected: Remote end'), (18.28, 'RemoteDisconnected: Remote end'), (18.79, 201)]
+    a2533050-6bff-4f48-857a-7d764f59e913 [(17.77, 'RemoteDisconnected: Remote end'), (18.28, 'RemoteDisconnected: Remote end'), (19.81, 201)]
+    84209f28-c290-4d3a-8181-c5189fd1d486 [(17.77, 'RemoteDisconnected: Remote end'), (18.28, 201)]
+    53be061e-6fc9-498f-b441-d0b5a8ac467e [(17.77, 'RemoteDisconnected: Remote end'), (18.28, 201)]
+SQL integrity per account:
+    {'user': 'l1', 'rows': 40, 'distinct_client_id': 40, 'sum_amount': 40820.0, 'expected_sum': 40820, 'balance': -40820.0, 'pass': True}
+    {'user': 'l2', 'rows': 40, 'distinct_client_id': 40, 'sum_amount': 40820.0, 'expected_sum': 40820, 'balance': -40820.0, 'pass': True}
+    {'user': 'l3', 'rows': 40, 'distinct_client_id': 40, 'sum_amount': 40820.0, 'expected_sum': 40820, 'balance': -40820.0, 'pass': True}
+    {'user': 'l4', 'rows': 40, 'distinct_client_id': 40, 'sum_amount': 40820.0, 'expected_sum': 40820, 'balance': -40820.0, 'pass': True}
+    {'user': 'l5', 'rows': 40, 'distinct_client_id': 40, 'sum_amount': 40820.0, 'expected_sum': 40820, 'balance': -40820.0, 'pass': True}
+TOTAL rows=200 (expected 200), duplicate (household_id, client_id) pairs in the whole DB = 0, balance == -sum(amounts) for every account: True
+PASS
+[17:19:52.592] saved evidence\results\e7-baseline-rep1.json
+$ python scripts/exps.py e7 endterm 2
+[17:19:53.761] known state e7-endterm-rep2: all workloads ready, no alerts (waited 0.0s for alerts to clear)
+[17:20:10.853] e7-endterm-rep2: t+16.7s inject `kubectl -n university delete pod api-56b6dc48d5-t8ljp --wait=false` pod "api-56b6dc48d5-t8ljp" deleted from university namespace
+
+=== e7-endterm-rep2 ===
+pods before:
+NAME                            READY   STATUS      RESTARTS   AGE     IP            NODE                        NOMINATED NODE   READINESS GATES
+api-56b6dc48d5-t8ljp            1/1     Running     0          96s     10.244.0.41   ftr-endterm-control-plane   <none>           <none>
+api-56b6dc48d5-x92fh            1/1     Running     0          42m     10.244.0.28   ftr-endterm-control-plane   <none>           <none>
+api-baseline-69bbd8cf45-w5sr2   1/1     Running     0          40s     10.244.0.42   ftr-endterm-control-plane   <none>           <none>
+gateway-5f4ffd5966-cvth8        1/1     Running     0          58m     10.244.0.24   ftr-endterm-control-plane   <none>           <none>
+gateway-5f4ffd5966-x6nwz        1/1     Running     0          58m     10.244.0.25   ftr-endterm-control-plane   <none>           <none>
+grafana-978bd745f-7ct2r         1/1     Running     0          63m     10.244.0.13   ftr-endterm-control-plane   <none>           <none>
+postgres-0                      1/1     Running     0          6m26s   10.244.0.40   ftr-endterm-control-plane   <none>           <none>
+prometheus-6885ddbd9b-77c8q     1/1     Running     0          63m     10.244.0.12   ftr-endterm-control-plane   <none>           <none>
+university-migrate-2xjg6        0/1     Completed   0          63m     10.244.0.7    ftr-endterm-control-plane   <none>           <none>
+5 users x 40 logical creates = 200, each with its own client_id; pod api-56b6dc48d5-t8ljp deleted at t+16.7s; run took 51.5s
+HTTP attempts: 200 by status: {'201': 200}
+final status per logical create: {'201': 200} (200 = server already had it: a retry replayed by client_id)
+logical creates whose first attempt failed: 0
+SQL integrity per account:
+    {'user': 'l1', 'rows': 40, 'distinct_client_id': 40, 'sum_amount': 40820.0, 'expected_sum': 40820, 'balance': -40820.0, 'pass': True}
+    {'user': 'l2', 'rows': 40, 'distinct_client_id': 40, 'sum_amount': 40820.0, 'expected_sum': 40820, 'balance': -40820.0, 'pass': True}
+    {'user': 'l3', 'rows': 40, 'distinct_client_id': 40, 'sum_amount': 40820.0, 'expected_sum': 40820, 'balance': -40820.0, 'pass': True}
+    {'user': 'l4', 'rows': 40, 'distinct_client_id': 40, 'sum_amount': 40820.0, 'expected_sum': 40820, 'balance': -40820.0, 'pass': True}
+    {'user': 'l5', 'rows': 40, 'distinct_client_id': 40, 'sum_amount': 40820.0, 'expected_sum': 40820, 'balance': -40820.0, 'pass': True}
+TOTAL rows=200 (expected 200), duplicate (household_id, client_id) pairs in the whole DB = 0, balance == -sum(amounts) for every account: True
+PASS
+[17:20:48.335] saved evidence\results\e7-endterm-rep2.json
+$ python scripts/exps.py e7 baseline 2
+[17:20:49.387] known state e7-baseline-rep2: all workloads ready, no alerts (waited 0.0s for alerts to clear)
+[17:21:06.437] e7-baseline-rep2: t+16.7s inject `kubectl -n university delete pod api-baseline-69bbd8cf45-w5sr2 --wait=false` pod "api-baseline-69bbd8cf45-w5sr2" deleted from university namespace
+
+=== e7-baseline-rep2 ===
+pods before:
+NAME                            READY   STATUS      RESTARTS   AGE     IP            NODE                        NOMINATED NODE   READINESS GATES
+api-56b6dc48d5-k6mnv            1/1     Running     0          39s     10.244.0.43   ftr-endterm-control-plane   <none>           <none>
+api-56b6dc48d5-x92fh            1/1     Running     0          43m     10.244.0.28   ftr-endterm-control-plane   <none>           <none>
+api-baseline-69bbd8cf45-w5sr2   1/1     Running     0          96s     10.244.0.42   ftr-endterm-control-plane   <none>           <none>
+gateway-5f4ffd5966-cvth8        1/1     Running     0          59m     10.244.0.24   ftr-endterm-control-plane   <none>           <none>
+gateway-5f4ffd5966-x6nwz        1/1     Running     0          59m     10.244.0.25   ftr-endterm-control-plane   <none>           <none>
+grafana-978bd745f-7ct2r         1/1     Running     0          63m     10.244.0.13   ftr-endterm-control-plane   <none>           <none>
+postgres-0                      1/1     Running     0          7m22s   10.244.0.40   ftr-endterm-control-plane   <none>           <none>
+prometheus-6885ddbd9b-77c8q     1/1     Running     0          64m     10.244.0.12   ftr-endterm-control-plane   <none>           <none>
+university-migrate-2xjg6        0/1     Completed   0          64m     10.244.0.7    ftr-endterm-control-plane   <none>           <none>
+5 users x 40 logical creates = 200, each with its own client_id; pod api-baseline-69bbd8cf45-w5sr2 deleted at t+16.7s; run took 53.3s
+HTTP attempts: 207 by status: {'201': 200, 'conn_error/timeout': 7}
+final status per logical create: {'201': 200} (200 = server already had it: a retry replayed by client_id)
+logical creates whose first attempt failed: 5
+    7168ab51-aa29-43af-9dcf-a1fc05be2a7a [(17.76, 'URLError: <urlopen error [WinE'), (18.28, 201)]
+    29ec9d1d-73e4-4d3c-8bd8-c9a2e9f33c7e [(17.76, 'URLError: <urlopen error [WinE'), (18.28, 201)]
+    457d6599-dc36-4672-9fe2-f070774a6da7 [(17.77, 'RemoteDisconnected: Remote end'), (18.27, 'RemoteDisconnected: Remote end'), (18.77, 201)]
+    52e1a1de-98c2-46f1-951a-d3022e13261a [(17.77, 'RemoteDisconnected: Remote end'), (18.27, 'RemoteDisconnected: Remote end'), (19.8, 201)]
+    a19f94fe-e3b5-4222-9907-3a4f06421348 [(17.77, 'RemoteDisconnected: Remote end'), (18.28, 201)]
+SQL integrity per account:
+    {'user': 'l1', 'rows': 40, 'distinct_client_id': 40, 'sum_amount': 40820.0, 'expected_sum': 40820, 'balance': -40820.0, 'pass': True}
+    {'user': 'l2', 'rows': 40, 'distinct_client_id': 40, 'sum_amount': 40820.0, 'expected_sum': 40820, 'balance': -40820.0, 'pass': True}
+    {'user': 'l3', 'rows': 40, 'distinct_client_id': 40, 'sum_amount': 40820.0, 'expected_sum': 40820, 'balance': -40820.0, 'pass': True}
+    {'user': 'l4', 'rows': 40, 'distinct_client_id': 40, 'sum_amount': 40820.0, 'expected_sum': 40820, 'balance': -40820.0, 'pass': True}
+    {'user': 'l5', 'rows': 40, 'distinct_client_id': 40, 'sum_amount': 40820.0, 'expected_sum': 40820, 'balance': -40820.0, 'pass': True}
+TOTAL rows=200 (expected 200), duplicate (household_id, client_id) pairs in the whole DB = 0, balance == -sum(amounts) for every account: True
+PASS
+[17:21:45.687] saved evidence\results\e7-baseline-rep2.json

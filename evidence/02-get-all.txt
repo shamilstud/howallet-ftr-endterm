@@ -1,0 +1,63 @@
+$ kubectl -n university get all -o wide
+NAME                                READY   STATUS      RESTARTS   AGE     IP            NODE                        NOMINATED NODE   READINESS GATES
+pod/api-56b6dc48d5-kch4f            1/1     Running     0          58s     10.244.0.22   ftr-endterm-control-plane   <none>           <none>
+pod/api-56b6dc48d5-nb6hz            1/1     Running     0          58s     10.244.0.23   ftr-endterm-control-plane   <none>           <none>
+pod/api-baseline-69bbd8cf45-q6dt9   1/1     Running     0          4m8s    10.244.0.16   ftr-endterm-control-plane   <none>           <none>
+pod/gateway-5f4ffd5966-cvth8        1/1     Running     0          46s     10.244.0.24   ftr-endterm-control-plane   <none>           <none>
+pod/gateway-5f4ffd5966-x6nwz        1/1     Running     0          44s     10.244.0.25   ftr-endterm-control-plane   <none>           <none>
+pod/grafana-978bd745f-7ct2r         1/1     Running     0          5m22s   10.244.0.13   ftr-endterm-control-plane   <none>           <none>
+pod/postgres-0                      1/1     Running     0          6m23s   10.244.0.6    ftr-endterm-control-plane   <none>           <none>
+pod/prometheus-6885ddbd9b-77c8q     1/1     Running     0          5m23s   10.244.0.12   ftr-endterm-control-plane   <none>           <none>
+pod/university-migrate-2xjg6        0/1     Completed   0          5m33s   10.244.0.7    ftr-endterm-control-plane   <none>           <none>
+
+NAME                            TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)          AGE     SELECTOR
+service/api                     ClusterIP   10.96.132.187   <none>        80/TCP           5m24s   app=api
+service/api-baseline            NodePort    10.96.95.240    <none>        80:30081/TCP     5m21s   app=api-baseline
+service/api-baseline-headless   ClusterIP   None            <none>        8080/TCP         5m21s   app=api-baseline
+service/api-headless            ClusterIP   None            <none>        8080/TCP         5m24s   app=api
+service/gateway                 NodePort    10.96.150.53    <none>        80:30080/TCP     5m23s   app=gateway
+service/grafana                 NodePort    10.96.37.242    <none>        3000:30300/TCP   5m22s   app=grafana
+service/postgres                ClusterIP   10.96.188.112   <none>        5432/TCP         6m23s   app=postgres
+service/prometheus              NodePort    10.96.166.94    <none>        9090:30090/TCP   5m23s   app=prometheus
+
+NAME                           READY   UP-TO-DATE   AVAILABLE   AGE     CONTAINERS   IMAGES                    SELECTOR
+deployment.apps/api            2/2     2            2           5m24s   api          howallet-api:endterm      app=api
+deployment.apps/api-baseline   1/1     1            1           5m21s   api          howallet-api:endterm      app=api-baseline
+deployment.apps/gateway        2/2     2            2           5m23s   nginx        nginx:1.27-alpine         app=gateway
+deployment.apps/grafana        1/1     1            1           5m22s   grafana      grafana/grafana:11.2.0    app=grafana
+deployment.apps/prometheus     1/1     1            1           5m23s   prometheus   prom/prometheus:v2.54.1   app=prometheus
+
+NAME                                      DESIRED   CURRENT   READY   AGE     CONTAINERS   IMAGES                    SELECTOR
+replicaset.apps/api-56b6dc48d5            2         2         2       4m8s    api          howallet-api:endterm      app=api,pod-template-hash=56b6dc48d5
+replicaset.apps/api-5c8654ffb7            0         0         0       5m24s   api          howallet-api:endterm      app=api,pod-template-hash=5c8654ffb7
+replicaset.apps/api-baseline-596b76f7c5   0         0         0       5m21s   api          howallet-api:endterm      app=api-baseline,pod-template-hash=596b76f7c5
+replicaset.apps/api-baseline-69bbd8cf45   1         1         1       4m8s    api          howallet-api:endterm      app=api-baseline,pod-template-hash=69bbd8cf45
+replicaset.apps/gateway-595545754f        0         0         0       4m7s    nginx        nginx:1.27-alpine         app=gateway,pod-template-hash=595545754f
+replicaset.apps/gateway-5bcfdc66d5        0         0         0       5m23s   nginx        nginx:1.27-alpine         app=gateway,pod-template-hash=5bcfdc66d5
+replicaset.apps/gateway-5f4ffd5966        2         2         2       46s     nginx        nginx:1.27-alpine         app=gateway,pod-template-hash=5f4ffd5966
+replicaset.apps/gateway-747588d47d        0         0         0       85s     nginx        nginx:1.27-alpine         app=gateway,pod-template-hash=747588d47d
+replicaset.apps/grafana-978bd745f         1         1         1       5m22s   grafana      grafana/grafana:11.2.0    app=grafana,pod-template-hash=978bd745f
+replicaset.apps/prometheus-6885ddbd9b     1         1         1       5m23s   prometheus   prom/prometheus:v2.54.1   app=prometheus,pod-template-hash=6885ddbd9b
+
+NAME                        READY   AGE     CONTAINERS   IMAGES
+statefulset.apps/postgres   1/1     6m23s   postgres     postgres:16-alpine
+
+NAME                           STATUS     COMPLETIONS   DURATION   AGE     CONTAINERS   IMAGES                SELECTOR
+job.batch/university-migrate   Complete   1/1           9s         5m33s   migrate      ftr-migrate:endterm   batch.kubernetes.io/controller-uid=7f68b91c-aa00-4985-9715-f46975068c49
+$ kubectl -n university get networkpolicy
+NAME                   POD-SELECTOR                          AGE
+api-baseline-ingress   app=api-baseline                      5m22s
+api-egress             tier=app                              5m22s
+api-ingress            app=api                               5m22s
+default-deny-ingress   <none>                                5m22s
+nodeport-ingress       app in (gateway,grafana,prometheus)   5m22s
+postgres-ingress       app=postgres                          5m22s
+$ kubectl -n university get endpoints api api-headless gateway prometheus grafana api-baseline
+Warning: v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice
+NAME           ENDPOINTS                           AGE
+api            10.244.0.22:8080,10.244.0.23:8080   5m25s
+api-headless   10.244.0.22:8080,10.244.0.23:8080   5m25s
+gateway        10.244.0.24:80,10.244.0.25:80       5m24s
+prometheus     10.244.0.12:9090                    5m23s
+grafana        10.244.0.13:3000                    5m23s
+api-baseline   10.244.0.16:8080                    5m22s
