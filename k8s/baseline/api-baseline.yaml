@@ -41,7 +41,7 @@ spec:
             httpGet: { path: /health, port: http }
             periodSeconds: 2
 ---
-# Direct NodePort — no gateway in front.
+# Direct NodePort – no gateway in front.
 apiVersion: v1
 kind: Service
 metadata:

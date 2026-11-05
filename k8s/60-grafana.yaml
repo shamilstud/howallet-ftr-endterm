@@ -36,7 +36,7 @@ data:
   howallet-endterm.json: |
     {
       "uid": "howallet-endterm",
-      "title": "hoWallet API — Endterm",
+      "title": "hoWallet API – Endterm",
       "schemaVersion": 39,
       "editable": true,
       "refresh": "5s",

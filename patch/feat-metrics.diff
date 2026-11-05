@@ -110,14 +110,14 @@ index 94810f50..9b00fb83 100644
 +type MetricsConfig struct {
 +	Enabled bool
 +	// Token, when set, is required as "Authorization: Bearer <token>" on
-+	// /metrics. Empty leaves the endpoint open — nginx does not proxy it, so it
++	// /metrics. Empty leaves the endpoint open – nginx does not proxy it, so it
 +	// is reachable only from the container network.
 +	Token string
 +}
 +
  // PushConfig is the VAPID identity Web Push is signed with.
  //
- // All three empty is a complete configuration: push is then off as a whole —
+ // All three empty is a complete configuration: push is then off as a whole –
 @@ -448,6 +459,10 @@ func Load() (*Config, error) {
  			VAPIDPrivateKey: strings.TrimSpace(getEnv("VAPID_PRIVATE_KEY", "")),
  			VAPIDSubject:    strings.TrimSpace(getEnv("VAPID_SUBJECT", "")),

@@ -1,4 +1,4 @@
-# Segmentation. kind's default CNI (kindnet) enforces NetworkPolicy — A4
+# Segmentation. kind's default CNI (kindnet) enforces NetworkPolicy – A4
 # proved this empirically (ftr-a4/evidence/03-egress.txt); we re-verify here.
 #
 # Default: deny all ingress in the namespace, then open only the needed paths.
@@ -12,7 +12,7 @@ spec:
   policyTypes: ["Ingress"]
 ---
 # The production api accepts traffic only from the gateway and from
-# Prometheus, on 8080. (No direct NodePort — the gateway is the entry point.)
+# Prometheus, on 8080. (No direct NodePort – the gateway is the entry point.)
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
