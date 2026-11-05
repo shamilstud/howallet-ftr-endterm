@@ -1,4 +1,4 @@
-# Test inventory — hoWallet
+# Test inventory – hoWallet
 
 Counted on 2026-11-04 at commit `06aea177` (static count of `func TestXxx(t *testing.T)` per file, grouped by the
 file's `//go:build` tag; subtests and table rows not counted).
@@ -32,52 +32,52 @@ Client queue specs: `web/src/lib/__spec__/outboxSend.spec.ts`, `api.spec.ts`.
 ## 3. Critical-workflow tests relevant to fault tolerance
 
 **Idempotency / duplicates / races**
-- `TestCreateTransaction_RepeatedClientIDAnswers200` — `internal/handler/transaction_test.go:146` (unit)
+- `TestCreateTransaction_RepeatedClientIDAnswers200` – `internal/handler/transaction_test.go:146` (unit)
 - `TestTransactionRepo_ClientIDRoundTrip`, `TestTransactionService_ClientIDLostRaceMovesNothing`,
-  `TestTransactionService_ClientIDConcurrentBurstWritesOnce` — `internal/repository/postgres/transaction_client_id_test.go:52,102,180` (integration)
-- `TestIngest_CreateDraft_RetryIsIdempotent`, `TestIngest_ResolveDraft_ClaimsOnce` — `internal/repository/postgres/ingest_repo_test.go:61,154`
-- `TestRecurringHandler_Confirm_LostRaceIs409WithoutCode` — `internal/handler/recurring_test.go:127`
+  `TestTransactionService_ClientIDConcurrentBurstWritesOnce` – `internal/repository/postgres/transaction_client_id_test.go:52,102,180` (integration)
+- `TestIngest_CreateDraft_RetryIsIdempotent`, `TestIngest_ResolveDraft_ClaimsOnce` – `internal/repository/postgres/ingest_repo_test.go:61,154`
+- `TestRecurringHandler_Confirm_LostRaceIs409WithoutCode` – `internal/handler/recurring_test.go:127`
 
 **Authentication / authorization**
 - `TestJWTAuth_RejectsEveryTokenThisServerDidNotIssueOrNoLongerHonours`, `TestJWTAuth_ATokenWithoutExpiry_IsRejected`,
-  `TestRequireLiveSession_ARevokedSession_Is401JSONEvenWithAValidJWT` — `internal/middleware/auth_spec_test.go:89,162,186`
+  `TestRequireLiveSession_ARevokedSession_Is401JSONEvenWithAValidJWT` – `internal/middleware/auth_spec_test.go:89,162,186`
 - `TestAuthzHousehold_EveryRouteRefusesWithoutAValidMembership`, `TestAuthzHousehold_AnotherHouseholdsEntityIsNotFoundAndUntouched`
-  — `test/api/authz_household_test.go:30,59` (API; every household route: no header 400, bad header 400, foreign 404, unverified 403)
-- `TestRefresh_Replayed_RevokesTheFamily` — `internal/service/auth_test.go:376`;
-  `TestRefreshTokenRepo_ReplayAfterGraceStoresNothingAndFamilyDies` — `internal/repository/postgres/refresh_token_repo_test.go:51`
+  – `test/api/authz_household_test.go:30,59` (API; every household route: no header 400, bad header 400, foreign 404, unverified 403)
+- `TestRefresh_Replayed_RevokesTheFamily` – `internal/service/auth_test.go:376`;
+  `TestRefreshTokenRepo_ReplayAfterGraceStoresNothingAndFamilyDies` – `internal/repository/postgres/refresh_token_repo_test.go:51`
 - `TestErrors_AuthAndMembershipRefusals_AreJSON`, `TestSecurityHeaders_OnRealResponses_IncludingErrors`,
-  `TestCORS_AForeignOriginIsNotAllowed` — `test/api/platform_security_test.go:136,115,183`
+  `TestCORS_AForeignOriginIsNotAllowed` – `test/api/platform_security_test.go:136,115,183`
 
 **Rate limiting / brute force**
-- `TestRateLimit_RefusalIsJSONWithRetryAfter` — `internal/router/ratelimit_test.go:17` (unit)
-- `TestRateLimit_TheAuthLimit_AnswersJSON429WithRetryAfter` — `test/api/platform_security_test.go:96`
-- `TestLogin_BruteForce_BlockedAfter5`, `TestLogin_BruteForce_LocksTheAttackersIPOnly` — `internal/service/auth_extra_test.go:250,286`
+- `TestRateLimit_RefusalIsJSONWithRetryAfter` – `internal/router/ratelimit_test.go:17` (unit)
+- `TestRateLimit_TheAuthLimit_AnswersJSON429WithRetryAfter` – `test/api/platform_security_test.go:96`
+- `TestLogin_BruteForce_BlockedAfter5`, `TestLogin_BruteForce_LocksTheAttackersIPOnly` – `internal/service/auth_extra_test.go:250,286`
 - `TestLogin_AfterFiveFailures_EvenTheRightPasswordIs429WithRetryAfter`, `TestLogin_ASuccessResetsTheFailureCount`,
-  `TestLogin_WrongPasswordAndUnknownAddress_LookTheSame` — `test/api/auth_login_test.go:34,49,22`
+  `TestLogin_WrongPasswordAndUnknownAddress_LookTheSame` – `test/api/auth_login_test.go:34,49,22`
 
 **Money conversion / dependency failure (rates)**
-- `TestMoneySpec_Resolve_NoRate_IsAnErrorNeverRate1`, `TestMoneySpec_Resolve_FreezesBaseAndAccountAmounts` — `internal/service/money_spec_test.go:106,44`
+- `TestMoneySpec_Resolve_NoRate_IsAnErrorNeverRate1`, `TestMoneySpec_Resolve_FreezesBaseAndAccountAmounts` – `internal/service/money_spec_test.go:106,44`
 - `TestCreate_ForeignCurrencyWithNoRate_Is422AndWritesNothing`, `TestCreate_SingleCurrencyHousehold_NeedsNoRateAtAll`,
   `TestCreate_WeekendPurchase_UsesTheLastPublishedRate`, `TestCreate_BankFigure_IsStoredVerbatimAndMovesTheBalanceByIt`
-  — `test/api/money_create_test.go:80,102,115,202`
-- `TestCreateAndUpdate_ServerFailure_IsNotReportedAsABadRequest` — `test/api/money_errors_spec_test.go:16`
+  – `test/api/money_create_test.go:80,102,115,202`
+- `TestCreateAndUpdate_ServerFailure_IsNotReportedAsABadRequest` – `test/api/money_errors_spec_test.go:16`
 - Input validation: `TestCreate_ZeroOrNegativeAmount_IsRefusedAndWritesNothing`, `TestCreate_GarbageOrMissingAmount_Is400`,
-  `TestCreate_AccountOfAnotherHousehold_IsRefusedAndMovesNothing` — `test/api/money_create_test.go:18,38,364`;
+  `TestCreate_AccountOfAnotherHousehold_IsRefusedAndMovesNothing` – `test/api/money_create_test.go:18,38,364`;
   `test/api/capture_body_limit_test.go` (body size)
 
 **Payments callback idempotency / recovery**
 - `TestPayCallback_DeliveredManyTimesAtOnce_GrantsExactlyOneMonth`, `TestPaySettlement_CallbackConfirmAndReconcileRacing_GrantOneMonth`,
   `TestPayCallback_BadSignature_GrantsNothing`, `TestPayCallback_GrantFailsAfterMarkPaid_PeriodIsEventuallyGrantedOrAlerted`
-  — `test/api/pay_callback_test.go:37,72,103,277`
-- `TestMarkPaid_ManyConcurrentSettlers_ExactlyOneWins` — `internal/repository/postgres/pay_spec_test.go:75`
-- `TestFreedomPay_RedeliveredCallbackGrantsThePeriodOnce`, `TestReconcile_RescuesAPaidOrderWhoseCallbackWasLost` —
+  – `test/api/pay_callback_test.go:37,72,103,277`
+- `TestMarkPaid_ManyConcurrentSettlers_ExactlyOneWins` – `internal/repository/postgres/pay_spec_test.go:75`
+- `TestFreedomPay_RedeliveredCallbackGrantsThePeriodOnce`, `TestReconcile_RescuesAPaidOrderWhoseCallbackWasLost` –
   `internal/service/freedompay_internal_test.go:187,498`
-- `TestChargeRenewals_ALostAnswerLeavesTheAttemptPending`, `TestChargeRenewals_ALostRaceSendsNothing` —
+- `TestChargeRenewals_ALostAnswerLeavesTheAttemptPending`, `TestChargeRenewals_ALostRaceSendsNothing` –
   `internal/service/freedompay_renewal_internal_test.go:277,314`
 
 **Upstream AI degradation**
-- `TestAI_FallsBackOnRateLimitAndServerError` — `internal/service/ai_fallback_test.go:96`
-- `TestTranscribe_GroqRateLimitedFallsOverToFireworks` — `internal/service/ai_transcribe_test.go:172`
+- `TestAI_FallsBackOnRateLimitAndServerError` – `internal/service/ai_fallback_test.go:96`
+- `TestTranscribe_GroqRateLimitedFallsOverToFireworks` – `internal/service/ai_transcribe_test.go:172`
 
 ## 4. Unit test run (this machine)
 

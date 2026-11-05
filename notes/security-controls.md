@@ -1,4 +1,4 @@
-# Security controls to demonstrate — exact expected behaviour
+# Security controls to demonstrate – exact expected behaviour
 
 All references were verified against the code (`path:line`, commit `06aea177`). Every JSON error body produced by
 middleware is `{"error": "<msg>"}` with `Content-Type: application/json` (`internal/middleware/logfields.go:21-31`);
@@ -18,7 +18,7 @@ household routes additionally `RequireVerified(357) → HouseholdCtx(358)`; some
 
 ## 0. Lab bootstrap: getting a usable token without e-mail
 
-1. **Register** — `POST /auth/register` (`router.go:183`, `internal/handler/auth.go:21-57`)
+1. **Register** – `POST /auth/register` (`router.go:183`, `internal/handler/auth.go:21-57`)
    ```json
    {"email":"alice@lab.test","password":"password-123","name":"Alice"}
    ```
@@ -33,12 +33,12 @@ household routes additionally `RequireVerified(357) → HouseholdCtx(358)`; some
    `RequireVerified` answers **403 `{"error":"email not verified"}`** (`internal/middleware/auth.go:170-178`).
    User-scoped routes (`/api/households`, `/api/settings`, ...) work with it.
 3. **Mark verified in SQL** (column `users.email_verified BOOLEAN NOT NULL DEFAULT false`,
-   `migrations/000015_email_verified.up.sql:1`) — exactly what the API test harness does
+   `migrations/000015_email_verified.up.sql:1`) – exactly what the API test harness does
    (`test/api/apiclient/client.go:48-58`):
    ```sql
    UPDATE users SET email_verified = true WHERE email = 'alice@lab.test';
    ```
-4. **Get a new token**: the claim is baked into the JWT at issue time (`auth.go:618-628`), so log in again —
+4. **Get a new token**: the claim is baked into the JWT at issue time (`auth.go:618-628`), so log in again –
    `POST /auth/login` `{"email":"alice@lab.test","password":"password-123"}` → 200 with a new `access_token`
    whose claim is `email_verified=true`. (`POST /auth/refresh {"refresh_token":"..."}` also re-reads the user
    and issues a fresh access token, `auth.go:531`.)
@@ -49,23 +49,23 @@ household routes additionally `RequireVerified(357) → HouseholdCtx(358)`; some
    plan allows 1 household (`internal/model/models.go:3006`); a second one returns 403 `plan_limit_reached`
    unless the API runs with `SALES_PAUSED=true`, which opens every plan to Pro limits
    (`internal/app/app.go:238`). Simpler: register a second user for "household B".
-7. **Create an account** — `POST /api/accounts` with `Authorization: Bearer <token>` and `X-Household-ID: <hh>`
+7. **Create an account** – `POST /api/accounts` with `Authorization: Bearer <token>` and `X-Household-ID: <hh>`
    (`router.go:373`, `internal/handler/account.go:26-56`):
    ```json
    {"name":"Cash","type":"cash","balance":"0"}
    ```
-   `type` ∈ `card|deposit|cash` (`models.go:19-21`); `balance` must be a decimal string — `""` fails to parse
+   `type` ∈ `card|deposit|cash` (`models.go:19-21`); `balance` must be a decimal string – `""` fails to parse
    (`internal/service/account.go:125`); `currency` optional (defaults to household base). → 201 account object.
-8. **Create a transaction** — `POST /api/transactions` (same headers) (`internal/handler/transaction.go:27-68`):
+8. **Create a transaction** – `POST /api/transactions` (same headers) (`internal/handler/transaction.go:27-68`):
    ```json
    {"type":"expense","amount":"1500","account_id":"<acc-id>","description":"lunch",
     "transacted_at":"2026-11-04T12:00:00Z","client_id":"<uuid-v4>"}
    ```
    `type` ∈ `income|expense|transfer` (`models.go:27-29`); `amount` decimal string > 0; always send
-   `transacted_at` (RFC 3339) — it is a plain `time.Time` and an omitted one is the zero time. → 201 transaction.
+   `transacted_at` (RFC 3339) – it is a plain `time.Time` and an omitted one is the zero time. → 201 transaction.
    **Lab caveats:** 60 creates/min per user on this route (`router.go:397-398`); a free household has a lifetime
    allowance of **150 hand-made records** (`models.go:3018`, check at `internal/service/transaction.go:428`) after which
-   it answers 403 `{"error":"plan_limit_reached","resource":"records",...}` (`helpers.go:244-256`) — set
+   it answers 403 `{"error":"plan_limit_reached","resource":"records",...}` (`helpers.go:244-256`) – set
    `SALES_PAUSED=true` in the lab or keep load tests on GET endpoints.
 
 ---
@@ -78,7 +78,7 @@ Route used: any protected route, e.g. `GET /api/households`. Code: `internal/mid
 |---|---|---|
 | No header | no `Authorization` | **401** `{"error":"missing authorization header"}` (`auth.go:96`) |
 | Wrong scheme | `Authorization: Basic abc` or a bare token | **401** `{"error":"invalid authorization header format"}` (`auth.go:102`); the word `Bearer` is case-insensitive |
-| Garbage / bad signature / wrong issuer / no `exp` / non-HMAC alg (incl. `none`) / expired | `Authorization: Bearer <bad>` | **401** `{"error":"invalid or expired token"}` (`auth.go:109-117`) — one message for all |
+| Garbage / bad signature / wrong issuer / no `exp` / non-HMAC alg (incl. `none`) / expired | `Authorization: Bearer <bad>` | **401** `{"error":"invalid or expired token"}` (`auth.go:109-117`) – one message for all |
 | `sub` not a UUID | signed token with bad `sub` | **401** `{"error":"invalid user id in token"}` (`auth.go:129-131`) |
 | Valid JWT but session revoked (after `POST /auth/logout`, password change, account deletion) | old access token | **401** `{"error":"session revoked"}` (`internal/middleware/session.go:133-135`) |
 
@@ -98,8 +98,8 @@ Code: `HouseholdCtx` (`internal/middleware/auth.go:180-217`), membership query v
 |---|---|
 | No `X-Household-ID` | **400** `{"error":"missing X-Household-ID header"}` (`auth.go:188`) |
 | `X-Household-ID: not-a-uuid` | **400** `{"error":"invalid X-Household-ID"}` (`auth.go:194`) |
-| Header = household of another user (B's token, A's household id) | **404** `{"error":"household not found"}` (`auth.go:201-204`) — deliberately not 403, so existence is not confirmed. The handler never runs, so **no data is returned or changed** |
-| Membership query fails (DB down) | **500** `{"error":"failed to check household membership"}` + ERROR log with household_id/user_id (`auth.go:205-210`) — fails closed |
+| Header = household of another user (B's token, A's household id) | **404** `{"error":"household not found"}` (`auth.go:201-204`) – deliberately not 403, so existence is not confirmed. The handler never runs, so **no data is returned or changed** |
+| Membership query fails (DB down) | **500** `{"error":"failed to check household membership"}` + ERROR log with household_id/user_id (`auth.go:205-210`) – fails closed |
 | Unverified user | **403** `{"error":"email not verified"}` (checked before membership, `router.go:357-358`) |
 
 Demo: user A creates an account and transaction; user B calls `GET /api/transactions` and `GET /api/accounts`
@@ -128,7 +128,7 @@ Implementation: `github.com/go-chi/httprate v0.15.0`, **in-memory per replica** 
 | 60 req/min | user id | `POST /api/transactions`, `router.go:397-398` | hit before 600 on the create path |
 
 Expected numbers with **2 replicas behind round-robin**: refusals start at ~2× the limit (each replica counts
-its own half) — this is a documented limitation, worth measuring. Client IP is taken from
+its own half) – this is a documented limitation, worth measuring. Client IP is taken from
 `True-Client-IP` > `X-Real-IP` > first `X-Forwarded-For` > `RemoteAddr` (httprate `httprate.go:52-73`): the
 gateway must overwrite `X-Real-IP` and drop `True-Client-IP`, otherwise either all clients share one bucket
 (gateway IP) or a client can spoof a new key per request.
@@ -159,10 +159,10 @@ Code: `internal/service/auth.go:40-109` (tracker), `242-287` (Login), handler `i
 | Malformed JSON on transactions | `POST /api/transactions` body `{bad` | 400 `"invalid request body"`; a non-UUID `account_id` yields 400 `"account_id is required"` (`internal/handler/transaction.go:29-40`) |
 | Missing required field | `{"type":"expense","amount":"5"}` | 400 `"account_id is required"`; without amount → 400 `"amount is required"` (`transaction.go:37-44`) |
 | Bad amount | `"amount":"-5"` / `"abc"` / unknown `type` | 400, message from `ErrAmountNotPositive` / `ErrMalformedNumber` / `ErrTransactionType` (`transaction.go:72-94`); tests `test/api/money_create_test.go:18,38,354` |
-| Body > 1 MB | 2 MB JSON | **400** `"invalid request body"` — `Decode` wraps the body in `MaxBytesReader(1 MB)` (`internal/handler/helpers.go:129-131`); no 413 from the API |
-| Body > 16 MB | any route | global ceiling `chimw.RequestSize(16<<20)` (`router.go:126`); a JSON route still answers 400 through `Decode`. **Note:** nginx's default `client_max_body_size` is 1 MB, so the lab gateway may answer **413 (nginx HTML)** before the API sees it — check gateway config |
+| Body > 1 MB | 2 MB JSON | **400** `"invalid request body"` – `Decode` wraps the body in `MaxBytesReader(1 MB)` (`internal/handler/helpers.go:129-131`); no 413 from the API |
+| Body > 16 MB | any route | global ceiling `chimw.RequestSize(16<<20)` (`router.go:126`); a JSON route still answers 400 through `Decode`. **Note:** nginx's default `client_max_body_size` is 1 MB, so the lab gateway may answer **413 (nginx HTML)** before the API sees it – check gateway config |
 | Invalid UUID in path | `GET /api/accounts/not-a-uuid` | **400** `{"error":"invalid account id"}` (`account.go:72-75`); `GET /api/transactions/xyz` → 400 `"invalid transaction id"` (`transaction.go:283-286`) |
-| Unknown JSON fields | extra keys | **accepted silently** — `json.Decoder` without `DisallowUnknownFields` (`helpers.go:132`) |
+| Unknown JSON fields | extra keys | **accepted silently** – `json.Decoder` without `DisallowUnknownFields` (`helpers.go:132`) |
 | Currency codes | `"currency":"usd"` | upper-cased automatically (`helpers.go:139-...`); unknown code → 400 |
 
 ## (f) Idempotency of transaction creation
@@ -185,7 +185,7 @@ Code: `internal/service/auth.go:40-109` (tracker), `242-287` (Login), handler `i
   `TestTransactionService_ClientIDConcurrentBurstWritesOnce`, `TestTransactionService_ClientIDLostRaceMovesNothing`
   (`internal/repository/postgres/transaction_client_id_test.go:180,102`).
 - Gateway interplay: the lab gateway retries only idempotent methods; POST is safe to retry at the client because of
-  `client_id` (the web client aborts a write after 8 s and resends with the same key — skill `outbox`).
+  `client_id` (the web client aborts a write after 8 s and resends with the same key – skill `outbox`).
 
 ## (g) Audit and request logging
 
@@ -200,7 +200,7 @@ Code: `internal/service/auth.go:40-109` (tracker), `242-287` (Login), handler `i
   written asynchronously for creates/updates, e.g. transaction create (`internal/service/transaction.go:541`),
   account create (`internal/service/account.go:161`); visible at `GET /api/activity` (household-scoped,
   `router.go:597`). Best-effort: dropped when the 64-slot queue is full (`internal/service/audit.go:54-58`).
-- **Security events**: there is **no dedicated audit event for failed logins or lockouts** — evidence for those is
+- **Security events**: there is **no dedicated audit event for failed logins or lockouts** – evidence for those is
   the request line `POST /auth/login status=401|429 remote=<ip> request_id=...` (no user id, no e-mail). Refresh-token
   reuse is logged as WARN "refresh token reuse detected, sign-in revoked" (`internal/service/auth.go:510`).
   Admin-panel logins → `admin_login_logs` (`internal/db/admin.go:217`); admin changes → `admin_actions`

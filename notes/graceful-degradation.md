@@ -1,15 +1,15 @@
-# Graceful degradation, timeouts and retries — hoWallet API
+# Graceful degradation, timeouts and retries – hoWallet API
 
 All `path:line` references verified against commit `06aea177`.
 
-## 1. Exchange rates (Frankfurter) unreachable — best candidate for the "graceful degradation" demo
+## 1. Exchange rates (Frankfurter) unreachable – best candidate for the "graceful degradation" demo
 
 **Design:** the write path never calls Frankfurter. Rates are fetched by a background job into the Postgres
 archive `exchange_rates`, and conversions read that archive.
 
 - Fetch: `RatesService.fetch` with `http.Client{Timeout: 30s}` (`internal/service/rates.go:51-61`, `77-101`);
   base URL default `https://api.frankfurter.dev/v2` (`rates.go:34`), overridable with env `RATES_BASE_URL`
-  (`internal/config/config.go:414`) — pointing it at a dead host is an easy fault injection; history depth
+  (`internal/config/config.go:414`) – pointing it at a dead host is an easy fault injection; history depth
   `RATES_BACKFILL_YEARS` (default 5, `config.go:415`).
 - Schedule: job `exchange_rates` every **6 h**, first pass at start, 10-min budget per pass
   (`internal/app/app.go:636-643`), calling `EnsureFresh` (`rates.go:408-434`): backfill if the archive is empty,
@@ -20,7 +20,7 @@ archive `exchange_rates`, and conversions read that archive.
   (`jobs.go:50-54`, `142-144`).
 - Read path: `rateOn` = in-memory cache (`rates.go:256-263`) → `SELECT per_usd FROM exchange_rates WHERE code=$1 AND
   rate_date <= $2 ORDER BY rate_date DESC LIMIT 1` (`internal/db/rates.go:97-106`), i.e. **the latest archived rate on
-  or before the transaction date** — a stale-but-real rate rather than an error.
+  or before the transaction date** – a stale-but-real rate rather than an error.
 
 **Behaviour when Frankfurter is down:**
 
@@ -65,12 +65,12 @@ failing in logs, (4) on an empty archive, USD expense → 422 `no_rate` and the 
 - `EmailService.IsConfigured()` = Brevo API key or SMTP host set (`internal/service/email.go:101-103`).
 - Registration and verification codes: the code is stored in the DB and the send is skipped when mail is not
   configured (`internal/service/auth.go:671-691`); when configured, it is sent in a goroutine and a failure only logs
-  WARN — registration still answers 201 (`auth.go:681-689`).
+  WARN – registration still answers 201 (`auth.go:681-689`).
 - Password reset: `/auth/forgot-password` always answers 200 (`internal/handler/auth.go:150-152`); send guarded the same
   way (`auth.go:814`).
 - Invitation mail without a backend returns error "no email backend configured" (`email.go:129-131`) **[caller's
   mapping to an HTTP status not verified]**.
-- **Gap:** Brevo is called with `http.DefaultClient` — **no timeout** (`email.go:408`); `smtp.SendMail` also has no
+- **Gap:** Brevo is called with `http.DefaultClient` – **no timeout** (`email.go:408`); `smtp.SendMail` also has no
   timeout (`email.go:460-462`). Because sends are in goroutines, a hanging mail server does not block the request,
   but goroutines can pile up.
 
@@ -124,5 +124,5 @@ failing in logs, (4) on an empty archive, USD expense → 422 `no_rate` and the 
 - DB-failure behaviour of middleware: membership check fails closed (500, `internal/middleware/auth.go:205-210`);
   session liveness fails **open** (request proceeds, WARN, `internal/middleware/session.go:128-132`).
 - Pool saturation is watched: WARN "database pool usage high" when acquired/max > 0.8 (`internal/app/app.go:746-750`).
-- `/health` returns `{"status":"ok"}` without touching the DB (`router.go:129-131`) — liveness only; a readiness
+- `/health` returns `{"status":"ok"}` without touching the DB (`router.go:129-131`) – liveness only; a readiness
   probe on it will not detect a DB outage.

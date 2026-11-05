@@ -1,4 +1,4 @@
-# Endterm experiment results — summary
+# Endterm experiment results – summary
 
 All numbers come from recorded runs on 2026-11-04 (local kind lab, synthetic users and data only).
 Raw data: `evidence/results/*.json`. Readable logs: `evidence/*.txt` (rendered as `evidence/screenshots/terminal-*.png`).

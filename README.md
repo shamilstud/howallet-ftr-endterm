@@ -1,4 +1,4 @@
-# FTR Endterm — Fault-Tolerant API with Gateway, Metrics, Alerts & Dashboards
+# FTR Endterm – Fault-Tolerant API with Gateway, Metrics, Alerts & Dashboards
 
 A local Kubernetes lab (kind) demonstrating fault-tolerance and observability
 patterns in front of a synthetic university service. The service itself is the
@@ -34,7 +34,7 @@ Namespace: `university`.
 
 | URL | What |
 |---|---|
-| http://127.0.0.1:30080 | Gateway — the single API entry point |
+| http://127.0.0.1:30080 | Gateway – the single API entry point |
 | http://127.0.0.1:30090 | Prometheus |
 | http://127.0.0.1:30300 | Grafana (anonymous Admin, lab only) |
 | http://127.0.0.1:30081 | Baseline API (only with `--baseline`) |
@@ -81,10 +81,10 @@ curl -s -H "Authorization: Bearer $TOKEN" -H "X-Household-ID: $HH" http://127.0.
 
 ## Metrics (names are fixed)
 
-- `http_requests_total{method,route,status}` — counter
-- `http_request_duration_seconds_bucket{method,route,le}` — histogram
-- `http_requests_in_flight` — gauge
-- `db_pool_acquired_conns`, `db_pool_total_conns` — DB pool (may be absent)
+- `http_requests_total{method,route,status}` – counter
+- `http_request_duration_seconds_bucket{method,route,le}` – histogram
+- `http_requests_in_flight` – gauge
+- `db_pool_acquired_conns`, `db_pool_total_conns` – DB pool (may be absent)
 
 ## Alerts (Prometheus, names are fixed)
 
@@ -96,7 +96,7 @@ curl -s -H "Authorization: Bearer $TOKEN" -H "X-Household-ID: $HH" http://127.0.
 
 ## Grafana dashboard
 
-"hoWallet API — Endterm" (uid `howallet-endterm`), refresh 5s, last 15m:
+"hoWallet API – Endterm" (uid `howallet-endterm`), refresh 5s, last 15m:
 request rate by status, error rate %, in-flight, latency p50/p95/p99, replicas
 up per instance, firing alerts, DB pool connections.
 
@@ -112,7 +112,7 @@ up per instance, firing alerts, DB pool connections.
   through would let a client spoof its IP past rate limits and login lockout.
 - Bounded retries: `proxy_next_upstream error timeout http_502 http_503 http_504`,
   `proxy_next_upstream_tries 2`. Only idempotent methods are retried (nginx
-  default — `non_idempotent` is deliberately **not** added, so a POST register
+  default – `non_idempotent` is deliberately **not** added, so a POST register
   is never replayed).
 - Correlation id: `X-Request-Id` is adopted if present, otherwise nginx mints
   one; it is forwarded to the API, whose chi `RequestID` middleware adopts it,
