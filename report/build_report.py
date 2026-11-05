@@ -156,7 +156,7 @@ def open_template():
             fld.append(rr)
             p._p.append(fld)
             break
-    d.core_properties.title = "Endterm Project — Resilient University Information System"
+    d.core_properties.title = "Endterm Project – Resilient University Information System"
     d.core_properties.author = "Shamil Yakupov (255193)"
     return d
 
@@ -332,7 +332,7 @@ def page_break():
 # ----------------------------------------------------------------------------- content
 
 def title_block():
-    p = P("**Endterm Project — Resilient University Information System**", size=20, align="center", space_after=2)
+    p = P("**Endterm Project – Resilient University Information System**", size=20, align="center", space_after=2)
     P("**Fault-Tolerant University Registration/Records Service: Gateway, Observability, Security and "
       "Fault Injection**", size=12, align="center", space_after=6)
     P("Astana IT University | Fault Tolerance and Dependable Computing | Academic Year 2026–2027", italic=True,
@@ -443,7 +443,7 @@ def sec2():
     H2("2.2 Assumptions")
     bullets([
         "Single-node kind cluster (Kubernetes v1.33.1) on Docker Desktop/WSL2; node-level and zone failures are "
-        "out of scope. One PostgreSQL instance (no replica) — database failover is not claimed.",
+        "out of scope. One PostgreSQL instance (no replica) – database failover is not claimed.",
         "Clients reach the cluster through NodePorts on 127.0.0.1; the kind node SNATs them, so the API sees one "
         "client address (`10.244.0.1`). Per-IP limits are therefore shared by every test client.",
         "The exchange-rate provider (Frankfurter) is a non-critical external dependency; transactions in the "
@@ -483,6 +483,9 @@ def sec3():
     H2("3.1 Components")
     figure(SHOTS / "architecture.png", "Endterm lab architecture: hardened path (gateway → api x2 → PostgreSQL) "
            "with monitoring, and the retained midterm baseline path (bottom) sharing the same database.", 6.8)
+    P("The diagram was generated with the help of AI (Claude Code, as an HTML/SVG page rendered to PNG). "
+      "Prompt used: \"An architecture diagram PNG (simple HTML/SVG boxes: client -> gateway x2 -> api x2 -> "
+      "postgres; prometheus -> grafana; baseline path).\"", size=8, align="center")
     P(f"The system has six independently deployed components in namespace `university` ({T('comp')}). Service "
       "discovery is DNS-based: the gateway and Prometheus resolve the headless Service `api-headless`, which "
       "returns one A record per ready API pod; configuration comes from ConfigMaps (gateway, Prometheus, "
@@ -548,12 +551,12 @@ location / {
       "or a hung connection. (2) **Exchange rates (non-critical feature):** the write path never calls the "
       "external provider; a background job fills an archive table. When the provider is unreachable, writes in "
       "the base currency are unaffected, while a foreign-currency write with no archived rate is refused with "
-      "`422 no_rate` and nothing is written — the service never invents a rate of 1 or a zero (E8).",
+      "`422 no_rate` and nothing is written – the service never invents a rate of 1 or a zero (E8).",
       align="justify")
     H2("3.5 Deployment and scaling strategy")
     P("Rolling updates keep two ready API pods (`maxUnavailable: 0`, `maxSurge: 1`). Resource requests/limits: API "
       "50m/500m CPU and 64/256 Mi; PostgreSQL 50m/500m and 128/256 Mi. Scaling is manual (`kubectl scale`); "
-      "there is no metrics-server in the lab, so no HorizontalPodAutoscaler was used — E3 shows the two replicas "
+      "there is no metrics-server in the lab, so no HorizontalPodAutoscaler was used – E3 shows the two replicas "
       "used about 28–34 millicores each at 30 req/s, far from their limits. `enableServiceLinks: false` is set "
       "because the Service named `api` would otherwise inject `API_PORT=tcp://…`, which the API reads as its "
       "listen address.", align="justify")
@@ -596,7 +599,7 @@ api     {"time":"2026-11-04T11:22:28.606293453Z","level":"INFO","msg":"request",
     H2("4.3 Collection and dashboard")
     P("Prometheus scrapes every 2 s and evaluates rules every 2 s. It discovers API pods through `dns_sd_configs` "
       "on the headless Services, so `up` exists per replica, and scrapes the baseline under its own job "
-      f"`api-baseline` ({F('targets')}). The Grafana dashboard *hoWallet API — Endterm* (refresh 5 s) has seven panels: "
+      f"`api-baseline` ({F('targets')}). The Grafana dashboard *hoWallet API – Endterm* (refresh 5 s) has seven panels: "
       "request rate by status, error rate %, in-flight requests, latency p50/p95/p99, replicas up per instance, "
       f"firing alerts and DB pool connections ({F('g1')}, {F('g2')}, {F('g3')}, {F('g4')}).", align="justify")
     L("targets"); figure(FIG / "prom-targets-crop.png", "Prometheus targets: two api replicas discovered per pod, the baseline "
@@ -631,7 +634,7 @@ api     {"time":"2026-11-04T11:22:28.606293453Z","level":"INFO","msg":"request",
     H2("4.5 How an incident is detected and diagnosed")
     bullets([
         "**Detect:** an alert goes pending, then firing (Prometheus /alerts, Grafana *Firing alerts*).",
-        "**Localise:** the dashboard separates the cases — error rate up and replicas 2/2 points to a dependency "
+        "**Localise:** the dashboard separates the cases – error rate up and replicas 2/2 points to a dependency "
         "(E2: 5xx with `failed to check household membership`); replicas < 2 points to a pod (E4b); latency up "
         "with 0 % errors points to contention (E4d: table locks).",
         "**Explain one request:** take the `request_id` from the client response or the gateway log and grep the "
@@ -719,14 +722,14 @@ def sec7(data):
       "`prom/prometheus:v2.54.1`, `grafana/grafana:11.2.0`.", align="justify")
     H2("7.2 Tooling")
     bullets([
-        "`scripts/ftlab.py` — **Probe**: open-loop load generator with a fixed offered rate and a thread pool, so "
+        "`scripts/ftlab.py` – **Probe**: open-loop load generator with a fixed offered rate and a thread pool, so "
         "a hanging request does not slow the probe (closed-loop probes under-report outages); **EndpointWatcher**: "
         "`kubectl get endpoints -w`, time-stamped on arrival; **AlertWatcher**: polls Prometheus `/api/v1/alerts` "
         "every second; `known_state()` waits for all workloads Ready and no alert active before each run.",
-        "`scripts/faults.py` — E1 (pod delete, graceful or `--grace-period=0 --force`) and E2 (`scale postgres 0`, "
+        "`scripts/faults.py` – E1 (pod delete, graceful or `--grace-period=0 --force`) and E2 (`scale postgres 0`, "
         "or SIGSTOP/SIGCONT of all postgres processes on the node).",
-        "`scripts/exps.py` — E3–E8; `scripts/final_check.py` — final SQL integrity; `scripts/build_summary.py` — "
-        "tables from JSON; `scripts/render_evidence.py` — terminal renders of the text logs.",
+        "`scripts/exps.py` – E3–E8; `scripts/final_check.py` – final SQL integrity; `scripts/build_summary.py` – "
+        "tables from JSON; `scripts/render_evidence.py` – terminal renders of the text logs.",
         "Workload: `GET /api/accounts` with a token and `X-Household-ID` (membership check + accounts query, so it "
         "needs the database). Client timeout 6 s (E1, E3) or 12 s (E2). Synthetic users created by "
         "`scripts/setup_users.py` (register → mark e-mail verified in SQL → log in).",
@@ -772,7 +775,7 @@ def sec7(data):
       "all-200 for 15 s; E8 restores the environment variable with a second rolling update.", align="justify")
     P("**Invalid runs.** E2 freeze reps 3 and 4 **did not inject a fault**: the command went through Windows "
       "`cmd.exe`, which passed the quotes in `pkill -f '^postgres'` literally, so no process matched (0 failures, "
-      "no alerts — a correct negative for the monitoring, but not an experiment). Both JSON files were renamed "
+      "no alerts – a correct negative for the monitoring, but not an experiment). Both JSON files were renamed "
       "`*-INVALID-not-injected.json`, kept in the log with a note, excluded from all results, and the freeze "
       "variant was re-run as reps 5 and 6 with `pkill -STOP -x postgres`.", align="justify")
 
@@ -898,7 +901,7 @@ def sec8():
     P("E3 baseline \"failed\" counts include the 429 refusals (307 and 248) plus 14 connection errors in rep 1; "
       f"E7 recovery is the endpoint drop/return pair from {T('e7')}.", size=8, italic=True)
 
-    H2("8.2 E1 — Replica failure")
+    H2("8.2 E1 – Replica failure")
     table("E1 per run (window: injection → recovery + 15 s; probe 8 req/s).",
           ["Config", "Rep", "Req", "Failed", "Err %", "Avg", "p95", "Ep. drop", "Recovery", "Outage", "Avail %",
            "Alerts"],
@@ -920,14 +923,14 @@ def sec8():
       "so the new pod is Ready as soon as the process listens. In the diagnostic runs "
       f"(`e1-baseline-diagnostic.txt`, {F('diag')}) the replacement answered a 1 req/s probe within 2.3 s, but under "
       "the queued 8 req/s burst its pool showed `total=40=max`, `acquired=33`, `in_flight=34`, and DB-backed "
-      "requests hung until about t+20–25 s — the moment the startup `exchange_rates` job gave up on the external "
+      "requests hung until about t+20–25 s – the moment the startup `exchange_rates` job gave up on the external "
       "provider (522 after ~20 s). Pool starvation during startup jobs is the likely mechanism; why the forced "
       "kill did not show it was not established. The endterm masked it: retries to the healthy replica and the "
       "5 s gateway cap.", align="justify")
     L("diag"); figure(FIG / "e1-diag.png", "E1 baseline diagnostic at 8 req/s: metrics unreachable/timeouts until t+24.4 s, "
            "then the pool is full (total=40=max, in_flight=34); in the log the rates job fails at about the same moment.", 5.0)
 
-    H2("8.3 E2 — Database outage (dependency failure)")
+    H2("8.3 E2 – Database outage (dependency failure)")
     table("E2 per run, both configurations probed at the same time (during-outage window; \"interval\" = whole "
           "run; writes = acknowledged / rows / distinct client_id / balance; replays answered 200).",
           ["Run", "Config", "Req", "Fail", "Err %", "Avg", "p95", "Codes", "Alert firing", "Recov.", "Interval "
@@ -953,7 +956,7 @@ def sec8():
     L("g2"); figure(SHOTS / "grafana-after-e2-db-outage.png", "Grafana after the E2 series: latency p95/p99 at the 5–10 s "
            "ceiling during each outage, 500 responses, DB pool connections dropping and returning.", 5.6)
 
-    H2("8.4 E3 — Load increase")
+    H2("8.4 E3 – Load increase")
     table("E3, 60 s step at 30 req/s (\"failed\" = connection errors; 429 counted separately; CPU in millicores "
           "from process_cpu_seconds_total).",
           ["Config", "Rep", "Req", "OK", "Failed", "429", "OK %", "OK req/s", "Avg", "p95", "API CPU (per pod)",
@@ -963,13 +966,13 @@ def sec8():
       "28–34 m CPU and each gateway pod 10–12 m. The baseline was throttled by its own limiter: one replica counts "
       "all traffic against the 1200/min per-IP limit (all clients share one SNAT address), so 307 and 248 "
       "requests were refused with 429 (`rate_limited`). The endterm passed only because the limit is counted per "
-      "replica — this is the per-replica-limit limitation of Section 9, not extra capacity.", align="justify")
+      "replica – this is the per-replica-limit limitation of Section 9, not extra capacity.", align="justify")
     figure(FIG / "e3-both.png", "E3 timelines in 5-s buckets: endterm rep 1 (left) all 150/150 at 30 req/s; "
            "baseline rep 1 (right) refuses requests with 429 from t+62 s.", 5.4)
     L("g3"); figure(SHOTS / "grafana-after-e3-load.png", "Grafana after E3: the request rate peaks at about 30 req/s during "
            "the E3 steps; the earlier 10 s latency plateaus belong to the preceding E2 outages; no firing alert.", 5.6)
 
-    H2("8.5 E4 — Monitoring and alert tests")
+    H2("8.5 E4 – Monitoring and alert tests")
     table("E4 per run: probe during the fault window and alert timings (s after injection).",
           ["Run", "Expected alert", "Req", "Fail", "Err %", "Avg", "p95", "Max", "Alert timings", "Fired"],
           e4_rows(), [0.95, 1.05, 0.4, 0.35, 0.4, 0.45, 0.45, 0.5, 1.85, 0.9], size=6.5)
@@ -981,7 +984,7 @@ def sec8():
       "(`(count(up{job=\"api\"}==1) < 2) or absent(up{job=\"api\"}==1)`), reloaded, and re-tested: firing at "
       "10.2 and 11.2 s, cleared after the restart. During the hung-replica window the gateway answered 13 / 13 / 9 "
       "JSON 503s (max 5.0 s) out of 363–404 requests. Because of `for: 6s`, a pod replaced within 2 s (E1) still "
-      "does not page — intended.", align="justify")
+      "does not page – intended.", align="justify")
     L("rd1"); figure(FIG / "e4-rd-rep1.png", "E4b rep 1 with the original rule: ApiReplicaDown only pending (t+4…7 s) "
            "and clears while ready_eps stays 1 (the hung pod is restarted by liveness about 47 s later).", 4.6)
     figure(FIG / "prom-alerts-e4-replica-down-rep2-ApiReplicaDown-firing-crop.png", "Prometheus: the fixed "
@@ -999,7 +1002,7 @@ def sec8():
            ["E2 DB outage (4 valid)", "8 (4 x ErrorRate, 4 x LatencyP95)", "yes", "p95 really 5 s → latency alert "
             "is a true positive"],
            ["E2 invalid reps 3–4 (2)", "0", "yes (nothing injected)", "excluded from results"],
-           ["E4b original rule (1) / E1 (6)", "0 (pending only)", "no — false negative", "rule replaced"],
+           ["E4b original rule (1) / E1 (6)", "0 (pending only)", "no – false negative", "rule replaced"],
            ["E4b fixed rule (2)", "2 x ApiReplicaDown", "yes", "cleared after liveness restart"],
            ["E4c DB scaled 0 (2)", "4 (2 x ErrorRate, 2 x LatencyP95)", "yes", "the script's strict flag says "
             "\"correct=False\" because it expected one alert only; both alerts reflected real symptoms"],
@@ -1009,7 +1012,7 @@ def sec8():
       "original ApiReplicaDown rule. The baseline has no alert coverage at all (scraped, but not alerted on).",
       align="justify")
 
-    H2("8.6 E5 and E6 — Security and misuse tests")
+    H2("8.6 E5 and E6 – Security and misuse tests")
     e5 = J("e5-access-control")
     P(f"**E5 access control.** Four requests without a valid token (missing, garbage, signed with a wrong secret) "
       f"got 401. User B, holding a valid token, sent tenant A's household id to read accounts, read transactions, "
@@ -1018,7 +1021,7 @@ def sec8():
       f"snapshot of A (1 account, 3 transactions, MD5 of rows) was identical before and after "
       f"(`data_unchanged = {e5['data_unchanged']}`), and each request was found in the gateway log, the API log and "
       f"`app_logs` ({e5['app_logs_rows']} rows) under its request id. One case was mis-specified: "
-      f"`GET /api/households/{{id}}` returned 405 because that route does not exist — it is not an authorisation "
+      f"`GET /api/households/{{id}}` returned 405 because that route does not exist – it is not an authorisation "
       f"case, which is why the script's automatic pass flag is false.", align="justify")
     figure(FIG / "e5.png", "E5: 401 for missing/invalid tokens, 404 for a foreign tenant, "
            "identical SQL snapshots before and after.", 5.2)
@@ -1026,14 +1029,14 @@ def sec8():
       "413 from the gateway; 1.5 MB → 400 from the API's own 1 MB decode limit; no account was created. Twelve "
       "wrong passwords: 401 for attempts 1–9, **429 at attempt 10** (`Retry-After: 900`), 401 at 11 (the other "
       "replica, which had not yet seen 5 failures), 429 at 12, and the correct password afterwards was still 429 "
-      "— the lockout works, but with two in-memory counters it needed 10 attempts instead of 5. A background probe "
+      "– the lockout works, but with two in-memory counters it needed 10 attempts instead of 5. A background probe "
       "stayed 43/43 OK (avg 13.2 ms, p95 37.9 ms). **Finding:** the baseline trusts a client-supplied "
-      "`X-Real-IP` — the API logged `remote=203.0.113.77`, an address chosen by the client and therefore a fresh "
+      "`X-Real-IP` – the API logged `remote=203.0.113.77`, an address chosen by the client and therefore a fresh "
       "rate-limit and lockout key per request; through the gateway it logged `10.244.0.1`.", align="justify")
     figure(FIG / "e6.png", "E6: validation, JSON 413, lockout sequence across two replicas, and the X-Real-IP "
            "comparison (baseline vs gateway).", 5.2)
 
-    H2("8.7 E7 and E8 — Recovery, consistency and graceful degradation")
+    H2("8.7 E7 and E8 – Recovery, consistency and graceful degradation")
     L("e7"); table("E7: 200 logical creates with unique client_id, one API pod deleted at t+16.7 s.",
           ["Config", "Rep", "HTTP attempts", "Failed attempts", "First attempt failed", "Rows", "Duplicates",
            "Balances ok", "Avg", "p95", "Endpoint drop / back (s)"],
@@ -1121,7 +1124,7 @@ def sec9():
         "`max_fails=1`.",
         "**Rate limits and login lockout live in each replica's memory**: 10 attempts instead of 5 with two "
         "replicas; a restart clears them. All host traffic shares one SNAT IP, so per-IP limits are shared by every "
-        "test client — this is also why the baseline was throttled in E3.",
+        "test client – this is also why the baseline was throttled in E3.",
         "**PostgreSQL was OOM-killed once** (256 Mi limit with up to five connection pools). It recovered "
         "automatically, but the limit is too tight; there is no database replica.",
         "**Measurement scope:** one node, latencies include host port forwarding, 2–3 repetitions per scenario "
@@ -1188,7 +1191,7 @@ def sec10():
 
 
 def appendix(body_figs):
-    H1("11. Appendix — Source, Configuration, Scripts, Logs")
+    H1("11. Appendix – Source, Configuration, Scripts, Logs")
     H2("A. Repository and run instructions")
     P(f"Repository: **{REPO}**. It contains the lab (manifests, scripts, notes, evidence) and the service patch "
       "`patch/feat-metrics.diff` (hoWallet commit `60cd5791`, branch `feat/metrics`, base `06aea177`; metrics are "
@@ -1241,12 +1244,6 @@ bash scripts/down.sh                   # delete the cluster""")
       "`summary-data.md`. Note: the terminal logs also print a `stats_interval` that includes the 5 s before "
       f"the injection; the tables in this report use `stats_after_injection` (E1) and the windows of {T('defs')}.",
       align="justify")
-    used = {Path(p).name for p in body_figs}
-    rest = sorted(p.name for p in SHOTS.glob("*.png") if p.name not in used and not p.name.endswith("--main.png"))
-    P("Screenshots in `evidence/screenshots/` not reproduced (or reproduced only as a crop) in the body, besides "
-      "the `terminal-*--main.png` renders of each command header:",
-      keep=True)
-    P(", ".join(f"`{n}`" for n in rest), size=7.5)
 
 
 # ----------------------------------------------------------------------------- build
